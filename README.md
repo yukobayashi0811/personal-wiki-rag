@@ -126,6 +126,8 @@ Search works without loading Gemma. Ask treats every question independently and 
 
 The fixed questions and pass conditions are in [`evaluation/questions.md`](evaluation/questions.md). The assessed results, metrics, mode-boundary checks, observed limitation, and proposed improvement are in [`evaluation/results.md`](evaluation/results.md).
 
+The complete requirement-to-evidence mapping is in [`docs/SUBMISSION-CHECKLIST.md`](docs/SUBMISSION-CHECKLIST.md).
+
 Final results:
 
 - Three answerable questions passed with source citations.
