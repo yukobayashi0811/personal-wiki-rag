@@ -1,0 +1,73 @@
+from __future__ import annotations
+
+import time
+from dataclasses import dataclass
+from typing import Any
+
+import psutil
+
+
+@dataclass(frozen=True)
+class GenerationMetrics:
+    elapsed_seconds: float
+    process_memory_before_gb: float
+    process_memory_after_gb: float
+
+
+@dataclass(frozen=True)
+class GenerationResult:
+    text: str
+    metrics: GenerationMetrics
+
+
+class LocalGemma:
+    """Lazy MLX-LM adapter. The model is loaded only for generation commands."""
+
+    def __init__(self, model_id: str):
+        self.model_id = model_id
+        self._model: Any = None
+        self._tokenizer: Any = None
+
+    def load(self) -> None:
+        if self._model is not None:
+            return
+        from mlx_lm import load
+
+        self._model, self._tokenizer = load(self.model_id)
+
+    def generate(
+        self,
+        messages: list[dict[str, str]],
+        max_tokens: int = 700,
+        temperature: float = 0.2,
+    ) -> GenerationResult:
+        self.load()
+        from mlx_lm import generate
+        from mlx_lm.sample_utils import make_sampler
+
+        prompt = self._tokenizer.apply_chat_template(
+            messages,
+            tokenize=False,
+            add_generation_prompt=True,
+        )
+        # Gemma 4 supports explicit thought and final channels. Starting the final
+        # channel keeps private reasoning out of saved answers and avoids spending
+        # the assignment's output budget on hidden deliberation.
+        prompt += "<|channel>final\n"
+        process = psutil.Process()
+        before = process.memory_info().rss / 1_000_000_000
+        started = time.perf_counter()
+        text = generate(
+            self._model,
+            self._tokenizer,
+            prompt=prompt,
+            max_tokens=max_tokens,
+            sampler=make_sampler(temp=temperature),
+            verbose=False,
+        ).strip()
+        elapsed = time.perf_counter() - started
+        after = process.memory_info().rss / 1_000_000_000
+        return GenerationResult(
+            text=text,
+            metrics=GenerationMetrics(elapsed, before, after),
+        )

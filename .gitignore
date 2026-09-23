@@ -1,0 +1,16 @@
+.DS_Store
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.coverage
+data/wiki.db
+data/model-cache/
+evidence/runs/*.json
+evidence/runs/*.md
+evidence/screenshots/*.png
+evidence/recordings/*
+!evidence/runs/.gitkeep
+!evidence/screenshots/.gitkeep
+!evidence/recordings/.gitkeep

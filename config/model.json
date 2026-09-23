@@ -1,0 +1,11 @@
+{
+  "model_id": "mlx-community/gemma-4-e4b-it-4bit",
+  "model_snapshot_revision": "475b9088d29754a3379866cf5aeb6b41acd313c2",
+  "upstream_model": "google/gemma-4-E4B-it",
+  "upstream_revision": "fee6332c1abaafb77f6f9624236c63aa2f1d0187",
+  "quantization": "4-bit",
+  "runtime": "MLX-LM 0.31.3",
+  "python": "3.13",
+  "execution": "local"
+}
+

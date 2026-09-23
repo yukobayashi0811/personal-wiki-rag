@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "personal-wiki-rag"
+version = "0.1.0"
+description = "An offline personal wiki CLI powered by local Gemma and MLX-LM."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "mlx-lm==0.31.3",
+  "psutil==7.2.2",
+  "pypdf==6.19.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest==9.1.1"]
+
+[project.scripts]
+wiki = "personal_wiki.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
