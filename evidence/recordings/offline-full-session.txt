@@ -1,0 +1,211 @@
+$ python network-isolation probe
+NETWORK_BLOCKED: gaierror: [Errno 8] nodename nor servname provided, or not known
+
+$ wiki --help
+usage: wiki [-h] [--project-root PROJECT_ROOT]
+            {ingest,search,ask,chat,status} ...
+
+Offline personal wiki CLI powered by local Gemma and MLX-LM.
+
+positional arguments:
+  {ingest,search,ask,chat,status}
+    ingest              Index sources and generate reviewed wiki-note drafts.
+    search              Return original passages without generating an answer.
+    ask                 Answer one standalone question from retrieved
+                        evidence.
+    chat                Start the conversational personal assistant.
+    status              Show local configuration and index counts.
+
+options:
+  -h, --help            show this help message and exit
+  --project-root PROJECT_ROOT
+
+$ /usr/bin/time -l wiki ingest ./vault/raw
+{
+  "sources_found": 3,
+  "sources_changed": 3,
+  "chunks_written": 176
+}
+       95.26 real        38.96 user         9.67 sys
+          5399969792  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+              344707  page reclaims
+                 151  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                2238  voluntary context switches
+              465674  involuntary context switches
+        260365073057  instructions retired
+        102205048949  cycles elapsed
+          5909975240  peak memory footprint
+
+$ wiki ingest ./vault/raw
+{
+  "sources_found": 3,
+  "sources_changed": 0,
+  "chunks_written": 0
+}
+
+$ wiki status
+Model: mlx-community/gemma-4-e4b-it-4bit
+Execution: local
+Indexed documents: 3
+Indexed passages: 176
+Raw source directory: [isolated-demo-root]/vault/raw
+
+$ wiki ask "What are the two main parts of an AI agent?" --mode local
+Model: mlx-community/gemma-4-e4b-it-4bit | Execution: local
+The two main parts of an AI agent are:
+
+1.  **The Brain (AI Model)**: This component is responsible for all the thinking, including handling reasoning and planning, and deciding which actions to take based on the current situation [S1].
+2.  **The Body (Capabilities and Tools)**: This part represents everything the Agent is equipped to do, and the scope of possible actions depends on what the agent has been equipped with [S1].
+
+$ wiki ask "How are context and memory defined in an agent system?" --mode local
+Model: mlx-community/gemma-4-e4b-it-4bit | Execution: local
+In an agent system, the terms "context" and "memory" are defined as follows:
+
+*   **Context:** Information that is included in the next model call [S5].
+*   **Memory:** Information that is saved for later use [S5].
+
+$ wiki ask "How can a team distinguish a model capability bottleneck from a harness design bottleneck?" --mode local
+Model: mlx-community/gemma-4-e4b-it-4bit | Execution: local
+A sound evaluation system must be able to differentiate between "insufficient model capability" and "Harness design flaws" [S1].
+
+One common way to distinguish between these two problems is through the **model swap experiment** [S1]:
+
+1.  **Procedure:** Keep the Harness constant and swap in a stronger or weaker model, then observe the resulting score [S1, S2].
+2.  **Interpretation:**
+    *   If a stronger model does not raise the score, the bottleneck is the Harness [S1].
+    *   If the performance swings sharply with the model's capability (e.g., a weaker model tanks the score), the most direct reading is that the model itself is the bottleneck [S1].
+
+This model swap experiment differs from an ablation experiment, which involves disabling a Harness component to observe performance changes [S1].
+
+$ wiki ask "What was the global revenue of the AI agent market in 2024?" --mode local
+Model: mlx-community/gemma-4-e4b-it-4bit | Execution: local
+The available sources do not contain enough evidence to answer this question.
+
+$ wiki chat --save  # capability, draft, and follow-up turns
+Model: mlx-community/gemma-4-e4b-it-4bit | Execution: local
+Type /exit to quit or /help for chat guidance.
+you> wiki> I am Atlas, a personal knowledge assistant. I can help you brainstorm, draft documents, plan projects, compare options, and work through ideas.
+
+Just let me know what you are working on.
+you> wiki> Here is a three-step plan for learning AI agents:
+
+**1. Master the Fundamentals (Theory):**
+*   Understand the core components of an agent (Perception, Decision/Goal Setting, Action).
+*   Study different architectures (e.g., simple reactive vs. goal-driven vs. reflective agents).
+*   Identify common frameworks and libraries used in the field.
+
+**2. Build Simple Prototypes (Practice):**
+*   Start by implementing a basic agent loop (Sense $\rightarrow$ Think $\rightarrow$ Act).
+*   Focus on completing a small, defined task using a chosen framework.
+*   Experiment with how the agent handles simple environmental inputs and outputs.
+
+**3. Advance and Scale (Complexity):**
+*   Introduce advanced capabilities, such as memory (long-term context), tool use (external APIs), and multi-step planning.
+*   Move from single-task agents to complex systems that interact with multiple environments or agents.
+*   Focus on optimization, error handling, and achieving robustness in goal pursuit.
+you> wiki> Here is a shorter version:
+
+**1. Theory:** Grasp the fundamentals: perception, decision-making, and action architectures.
+**2. Practice:** Build simple prototypes to implement the agent loop and achieve a basic task.
+**3. Advance:** Introduce complexity through memory, tool integration, and multi-step planning.
+you> 
+$ wiki chat --save  # explicit note retrieval
+Model: mlx-community/gemma-4-e4b-it-4bit | Execution: local
+Type /exit to quit or /help for chat guidance.
+you> wiki> Based on your notes, here is what they describe about Tools:
+
+*   **Function:** Tools are mechanisms that an Agent uses to perform specific **Actions** and complete tasks [S1].
+*   **Implementation:** An Agent can perform any task that is implemented via Tools [S1]. For example, a Tool could be a Python function allowing the Agent to send an email [S1].
+*   **Relationship to Actions:** An Action is the desired task, and it may involve the use of multiple Tools to be completed [S1].
+
+In short, Tools are the specific code or functions that allow the Agent to interact with its environment and execute real-world tasks.
+you> 
+$ wiki search "agent brain body tools" --save
+[S1] vault/raw/AI Agent Fundamentals.md (Let's go more formal)
+Now that you have the big picture, here’s a more precise definition:
+
+> An Agent is a system that leverages an AI model to interact with its environment in order to achieve a user-defined objective. It combines reasoning, planning, and the execution of actions (often via external tools) to fulfill tasks.
+
+Think of the Agent as having two main parts:
+
+1. **The Brain (AI Model)**
+
+This is where all the thinking happens. The AI model **handles reasoning and planning**.
+It decides **which Actions to take based on the situation**.
+
+2. **The Body (Capabilities and Tools)**
+
+This part represents **everything the Agent is equipped to do**.
+
+The **scope of possible actions** depends on what the agent **has been equipped with**. For example, because humans lack wings, they can't perform the "fly" **Action**, but they can execute **Actions** like "walk", "run", "jump", "grab", and so on.
+
+[S2] vault/raw/Evaluating AI Agents.md (Three Sources of an Evaluation Set)
+gn decisions. τ²-bench, for example, can serve as the skeleton for any evaluation system that needs a simulated user; you only have to substitute your own domain data and tool set.
+
+**Production trajectory feedback** comes from real failures in the field: cases where the user explicitly corrected the Agent, where the user gave a thumbs-down, and where a subsequent state check, rule-based verifier, or LLM review found a problem. After failure attribution, these settle into regression cases. The concrete method is described later in "Failure Attribution" and "End-to-End and Trajectory-Prefix Regression Tasks." This source is the most expensive and also the most accurate, because it comes directly from what users actually encountered.
+
+In the early stage there are usually only public benchmarks and a small hand-written business set; once the system has been running in production for a while, cases fed back from production trajectories become the main body.
+
+[S3] vault/raw/AI Agent Fundamentals.md (Example 3: AI Non-Playable Character in a video game)
+AI agents powered by LLMs can make Non-Playable Characters (NPCs) more dynamic and unpredictable.
+
+Instead of following rigid behavior trees, they can **respond contextually, adapt to player interactions**, and generate more nuanced dialogue. This flexibility helps create more lifelike, engaging characters that evolve alongside the player’s actions.
+
+---
+
+To summarize, an Agent is a system that uses an AI Model (typically an LLM) as its core reasoning engine, to:
+
+- **Understand natural language:**  Interpret and respond to human instructions in a meaningful way.
+
+- **Reason and plan:** Analyze information, make decisions, and devise strategies to solve problems.
+
+- **Interact with its environment:** Gather information, take actions, and observe the results of those actions.
+
+Now that you have a solid grasp of what Agents are, let’s reinforce your understanding with a short, ungraded quiz. After that, we’ll dive into the “Agent’s brain”: the [LLMs](what-are-llms).
+
+[S4] vault/raw/AI Agent Fundamentals.md (How does an AI take action on its environment?)
+LLMs are amazing models, but **they can only generate text**.
+
+However, if you ask a well-known chat application like HuggingChat or ChatGPT to generate an image, they can! How is that possible?
+
+The answer is that the developers of HuggingChat, ChatGPT and similar apps implemented additional functionality (called **Tools**), that the LLM can use to create images.
+
+<figure>
+<img src="https://huggingface.co/datasets/agents-course/course-images/resolve/main/en/unit1/eiffel_brocolis.jpg" alt="Eiffel Brocolis"/>
+<figcaption>The model used an Image Generation Tool to generate this image.
+</figcaption>
+</figure>
+
+We will learn more about tools in the [Tools](tools) section.
+
+[S5] vault/raw/Evaluating AI Agents.md (Exact-Copy Errors: From `old_string` Mismatch to Layer-by-Layer Localization)
+An `old_string` failure cannot be attributed simply to "the model copied it wrong" either. For the same string, store the raw byte hash, the Unicode code point sequence and the tokenizer token ID sequence, then look for the first divergence along this chain:
+
+```text
+original file bytes → tool return → Harness serialization → model context
+→ model token output → decoded string → JSON/tool-call parsing → tool matching
+```
+
+A minimal set of evaluation probes covers direct restatement, extraction from a long context, placement into tool arguments, selection among similar strings, and spaces, newlines, backslashes, Unicode combining characters and low-frequency tokens. The metrics are byte-exact match, code-point-exact match, token-exact match, the position of the first divergence, and the real tool success rate. If the model is correct on the direct probe but the tool call still fails, fix the tokenizer, the serialization, the Harness or the tool protocol; only when the first divergence appears in the model's own output should the case be turned into the copying training data of Chapter 8.
+
+
+$ wiki chat --save  # temporary conversation fact
+Model: mlx-community/gemma-4-e4b-it-4bit | Execution: local
+Type /exit to quit or /help for chat guidance.
+you> wiki> Understood. Teal it is.
+you> wiki> You mentioned teal.
+you> 
+$ wiki ask "What is my favorite color?" --mode local
+Model: mlx-community/gemma-4-e4b-it-4bit | Execution: local
+The available sources do not contain enough evidence to answer this question.
+
+OFFLINE_DEMO_COMPLETE

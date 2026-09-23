@@ -25,6 +25,8 @@ A clean temporary project directory was populated with unchanged copies of the t
 
 This measurement covers document discovery, Markdown parsing, chunking, hashing, SQLite schema creation, and FTS5 indexing. It intentionally excludes wiki-note generation so retrieval ingestion can be measured independently from model generation.
 
+The required full ingestion measurement, including three local Gemma note generations under operating-system network denial, is recorded in [`../offline-demo/README.md`](../offline-demo/README.md): 95.26 seconds wall time and approximately 5.40 GB maximum resident memory.
+
 ## Idempotence Check
 
 A subsequent ingestion against the project index returned:

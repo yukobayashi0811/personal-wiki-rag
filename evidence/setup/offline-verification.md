@@ -1,8 +1,8 @@
-# Network-Isolated Verification
+# Preliminary Network-Isolated Verification
 
 Date: 2026-09-22 PDT
 
-The final offline check used both library-level offline flags and an operating-system sandbox policy that denied all network access to the command:
+This preliminary check used both library-level offline flags and an operating-system sandbox policy that denied all network access to one ask command:
 
 ```bash
 /usr/bin/sandbox-exec -p '(version 1) (allow default) (deny network*)' \
@@ -22,4 +22,6 @@ An AI agent is composed of two main parts [S1]:
 
 The machine remained connected for documentation work, but the tested process had no network capability. The model snapshot, source documents, index, prompts, and inference runtime were all read locally. The complete retrieved passages and measured generation metrics are saved in [`../runs/20260923T043603863616Z-ask.md`](../runs/20260923T043603863616Z-ask.md).
 
-A second network-denied run was captured as a terminal transcript at [`../recordings/offline-session.txt`](../recordings/offline-session.txt). It also completed successfully with a cited answer.
+A second network-denied ask run was captured as a terminal transcript at [`../recordings/offline-session.txt`](../recordings/offline-session.txt). It also completed successfully with a cited answer.
+
+The final and complete assignment demonstration is documented in [`../offline-demo/README.md`](../offline-demo/README.md). Its single network-denied session includes a failed connection probe, fresh model-backed ingestion, repeat ingestion, all four fixed ask questions, chat and follow-up behavior, explicit note retrieval, raw search, and ask/chat-history separation. The full transcript is [`../recordings/offline-full-session.txt`](../recordings/offline-full-session.txt).

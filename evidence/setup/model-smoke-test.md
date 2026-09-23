@@ -23,5 +23,4 @@
 - System-wide free-memory percentage after model setup: `82%`
 - Free disk space after model download: `19 GiB`
 
-This smoke test proves that the model loads and generates locally. It is not a final assignment evaluation. Final memory and response-time measurements must use the selected wiki sources and include one ingestion run and one ask-mode answer.
-
+This smoke test proves that the model loads and generates locally. It is not a final assignment evaluation. The required source-backed ingestion and ask measurements are included in the [`complete offline demonstration`](../offline-demo/README.md) and [`evaluation results`](../../evaluation/results.md).
