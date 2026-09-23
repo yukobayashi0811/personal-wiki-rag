@@ -120,6 +120,7 @@ class PersonalWikiHarness:
         changed = 0
         chunks_written = 0
         documents = []
+        changed_documents = []
         with WikiStore(self.settings.database_path) as store:
             for path in source_paths:
                 document = load_source(path, self.settings.raw_dir)
@@ -127,10 +128,12 @@ class PersonalWikiHarness:
                 if store.upsert_document(document, chunks):
                     changed += 1
                     chunks_written += len(chunks)
+                    changed_documents.append(document)
                 documents.append(document)
 
-        if generate_notes:
-            self._generate_notes(documents)
+        if generate_notes and changed_documents:
+            self._generate_notes(changed_documents)
+        self._write_index(documents)
         return {
             "sources_found": len(source_paths),
             "sources_changed": changed,
@@ -140,13 +143,12 @@ class PersonalWikiHarness:
     def _generate_notes(self, documents: list) -> None:
         concepts_dir = self.settings.wiki_dir / "Concepts"
         concepts_dir.mkdir(parents=True, exist_ok=True)
-        index_lines = ["# Personal Wiki", "", "## Concepts", ""]
         for document in documents:
             title = readable_title(document.path)
             source_text = "\n\n".join(section.text for section in document.sections)
             result = self.model.generate(
                 wiki_note_messages(title, document.relative_path, source_text),
-                max_tokens=900,
+                max_tokens=1_400,
                 temperature=0.2,
             )
             note_path = concepts_dir / f"{title}.md"
@@ -156,8 +158,18 @@ class PersonalWikiHarness:
             if f"vault/raw/{document.relative_path}" not in note:
                 note += f"\n\n## Source\n\n- [[../../raw/{document.relative_path}|{document.relative_path}]]\n"
             note_path.write_text(note.rstrip() + "\n", encoding="utf-8")
-            index_lines.append(f"- [[wiki/Concepts/{title}|{title}]] — Generated from `{document.relative_path}`.")
+
+    def _write_index(self, documents: list) -> None:
+        index_lines = ["# Personal Wiki", "", "## Concepts", ""]
+        descriptions = {
+            "AI Agent Fundamentals": "Definitions, agency levels, reasoning, planning, tools, and actions.",
+            "AI Agents Study Guide": "RAG, context, memory, orchestration, observability, and security.",
+            "Evaluating AI Agents": "Tasks, metrics, verifiers, failure analysis, and production evaluation.",
+        }
+        for document in documents:
+            title = readable_title(document.path)
+            description = descriptions.get(title, f"Reviewed from `{document.relative_path}`.")
+            index_lines.append(f"- [[wiki/Concepts/{title}|{title}]] — {description}")
         (self.settings.vault_dir / "index.md").write_text(
             "\n".join(index_lines).rstrip() + "\n", encoding="utf-8"
         )
-

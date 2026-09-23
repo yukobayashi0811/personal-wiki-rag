@@ -23,6 +23,7 @@ def ask_messages(question: str, evidence: list[SearchResult], rules: str) -> lis
             "content": (
                 f"{rules}\n\n"
                 "Answer in a neutral voice using only the supplied evidence. "
+                "Keep the answer concise and directly responsive. "
                 "Cite every material factual claim with one or more source markers such as [S1]. "
                 f"If the evidence is insufficient, respond exactly: {INSUFFICIENT_EVIDENCE}"
             ),
@@ -56,6 +57,7 @@ def wiki_note_messages(title: str, source_path: str, source_text: str) -> list[d
             "role": "system",
             "content": (
                 "Create one concise Obsidian note from the supplied source. Return Markdown only. "
+                "Output the finished note directly; do not explain your reasoning or review process. "
                 "Start with the exact H1 title requested. Include Summary, Key Ideas, Source, and "
                 "Related Notes sections. Do not invent facts. Keep all claims traceable to the source."
             ),
@@ -68,4 +70,3 @@ def wiki_note_messages(title: str, source_path: str, source_text: str) -> list[d
             ),
         },
     ]
-

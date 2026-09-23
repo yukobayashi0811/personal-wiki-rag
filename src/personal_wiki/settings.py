@@ -39,7 +39,10 @@ class Settings:
             persona_path=root / "config" / "persona.md",
             research_rules_path=root / "config" / "wiki-instructions.md",
             model_id=os.getenv("WIKI_MODEL", DEFAULT_MODEL),
-            max_tokens=int(os.getenv("WIKI_MAX_TOKENS", "700")),
+            # Gemma may use part of the generation budget for internal thought
+            # before emitting its final channel. This budget avoids truncating
+            # a short, source-backed answer on questions that require comparison.
+            max_tokens=int(os.getenv("WIKI_MAX_TOKENS", "1400")),
             top_k=int(os.getenv("WIKI_TOP_K", "5")),
         )
 
@@ -53,4 +56,3 @@ class Settings:
             self.evidence_dir / "recordings",
         ):
             path.mkdir(parents=True, exist_ok=True)
-

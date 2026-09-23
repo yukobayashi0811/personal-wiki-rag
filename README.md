@@ -4,7 +4,7 @@ This project implements an offline command-line personal wiki. It uses a local, 
 
 ## Project Status
 
-The CLI foundation is implemented. Source ingestion and the final wiki are intentionally pending until three shareable source documents are selected. No sample facts or invented evaluation results are used as substitutes.
+The required CLI modes, local retrieval index, three-source wiki, fixed evaluation set, offline verification, and Obsidian evidence are complete. The final index contains 3 documents and 176 passages. All saved outputs are from actual local runs; no sample answers are presented as evaluation results.
 
 ## Required Modes
 
@@ -24,9 +24,9 @@ The CLI foundation is implemented. Source ingestion and the final wiki are inten
 - Download size: approximately 5.15 GB.
 - Downloaded snapshot revision: `475b9088d29754a3379866cf5aeb6b41acd313c2`.
 
-The E4B model was selected because the device has enough unified memory for the 4-bit model plus prompt context, retrieval, and operating-system overhead. It provides more capacity than E2B while avoiding the substantially larger storage and memory footprint of the 26B A4B model. Final peak memory and response-time measurements will be recorded using the real wiki sources.
+The E4B model was selected because the device has enough unified memory for the 4-bit model plus prompt context, retrieval, and operating-system overhead. It provides more capacity than E2B while avoiding the substantially larger storage and memory footprint of the 26B A4B model. Final memory and response-time measurements use the real wiki sources and are recorded in the evaluation results.
 
-The initial local smoke test generated a short answer in 1.18 seconds with approximately 4.69 GB of process resident memory. See [`evidence/setup/model-smoke-test.md`](evidence/setup/model-smoke-test.md). This is an environment check, not the final source-backed evaluation.
+The initial local smoke test generated a short answer in 1.18 seconds with approximately 4.69 GB of process resident memory. See [`evidence/setup/model-smoke-test.md`](evidence/setup/model-smoke-test.md). In the final network-isolated evaluation, Q1 completed in 10.63 seconds and ended at 4.70 GB process resident memory.
 
 ## Architecture
 
@@ -62,6 +62,14 @@ The first model-backed command downloads the configured model from Hugging Face.
 
 Place at least three shareable `.md`, `.txt`, or text-extractable `.pdf` files in `vault/raw/`. Originals are read but never rewritten. Use files that may legally and safely be included in a public repository; remove private information before ingestion.
 
+This repository uses three open-license AI-agent sources. See [`docs/SOURCES.md`](docs/SOURCES.md) for provenance, revisions, licenses, checksums, and selection rationale.
+
+The selected documents cover complementary layers:
+
+1. basic agent definitions, agency, reasoning, planning, tools, and actions;
+2. system architecture, RAG, context, memory, orchestration, observability, and security;
+3. evaluation design, metrics, verifiers, failure attribution, and production improvement.
+
 ## Commands
 
 ```bash
@@ -75,29 +83,41 @@ wiki chat
 
 Search works without loading Gemma. Ask treats every question independently and does not import chat history or the chat persona. Chat keeps recent conversation and retrieves only when the user explicitly refers to notes, sources, documents, or citations.
 
-## Evaluation Plan
+## Evaluation
 
-Before running the final evaluation, define three answerable questions and their expected source passages, plus one plausible question that the sources cannot answer. Keep the answer key outside the searchable wiki. For every ask test, save the question, retrieved passages, actual Gemma answer, citations, model identity, local execution setting, timing, and an assessment of whether the passages support the claims.
+The fixed questions and pass conditions are in [`evaluation/questions.md`](evaluation/questions.md). The assessed results, metrics, mode-boundary checks, observed limitation, and proposed improvement are in [`evaluation/results.md`](evaluation/results.md).
 
-Also verify these mode boundaries:
+Final results:
 
-1. A capability question in chat does not trigger an unnecessary note search.
-2. A drafting request followed by “make that shorter” uses conversation context.
-3. Search returns original passages and paths without a generated answer.
-4. Ask returns a cited standalone answer.
-5. A claim introduced only in chat is not treated as ask-mode evidence.
+- Three answerable questions passed with source citations.
+- The unsupported market-revenue question returned the exact insufficient-evidence response.
+- Chat followed a drafting request with “Make that shorter” while using no retrieval.
+- Chat retrieved and cited the wiki only when the user explicitly asked about notes.
+- Search returned original passages and locations without loading the model.
+- A personal fact introduced only in chat was not available to a separate ask command.
+- Repeated ingestion detected zero changed sources and wrote zero new chunks.
 
-The final run must occur after disconnecting the internet and restarting the CLI. It must include ingestion, all four ask tests, chat and follow-up checks, raw search, and a repeated ingestion that proves no duplicate notes are created.
+The decisive offline run used a macOS sandbox policy that denied all network access to the process, in addition to Hugging Face and Transformers offline flags. It still produced a complete cited answer. See [`evidence/setup/offline-verification.md`](evidence/setup/offline-verification.md) and the saved [`offline terminal transcript`](evidence/recordings/offline-session.txt).
 
-## Evidence Still Required
+## Visual Evidence
 
-- Three answerable ask-mode evidence cards.
-- One unsupported ask-mode evidence card.
-- Chat, follow-up, search, and mode-separation transcripts.
-- Measured model memory use and response time for ingestion and one answer.
-- Offline terminal recording or screenshots.
-- Obsidian screenshots showing an open note, the topic index or page list, and a readable graph with meaningful links.
-- One observed limitation and one concrete proposed improvement.
+### Topic Index
+
+![Obsidian topic index](evidence/screenshots/obsidian-index.png)
+
+### Reviewed Note and Source Links
+
+![Obsidian reviewed note](evidence/screenshots/obsidian-note.png)
+
+![Obsidian source and related-note links](evidence/screenshots/obsidian-note-source.png)
+
+### Wiki Graph
+
+![Obsidian graph limited to the reviewed wiki and index](evidence/screenshots/obsidian-graph.png)
+
+## Known Limitation
+
+The current retriever uses local BM25 keyword matching. It is transparent, fast, and completely offline, but a semantically exact passage can rank behind passages with more surface-term overlap. A local embedding retriever or reranker is the next concrete improvement; it should be evaluated against the same fixed questions before replacing the current implementation.
 
 ## Safety and Submission Notes
 

@@ -31,7 +31,9 @@ def save_run(
     runs_dir = evidence_dir / "runs"
     runs_dir.mkdir(parents=True, exist_ok=True)
     timestamp = datetime.now(UTC)
-    stem = f"{timestamp.strftime('%Y%m%dT%H%M%SZ')}-{mode}"
+    # Microseconds prevent evidence from being overwritten when several chat
+    # turns finish within the same second.
+    stem = f"{timestamp.strftime('%Y%m%dT%H%M%S%fZ')}-{mode}"
     payload = {
         "timestamp_utc": timestamp.isoformat(),
         "mode": mode,
@@ -61,4 +63,3 @@ def save_run(
         encoding="utf-8",
     )
     return json_path, markdown_path
-

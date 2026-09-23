@@ -20,6 +20,15 @@ class GenerationResult:
     metrics: GenerationMetrics
 
 
+def clean_model_output(text: str) -> str:
+    """Return only the user-visible final channel from Gemma output."""
+    if "<channel|>" in text:
+        text = text.rsplit("<channel|>", 1)[-1]
+    for marker in ("<|channel>final", "<|channel>thought", "<turn|>", "<eos>"):
+        text = text.replace(marker, "")
+    return text.strip()
+
+
 class LocalGemma:
     """Lazy MLX-LM adapter. The model is loaded only for generation commands."""
 
@@ -57,14 +66,14 @@ class LocalGemma:
         process = psutil.Process()
         before = process.memory_info().rss / 1_000_000_000
         started = time.perf_counter()
-        text = generate(
+        text = clean_model_output(generate(
             self._model,
             self._tokenizer,
             prompt=prompt,
             max_tokens=max_tokens,
             sampler=make_sampler(temp=temperature),
             verbose=False,
-        ).strip()
+        ))
         elapsed = time.perf_counter() - started
         after = process.memory_info().rss / 1_000_000_000
         return GenerationResult(

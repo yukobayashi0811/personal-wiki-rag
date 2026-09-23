@@ -1,0 +1,5 @@
+Model: mlx-community/gemma-4-e4b-it-4bit | Execution: local
+The two main parts of an AI agent are:
+
+1.  **The Brain (AI Model):** This component is responsible for the cognitive processes, including handling reasoning and planning, and deciding which actions to take based on the current situation [S1].
+2.  **The Body (Capabilities and Tools):** This part encompasses everything the agent is equipped to do, and its scope of possible actions depends on the tools it has been provided with [S1].
