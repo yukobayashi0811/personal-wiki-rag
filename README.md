@@ -25,8 +25,7 @@ The required CLI modes, local retrieval index, three-source wiki, fixed evaluati
 - Model format: Apple Silicon MLX conversion, instruction-tuned, 4-bit quantization.
 - Download size: approximately 5.15 GB.
 - Downloaded snapshot revision: `475b9088d29754a3379866cf5aeb6b41acd313c2`.
-- Available system memory observed after model setup: 82% free.
-- Free disk space observed after the model download: 19 GiB.
+- Disk state recorded by the final v2 transcript: 13 GiB available on the 460 GiB data volume, with the volume at 97% capacity.
 
 The E4B model was selected because the 32 GB device has enough unified memory for the 4-bit model plus prompt context, retrieval, and operating-system overhead. It offers more active model capacity than the smallest E2B option while avoiding the substantially larger storage and memory footprint of the 26B A4B model. E2B was not benchmarked in this project, so this is a capacity-versus-fit rationale rather than an empirical claim that E4B outperforms E2B on the fixed questions.
 
@@ -114,7 +113,7 @@ Inside chat, use `/notes context and memory` to force a local source search.
 
 Search works without importing or loading MLX-LM. Ask treats every question independently and does not import chat history or the chat persona. Chat retains only the last `WIKI_CHAT_TURNS` turns in the current process and never persists them across sessions.
 
-Automatic chat retrieval follows a deterministic, model-free rule. Explicit word-boundary triggers such as “my notes,” “the wiki,” “my sources,” “according to,” and “cite” always retrieve. Otherwise, a domain knowledge question containing words such as what, how, why, explain, define, compare, or difference retrieves only when it is not a capability, conversational, drafting, or rewriting turn and its top BM25 score is at least 2.5. The threshold separates the required in-domain questions in this corpus; the domain-term guard prevents generic questions such as “What is an open-source license?” from retrieving merely because `source` appears inside another word.
+Automatic chat retrieval follows a deterministic, model-free rule. Explicit word-boundary triggers such as “my notes,” “the wiki,” “my sources,” “according to,” and “cite” always retrieve. Otherwise, a domain knowledge question containing words such as what, how, why, explain, define, compare, or difference retrieves only when it is not a capability, conversational, drafting, or rewriting turn and its top BM25 score is at least 2.5. The domain-term vocabulary, guards, and 2.5 threshold were calibrated against the same required and adversarial sentences later used in the v2 evaluation; they are not evidence of out-of-sample generalization. The exact calibration cases and scores are disclosed in [`evidence/dev-runs-v2/README.md`](evidence/dev-runs-v2/README.md).
 
 ## Design Choices
 
@@ -231,8 +230,10 @@ Additional limitations are explicit:
 
 - Wiki-note drafting supplies at most 24,000 source characters to Gemma. For `Evaluating AI Agents.md`, this is about 18% of the full source, so a draft cannot summarize the complete document.
 - Retrieval searches only primary originals, not the subject notes or index. This strengthens grounding but means terminology introduced only during human review is not searchable by ask mode.
-- Citation validation is structural: it verifies that at least one supplied `[S#]` marker is present and in range. It does not prove that every cited passage semantically entails every sentence; the fixed evaluation therefore includes a separate claim-by-claim human assessment.
-- The chat retrieval threshold is corpus-specific and model-free. New sources can change BM25 score ranges and should trigger a threshold reevaluation.
+- Citation validation is structural: it verifies that at least one supplied `[S#]` marker is present and in range. It does not prove that every cited passage semantically entails every sentence; the fixed evaluation therefore includes a separate claim-by-claim human assessment. The current parser recognizes standalone markers such as `[S1]`, but in a grouped marker such as `[S1, S3]` it records only `S1`. This caused the v2 forced `/notes` card to omit `S3` from `cited_sources`, even though the generated answer visibly contains it.
+- The v2 forced `/notes context and memory` check proves that retrieval was forced, not that the answer was good. Its top passages omitted the Study Guide definitions, the output focused on evaluation experiments instead of defining context and memory, and it changed the source phrase “Reasoning Correctness” to “Reasoning Correctiveness.”
+- Of the two v2 capability answers, `What can we do?` provides a concrete starting point, while `What can you help me with?` ends with the generic question “How can I help you start today?” The latter is only a partial pass for the assignment's concrete-starting-point expectation.
+- The chat retrieval rule is corpus-specific and was tuned with the evaluation sentences themselves. New sources or unseen phrasings can change BM25 score ranges and should trigger an independently held-out reevaluation.
 
 ## Safety and Submission Notes
 

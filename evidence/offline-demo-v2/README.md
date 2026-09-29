@@ -41,19 +41,19 @@ The current Obsidian vault is also documented with unedited captures: [note prop
 
 | Check | Result | Evidence |
 | --- | --- | --- |
-| `What can we do?` capability response | Complete; zero retrieval | [run](runs/20260929T184410108054Z-chat.md) |
-| `What can you help me with?` capability response | Complete; zero retrieval | [run](runs/20260929T184422037906Z-chat.md) |
+| `What can we do?` capability response | Complete, including a concrete starting point; zero retrieval | [run](runs/20260929T184410108054Z-chat.md) |
+| `What can you help me with?` capability response | Partial: capabilities and limits are covered, but the closing question is generic rather than a concrete starting point; zero retrieval | [run](runs/20260929T184422037906Z-chat.md) |
 | Three-step learning-plan request | Starts with `Suggestion:`; zero retrieval | [run](runs/20260929T184428776812Z-chat.md) |
 | `Make that shorter.` follow-up | Uses chat history, starts with `Suggestion:`; zero retrieval | [run](runs/20260929T184431166958Z-chat.md) |
 | Model-swap explanation | Five passages; repair attempted; final citations valid | [run](runs/20260929T184524517051Z-chat.md) |
 | Notes question about tools | Five passages; citations valid; no repair | [run](runs/20260929T184543683181Z-chat.md) |
-| Forced `/notes context and memory` | Five passages; citations valid; no repair | [run](runs/20260929T184622479562Z-chat.md) |
+| Forced `/notes context and memory` | Retrieval mechanics pass; answer quality fails because the response does not define context and memory, focuses on evaluation, and says “Reasoning Correctiveness” instead of the source's “Reasoning Correctness.” The visible grouped citation `[S1, S3]` also demonstrates that the card's citation list undercounts `S3`. | [run](runs/20260929T184622479562Z-chat.md) |
 | Raw search | Five original passages; model not used | [run](runs/20260929T184622818458Z-search.md) |
 | Introduce `teal` in chat | Zero retrieval | [run](runs/20260929T184634346865Z-chat.md) |
 | Recall `teal` in the same chat | Correct; zero retrieval | [run](runs/20260929T184638805739Z-chat.md) |
 | Ask for favorite color separately | Exact insufficient-evidence response | [run](runs/20260929T184642751517Z-ask.md) |
 
-`citations_valid: false` on non-retrieval chat and raw search records means citation validation was not applicable; retrieved factual chat runs and answerable ask runs record `true`.
+`citations_valid: false` on non-retrieval chat and raw search records means citation validation was not applicable; retrieved factual chat runs and answerable ask runs record `true`. A `true` value is only structural. The current parser matches standalone `[S#]` markers and undercounts grouped forms such as `[S1, S3]`; this known code limitation is documented rather than repaired because changing the evidence code would break code-to-run consistency for this v2 session.
 
 ## Ingestion Checks
 

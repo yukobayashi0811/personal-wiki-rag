@@ -52,12 +52,13 @@ None of S1-S5 provides 2024 global AI-agent market revenue. The answer makes no 
 
 | Check | Result | Evidence |
 | --- | --- | --- |
-| Both capability questions describe chat, local retrieval, `/notes`, CLI commands, offline limits, and a starting point | Pass; zero passages retrieved | [`What can we do?`](../evidence/offline-demo-v2/runs/20260929T184410108054Z-chat.md), [`What can you help me with?`](../evidence/offline-demo-v2/runs/20260929T184422037906Z-chat.md) |
+| `What can we do?` describes chat, local retrieval, `/notes`, CLI commands, offline limits, and a concrete starting point | Pass; zero passages retrieved | [`20260929T184410108054Z-chat.md`](../evidence/offline-demo-v2/runs/20260929T184410108054Z-chat.md) |
+| `What can you help me with?` describes the capabilities and limits but offers only a generic closing question, not a concrete starting point | Partial; zero passages retrieved | [`20260929T184422037906Z-chat.md`](../evidence/offline-demo-v2/runs/20260929T184422037906Z-chat.md) |
 | Generic learning-plan draft avoids retrieval and identifies itself as a suggestion | Pass | [`20260929T184428776812Z-chat.md`](../evidence/offline-demo-v2/runs/20260929T184428776812Z-chat.md) |
 | Follow-up uses bounded chat history and remains a suggestion | Pass | [`20260929T184431166958Z-chat.md`](../evidence/offline-demo-v2/runs/20260929T184431166958Z-chat.md) |
 | In-domain model-swap question triggers retrieval | Pass; five passages; final citations valid after one recorded repair | [`20260929T184524517051Z-chat.md`](../evidence/offline-demo-v2/runs/20260929T184524517051Z-chat.md) |
 | Explicit source wording triggers retrieval | Pass; five passages; citations valid | [`20260929T184543683181Z-chat.md`](../evidence/offline-demo-v2/runs/20260929T184543683181Z-chat.md) |
-| `/notes` forces retrieval | Pass; five passages; citations valid | [`20260929T184622479562Z-chat.md`](../evidence/offline-demo-v2/runs/20260929T184622479562Z-chat.md) |
+| `/notes` forces retrieval | Retrieval pass, answer-quality fail: five passages were retrieved, but the answer does not define context and memory, focuses on evaluation experiments, and changes “Reasoning Correctness” to “Reasoning Correctiveness.” The grouped `[S1, S3]` marker also exposes the citation-card undercount described below. | [`20260929T184622479562Z-chat.md`](../evidence/offline-demo-v2/runs/20260929T184622479562Z-chat.md) |
 | Search returns original passages and locations without generation | Pass; model recorded as not used | [`20260929T184622818458Z-search.md`](../evidence/offline-demo-v2/runs/20260929T184622818458Z-search.md) |
 | Chat recalls a fact from the same session, but a separate ask does not receive it | Pass | [`introduction`](../evidence/offline-demo-v2/runs/20260929T184634346865Z-chat.md), [`chat recall`](../evidence/offline-demo-v2/runs/20260929T184638805739Z-chat.md), [`separate ask`](../evidence/offline-demo-v2/runs/20260929T184642751517Z-ask.md) |
 
@@ -79,4 +80,4 @@ The original 2026-09-23 run remains intact at [`evidence/offline-demo/README.md`
 
 The local BM25 retriever can rank passages with stronger surface-term overlap above a semantically exact passage. In v2 Q2, the exact definition was S5. A fully local embedding retriever or reranker is the next concrete improvement; it should retain source/locator metadata and be tested against the same fixed questions before adoption.
 
-Additional limitations are documented in the project README: wiki-note drafting has a 24,000-character per-source input cap; retrieval intentionally searches originals rather than edited wiki pages; and citation validation is structural, so this claim-level assessment remains necessary.
+Additional limitations are documented in the project README: wiki-note drafting has a 24,000-character per-source input cap; retrieval intentionally searches originals rather than edited wiki pages; and citation validation is structural, so this claim-level assessment remains necessary. In particular, `cited_source_numbers` recognizes only standalone `[S#]` markers: the grouped marker `[S1, S3]` in the forced `/notes` output results in `S3` being omitted from that card's citation list. The implementation is unchanged here so the committed v2 evidence remains tied to the demonstrated code.
