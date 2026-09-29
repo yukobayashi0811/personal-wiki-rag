@@ -64,7 +64,7 @@ print '\n$ wiki --help'
 wiki --help
 
 print '\n$ /usr/bin/time -l wiki ingest ./vault/raw'
-/usr/bin/time -l wiki ingest ./vault/raw
+/usr/bin/time -l "$PYTHON_BIN" -m personal_wiki.cli --project-root "$DEMO_ROOT" ingest ./vault/raw
 
 print '\n$ wiki ingest ./vault/raw'
 wiki ingest ./vault/raw
@@ -79,7 +79,8 @@ for question in \
   'How can a team distinguish a model capability bottleneck from a harness design bottleneck?' \
   'What was the global revenue of the AI agent market in 2024?'; do
   print "\n$ /usr/bin/time -l wiki ask \"$question\" --mode local"
-  /usr/bin/time -l wiki ask "$question" --mode local
+  /usr/bin/time -l "$PYTHON_BIN" -m personal_wiki.cli --project-root "$DEMO_ROOT" \
+    ask "$question" --mode local
 done
 
 print '\n=== CHAT MODE CHECKS ==='
