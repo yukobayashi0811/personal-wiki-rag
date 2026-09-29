@@ -1,0 +1,32 @@
+{
+  "timestamp_utc": "2026-09-29T18:18:32.967407+00:00",
+  "mode": "chat",
+  "execution": "local",
+  "model": "mlx-community/gemma-4-e4b-it-4bit",
+  "input": "Help me draft a design document for my team",
+  "retrieved_passages": [],
+  "output": "",
+  "repair_attempted": true,
+  "cited_sources": [],
+  "citations_valid": false,
+  "metrics": {
+    "elapsed_seconds": 1.0968113750004704,
+    "process_memory_before_gb": 4.703535104,
+    "process_memory_after_gb": 4.706435072,
+    "mlx_peak_memory_gb": 4.78903711,
+    "generations": [
+      {
+        "elapsed_seconds": 12.948523583999304,
+        "process_memory_before_gb": 4.687020032,
+        "process_memory_after_gb": 4.703535104,
+        "mlx_peak_memory_gb": 4.705837808
+      },
+      {
+        "elapsed_seconds": 1.0968113750004704,
+        "process_memory_before_gb": 4.703535104,
+        "process_memory_after_gb": 4.706435072,
+        "mlx_peak_memory_gb": 4.78903711
+      }
+    ]
+  }
+}

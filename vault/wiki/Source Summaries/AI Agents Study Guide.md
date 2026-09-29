@@ -1,3 +1,13 @@
+---
+reviewed: true
+origin: legacy-v1
+source: raw/AI Agents Study Guide.md
+source_sha256: 04e1b967117003ed9a898d073572f23d2efe89cd9f9339ddbd9910e93f43ac1f
+upstream_revision: 25b7985f3b2dc37a84f4a7387ccd3c9f0e5b1595
+topic: Agent System Design
+description: RAG, context, memory, orchestration, observability, and security.
+---
+
 # AI Agents Study Guide
 
 ## Summary
@@ -39,11 +49,11 @@ The guide recommends building one small demonstration and expanding it through t
 
 ## Source
 
-- [[../../raw/AI Agents Study Guide.md|AI Agents Study Guide]]
+- [[raw/AI Agents Study Guide.md|Source: AI Agents Study Guide]]
 - Original: Microsoft, “AI Agents for Beginners - Study Guide”
 
 ## Related Notes
 
-- [[AI Agent Fundamentals]] — defines agents, agency levels, tools, and actions.
-- [[Evaluating AI Agents]] — provides detailed methods for measuring reliability and diagnosing failures.
-
+- [[wiki/Source Summaries/AI Agent Fundamentals|AI Agent Fundamentals]] — defines agents, agency levels, tools, and actions.
+- [[wiki/Source Summaries/Evaluating AI Agents|Evaluating AI Agents]] — provides detailed methods for measuring reliability and diagnosing failures.
+- [[wiki/Concepts/Context and Memory|Context and Memory]] — focuses on the guide's distinction between current-call context and retained information.

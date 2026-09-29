@@ -105,6 +105,17 @@ class WikiStore:
             )
         return True
 
+    def remove_missing_documents(self, source_paths: set[str]) -> int:
+        rows = self.connection.execute("SELECT id, source_path FROM documents").fetchall()
+        missing = [row for row in rows if row["source_path"] not in source_paths]
+        if not missing:
+            return 0
+        with self.connection:
+            for row in missing:
+                self.connection.execute("DELETE FROM chunks WHERE document_id = ?", (row["id"],))
+                self.connection.execute("DELETE FROM documents WHERE id = ?", (row["id"],))
+        return len(missing)
+
     @staticmethod
     def _fts_query(query: str) -> str:
         stop_words = {

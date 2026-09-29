@@ -1,0 +1,111 @@
+UTC_START=2026-09-29T18:22:28Z
+GIT_COMMIT=e01d9b8d2eef1c72daacad9d8d2568cf8862590c
+OUTER_COMMAND=/usr/bin/sandbox-exec -p '(version 1) (allow default) (deny network*)' /bin/zsh [isolated-demo-root]/scripts/run_offline_demo_v2.sh [isolated-demo-root] [project-root]/.venv/bin/python
+
+=== OUTSIDE-SANDBOX CONTROL PROBES (BOTH MUST SUCCEED) ===
+OUTSIDE_DNS_OK: 8 address records
+OUTSIDE_TCP_OK: connected to 1.1.1.1:443
+
+=== SANDBOXED DEMONSTRATION ===
+=== DEVICE AND RUNTIME ===
+ProductName:		macOS
+ProductVersion:		27.0
+BuildVersion:		26A428
+Apple M5
+34359738368
+Mach Virtual Memory Statistics: (page size of 16384 bytes)
+Pages free:                                   263439.
+Pages active:                                 758111.
+Pages inactive:                               752354.
+Pages speculative:                              6713.
+Pages throttled:                                   0.
+Pages wired down:                             164732.
+Pages purgeable:                               10577.
+Filesystem      Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk3s5   460Gi   408Gi    13Gi    97%    2.3M  140M    2%   /System/Volumes/Data
+Python 3.13.15
+Name: mlx
+Version: 0.32.2
+Summary: A framework for machine learning on Apple silicon.
+Home-page: https://github.com/ml-explore/mlx
+Author: MLX Contributors
+Author-email: mlx@group.apple.com
+License: MIT
+Location: [project-root]/.venv/lib/python3.13/site-packages
+Requires: mlx-metal
+Required-by: mlx-lm
+---
+Name: mlx-lm
+Version: 0.31.3
+Summary: LLMs with MLX and the Hugging Face Hub
+Home-page: https://github.com/ml-explore/mlx-lm
+Author: MLX Contributors
+Author-email: mlx@group.apple.com
+License: MIT
+Location: [project-root]/.venv/lib/python3.13/site-packages
+Requires: jinja2, mlx, numpy, protobuf, pyyaml, sentencepiece, transformers
+Required-by: personal-wiki-rag
+Model snapshots:
+475b9088d29754a3379866cf5aeb6b41acd313c2
+
+=== INSIDE-SANDBOX NETWORK PROBES (BOTH MUST FAIL) ===
+INSIDE_DNS_BLOCKED: gaierror: [Errno 8] nodename nor servname provided, or not known
+INSIDE_TCP_BLOCKED: PermissionError: [Errno 1] Operation not permitted
+
+$ wiki --help
+usage: wiki [-h] [--project-root PROJECT_ROOT]
+            {ingest,search,ask,chat,status} ...
+
+Offline personal wiki CLI powered by local Gemma and MLX-LM.
+
+positional arguments:
+  {ingest,search,ask,chat,status}
+    ingest              Index sources and generate reviewable Gemma drafts.
+    search              Return original passages without generating an answer.
+    ask                 Answer one standalone question from retrieved
+                        evidence.
+    chat                Start the conversational personal assistant.
+    status              Show local configuration and index counts.
+
+options:
+  -h, --help            show this help message and exit
+  --project-root PROJECT_ROOT
+                        Project directory containing vault/, config/, data/,
+                        and evidence/.
+
+Prerequisites:
+  - Apple Silicon Mac with MLX-LM installed
+  - At least three source files in vault/raw
+  - Download the configured model while online, then run `wiki ingest` first
+
+Environment variables:
+  WIKI_MODEL, WIKI_MAX_TOKENS, WIKI_TOP_K, WIKI_CHAT_TURNS,
+  WIKI_CHAT_RETRIEVAL_THRESHOLD, HF_HUB_OFFLINE
+
+Examples:
+  wiki ingest ./vault/raw
+  wiki search "agent tools"
+  wiki ask "What are the two main parts of an AI agent?" --mode local
+  wiki chat
+  wiki status
+
+$ /usr/bin/time -l wiki ingest ./vault/raw
+time: wiki: No such file or directory
+        0.00 real         0.00 user         0.00 sys
+              983040  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+                  89  page reclaims
+                   0  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                   1  voluntary context switches
+                  14  involuntary context switches
+             3271644  instructions retired
+             2412324  cycles elapsed
+             1065200  peak memory footprint

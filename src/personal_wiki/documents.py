@@ -120,7 +120,14 @@ def chunk_document(
         for paragraph in paragraphs:
             if current and len(current) + len(paragraph) + 2 > target_chars:
                 chunks.append(Chunk(len(chunks), section.locator, current.strip()))
-                tail = current[-overlap_chars:] if overlap_chars else ""
+                tail = ""
+                if overlap_chars:
+                    overlap_start = max(0, len(current) - overlap_chars)
+                    if overlap_start:
+                        whitespace = re.search(r"\s", current[overlap_start:])
+                        if whitespace:
+                            overlap_start += whitespace.end()
+                    tail = current[overlap_start:]
                 current = f"{tail}\n\n{paragraph}".strip()
             else:
                 current = f"{current}\n\n{paragraph}".strip()
@@ -135,4 +142,3 @@ def readable_title(path: Path) -> str:
     stem = re.sub(r"\s+", " ", stem).strip()
     words = stem.split()[:8]
     return " ".join(word if word.isupper() else word.capitalize() for word in words) or "Untitled Source"
-

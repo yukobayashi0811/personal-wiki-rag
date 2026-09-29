@@ -1,0 +1,60 @@
+{
+  "timestamp_utc": "2026-09-29T18:25:24.351604+00:00",
+  "mode": "ask",
+  "execution": "local",
+  "model": "mlx-community/gemma-4-e4b-it-4bit",
+  "input": "How can a team distinguish a model capability bottleneck from a harness design bottleneck?",
+  "retrieved_passages": [
+    {
+      "source_path": "Evaluating AI Agents.md",
+      "locator": "Evaluating Agents",
+      "text": "and pound foolish. Software engineering has a saying: you can't improve what you don't measure. Without a repeatable evaluation system, an Agent can only be iterated on intuition.\n\nFrom the perspective of Harness engineering introduced in Chapter 1, evaluation plays the core role of \"verification\" within the Harness. A key insight is: **the object of evaluation should not be just the model, but the combination of the model and the Harness**. The same model can perform wildly differently in different Harnesses — some teams have significantly improved the same model's performance on terminal tasks purely by optimizing the Harness (see Chapter 5). So when an Agent evaluates poorly, the fix may not be a different model but a better Harness component (prompts, tool design, feedback loops). A sound evaluation system should be able to tell apart two fundamentally different problems: \"insufficient model capability\" and \"Harness design flaws.\" **A common way to tell them apart is the model swap experiment**: hold the Harness constant, swap in a stronger or weaker model, and watch how much the score moves. If a stronger model doesn't raise the score, the bottleneck is the Harness. If a weaker model tanks the score and results swing sharply with model capability, the most direct reading is that the model itself is the bottleneck and current performance is dominated by the model. Whether this is because the task is inherently hard or because the Harness relies too heavily on the model's prior knowledge requires further analysis. Note that this differs from the ablation experiment above: ablation **disables a Harness component** to see how overall performance changes; model swapping **holds the Harness constant and changes only the model**. The former locates which part inside the Harness matters; the latter tells you whether the bottleneck is the model or the Harness.",
+      "score": 16.76460597327782
+    },
+    {
+      "source_path": "Evaluating AI Agents.md",
+      "locator": "Evaluating Agents",
+      "text": "Harness constant and changes only the model**. The former locates which part inside the Harness matters; the latter tells you whether the bottleneck is the model or the Harness.\n\nAn evaluation system is worth even more in an era of rapid model evolution. Models keep improving, but a new model that scores higher on public benchmarks will not necessarily do better on your task—it may even regress (perform worse than the old version in some respects). Only a full run on your own evaluation dataset lets you make a data-driven upgrade decision. A solid evaluation system even makes **\"building products for future models\"** a viable strategy: if the current model isn't good enough for commercial deployment, finish the product anyway, build the evaluation set, track each new model's performance, and launch the moment one clears the bar.\n\nA complete evaluation system decomposes into four stages: what counts as success, where the tasks come from, who verifies, and how a score turns into a decision, as shown in Figure 7-1.\n\n![Figure 7-1: The Four Stages of an Agent Evaluation System](images/fig7-1.svg)",
+      "score": 9.767831374082796
+    },
+    {
+      "source_path": "Evaluating AI Agents.md",
+      "locator": "From Data to Hypotheses: Building an Improvement Roadmap",
+      "text": "The first round tested the cheapest explanation. H1 assumed a navigation-knowledge gap, so only the treatment received Wi-Fi navigation and final-state-checking instructions. Success did not improve; the prompt was not the bottleneck.\n\nThe second round asked what the Agent could actually see. H5 replaced the API-35-incompatible accessibility feed with AndroidWorld's supported UIAutomator tree. Success improved, but the full tree caused token use to surge. H5C therefore added no new information: it simply removed invisible, textless, non-actionable container nodes to see whether the same success could be preserved with less noise.\n\nAcross all three rounds, the model, task parameters, seed, step limit, and emulator stayed fixed, and arm order alternated. This staged design made attribution straightforward: the residual problem or side effect from one round became the sole change in the next.",
+      "score": 9.440602402679325
+    },
+    {
+      "source_path": "Evaluating AI Agents.md",
+      "locator": "Evaluating Agents",
+      "text": "Skills be organized?\n- What constraints need to be added to the Harness?\n- How should evaluation results be transformed into learning signals for the Agent's continuous evolution?\n\nEvaluation puts these decisions on a scientific footing. Through systematic comparative experiments (change one variable at a time and observe the effect) and ablation experiments (disable one component at a time and observe how overall performance changes), you can distinguish genuine capability gains from superficial fluctuations—and avoid being penny wise and pound foolish. Software engineering has a saying: you can't improve what you don't measure. Without a repeatable evaluation system, an Agent can only be iterated on intuition.",
+      "score": 7.6877827070967735
+    },
+    {
+      "source_path": "Evaluating AI Agents.md",
+      "locator": "A Cross-Benchmark Comparison of Design Choices",
+      "text": "The presence or absence of an interactive counterpart, distinguished in the previous section, is only the first-order difference at the environment level; the divergences at the dataset level reveal the design trade-offs more clearly. Table 7-2 places several frequently cited benchmarks side by side.\n\nTable 7-2 Key Design Choices of Several Agent Benchmarks",
+      "score": 7.043351094383637
+    }
+  ],
+  "output": "A common way to distinguish between an insufficient model capability and a Harness design flaw is through the **model swap experiment** [S1].\n\nThis experimental approach involves:\n1.  Keeping the Harness constant [S1].\n2.  Swapping in a stronger or weaker model and observing the resulting score [S1].\n\nThe interpretation of the results is as follows:\n*   If a stronger model does not raise the score, the bottleneck is the Harness [S1].\n*   If the performance swings sharply with the model's capability (e.g., a weaker model tanks the score), the model itself is the bottleneck [S1].\n\nThis method differs from an ablation experiment, which disables a Harness component to observe performance changes [S1].",
+  "repair_attempted": false,
+  "cited_sources": [
+    "S1"
+  ],
+  "citations_valid": true,
+  "metrics": {
+    "elapsed_seconds": 28.562575417000517,
+    "process_memory_before_gb": 4.677353472,
+    "process_memory_after_gb": 4.692328448,
+    "mlx_peak_memory_gb": 4.859339416,
+    "wall_seconds": 30.40827866699965,
+    "generations": [
+      {
+        "elapsed_seconds": 28.562575417000517,
+        "process_memory_before_gb": 4.677353472,
+        "process_memory_after_gb": 4.692328448,
+        "mlx_peak_memory_gb": 4.859339416
+      }
+    ]
+  }
+}

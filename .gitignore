@@ -7,9 +7,12 @@ __pycache__/
 .coverage
 data/wiki.db
 data/model-cache/
+data/drafts/
 evidence/recordings/*
 !evidence/runs/.gitkeep
 !evidence/screenshots/.gitkeep
 !evidence/recordings/.gitkeep
 !evidence/recordings/offline-session.txt
 !evidence/recordings/offline-full-session.txt
+!evidence/recordings/offline-full-session-v2.txt
+!evidence/recordings/offline-full-session-v2-failed-*.txt

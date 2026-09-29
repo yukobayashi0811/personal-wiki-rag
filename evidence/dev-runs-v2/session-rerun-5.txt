@@ -1,0 +1,10 @@
+Fifth development rerun with a final-user-message format instruction; network available.
+you> Help me draft a design document for my team
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files: 100%|██████████| 8/8 [00:00<00:00, 5830.48it/s]
+wiki> Suggestion: To begin drafting the design document, please provide me with the following details:
+
+1.  **Topic/Goal:** What is the system or feature being designed?
+2.  **Audience:** Who is reading this document (e.g., engineering team, management, stakeholders)?
+3.  **Scope/Key Sections:** Are there specific sections you need (e.g., architecture, API design, testing plan, migration strategy)?
+
+Once I have this information, I can help structure the document, refine technical details, or draft sections based on your input.

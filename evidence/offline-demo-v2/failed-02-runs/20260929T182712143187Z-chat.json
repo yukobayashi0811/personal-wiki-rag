@@ -1,0 +1,59 @@
+{
+  "timestamp_utc": "2026-09-29T18:27:12.143187+00:00",
+  "mode": "chat",
+  "execution": "local",
+  "model": "mlx-community/gemma-4-e4b-it-4bit",
+  "input": "Explain the model swap experiment.",
+  "retrieved_passages": [
+    {
+      "source_path": "Evaluating AI Agents.md",
+      "locator": "Evaluating Agents",
+      "text": "and pound foolish. Software engineering has a saying: you can't improve what you don't measure. Without a repeatable evaluation system, an Agent can only be iterated on intuition.\n\nFrom the perspective of Harness engineering introduced in Chapter 1, evaluation plays the core role of \"verification\" within the Harness. A key insight is: **the object of evaluation should not be just the model, but the combination of the model and the Harness**. The same model can perform wildly differently in different Harnesses — some teams have significantly improved the same model's performance on terminal tasks purely by optimizing the Harness (see Chapter 5). So when an Agent evaluates poorly, the fix may not be a different model but a better Harness component (prompts, tool design, feedback loops). A sound evaluation system should be able to tell apart two fundamentally different problems: \"insufficient model capability\" and \"Harness design flaws.\" **A common way to tell them apart is the model swap experiment**: hold the Harness constant, swap in a stronger or weaker model, and watch how much the score moves. If a stronger model doesn't raise the score, the bottleneck is the Harness. If a weaker model tanks the score and results swing sharply with model capability, the most direct reading is that the model itself is the bottleneck and current performance is dominated by the model. Whether this is because the task is inherently hard or because the Harness relies too heavily on the model's prior knowledge requires further analysis. Note that this differs from the ablation experiment above: ablation **disables a Harness component** to see how overall performance changes; model swapping **holds the Harness constant and changes only the model**. The former locates which part inside the Harness matters; the latter tells you whether the bottleneck is the model or the Harness.",
+      "score": 5.926193072240241
+    },
+    {
+      "source_path": "Evaluating AI Agents.md",
+      "locator": "Pairwise Comparison and Model Ranking",
+      "text": "depend on what users happen to ask. If a flood of users ask programming questions, models strong at programming rank higher—which may say little about their level on other tasks.\n\nWhen pairwise judging is performed by an LLM rather than human voting, one must also guard against **Position Bias**—the judging model systematically favors the candidate appearing in a certain position (usually the first), and the judgment may remain unchanged even if the content of the two candidates is completely swapped. The standard mitigation method is to **evaluate each pair twice with swapped order**: once with A first, once with B first, and average the two results; a stricter approach is to only count cases where the two judgments are consistent, and treat inconsistencies as ties or send them for human review. Chatbot Arena's approach is essentially the same—randomizing the display positions of the two responses so that position bias cancels out over a large sample.",
+      "score": 4.597991656705919
+    },
+    {
+      "source_path": "AI Agent Fundamentals.md",
+      "locator": "What is an Agent?",
+      "text": "<img src=\"https://huggingface.co/datasets/agents-course/course-images/resolve/main/en/unit1/whiteboard-no-check.jpg\" alt=\"Unit 1 planning\"/>\n\nBy the end of this section, you'll feel comfortable with the concept of agents and their various applications in AI.\n\nTo explain what an Agent is, let's start with an analogy.",
+      "score": 4.174861307448758
+    },
+    {
+      "source_path": "Evaluating AI Agents.md",
+      "locator": "Model Behavior: When to Stop Reading and Start Editing",
+      "text": "tool paths, and outcome rewards reinforce the entire policy that ended in success. Over time, what the model learns is not only how to write code, but also engineering habits.\n\n> **Experiment 7-9 ★★: Measuring Model Action Thresholds in a Fixed Coding Harness**\n>\n> **Objective**: Isolate the model factor, quantify how Coding models trade off continued information gathering against starting to edit, and evaluate path efficiency together with outcome quality.\n>\n> **Method**: Run `chapter6/model-action-threshold/experiment.py`. By default it calls GPT-5.6-sol and Claude Sonnet 5 through the same OpenRouter OpenAI-compatible endpoint while fixing the system prompt, tool schemas, task repositories, test commands, and turn limit. The neutral prompt specifies neither a minimum number of files to read nor a requirement to edit quickly. Repeat each of the three task categories at least three times and alternate model order. Record tool calls, files read, searches, and wall-clock time before the first edit, along with first-tested-patch acceptance, post-test rework, final success, changed files, and token usage.\n>\n> **Causal interpretation**: The neutral campaign asks whether behavior changes with the model inside one harness. To measure the harness as a modifier, run a separate campaign with `--policy explore-first`; do not mix the two policies in one model comparison. Behavior that changes with a model swap and persists for the same model across harnesses is stronger evidence of a model effect; the reverse is stronger evidence of a harness effect.\n>\n> **Acceptance criteria**: All offline unit tests pass; every task fixture is first confirmed to fail its tests; the formal result contains every `model × task × trial` cell, zero API errors, an independent final test, and auditable trajectories; and `manifest.json` verifies the hashes of the configuration, observations, and summary. The project directory includes one complete 18/18-cell run. Readers should rerun it on the model versions and real workloads they care about rather than treating these miniature-repository numbers as a permanent leaderboard.",
+      "score": 3.785292362471104
+    },
+    {
+      "source_path": "Evaluating AI Agents.md",
+      "locator": "The \"Right Actions, Wrong Report\" Problem",
+      "text": "of a legal \"information unavailable\" exit. File it as a model-capability problem and the next move is to swap models or train OCR; the real fix is to add the channel and the exit.\n\n> **Experiment 7-6 ★★: Failure Attribution on AndroidWorld Traces**\n>\n> This experiment practices the attribution method of this section on real traces, with no emulator and no model API required. The material is the saved T3A run in `chapter7/android-world`: `t3a.md` holds the step-by-step `Action`/`Reason`/`Summary` for every task, and `t3a_failed.md` collects more than fifty failed traces, each ending with the validator's objective verdict.\n>\n> Step 1: Stratified sampling. Stratify the sample and draw at least ten silent failures from `t3a_failed.md` — traces with no tool error anywhere. No tool return may have failed; the Agent either declared completion or ran out of steps; and only the closing validator verdict marks the task failed.\n>\n> Step 2: Locate the first error. For each trace, record the step number of the first error and whether that step is a tool call or an assistant message. Silent failures need two techniques: fact-anchor comparison, which walks the Agent's statements against the tool return values and takes the first divergence; and trajectory-prefix bisection, which cuts the trajectory at step k and hands the truncated trajectory to a human reviewer to continue the task — if the task is still recoverable, the error lies after k. Searching for error keywords is no substitute.\n>\n> Step 3: Write structured records. Emit one JSON or YAML record per trace with the task name, first-error step, error category, responsible party, supporting quotations, and a separation of primary cause from consequence.\n>\n> Step 4: Compare with the existing notes. Check your results against `t3a_failed_analysis.md` and record every disagreement. Pay particular attention to root-cause assignment: those notes originally recorded the image-transcription failure as \"the vision model lacks OCR,\" yet T3A's observation space contains no image pixels at all, so the real root cause is a missing observation channel. An existing attribution note is not an answer key.\n>\n> Step 5: Convert to regression tasks. Take three traces whose first error is an assistant message, cut each trajectory prefix just before that error, and write the acceptable-action set and the forbidden actions to form trajectory-prefix regression tasks.\n>",
+      "score": 3.3939655738295373
+    }
+  ],
+  "output": "The model swap experiment is a diagnostic technique used to isolate the source of poor performance in an AI Agent system.\n\nIts primary purpose is to determine whether performance bottlenecks are due to the underlying language model's capability or flaws in the surrounding system configuration (the \"Harness\").\n\n**How it works:**\n\n1.  **Hold the Harness Constant:** The environment, prompts, tool designs, and feedback loops are kept exactly the same.\n2.  **Swap the Model:** A different model (stronger or weaker) is introduced into the fixed Harness.\n3.  **Observe Performance:** The system is run, and the outcome is compared.\n\n**Interpretation:**\n\n*   If a stronger model does not improve the score, the bottleneck is likely the Harness itself.\n*   If a weaker model causes a significant drop in score, the model itself is the bottleneck.\n\nThis method differs from an ablation experiment, which involves disabling a Harness component to observe performance changes [S1].",
+  "repair_attempted": false,
+  "cited_sources": [
+    "S1"
+  ],
+  "citations_valid": true,
+  "metrics": {
+    "elapsed_seconds": 22.456810167000185,
+    "process_memory_before_gb": 4.709105664,
+    "process_memory_after_gb": 4.710580224,
+    "mlx_peak_memory_gb": 4.97745265,
+    "generations": [
+      {
+        "elapsed_seconds": 22.456810167000185,
+        "process_memory_before_gb": 4.709105664,
+        "process_memory_after_gb": 4.710580224,
+        "mlx_peak_memory_gb": 4.97745265
+      }
+    ]
+  }
+}

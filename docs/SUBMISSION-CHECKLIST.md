@@ -1,82 +1,64 @@
 # Submission Checklist
 
-This checklist maps each assignment requirement to the submitted implementation or evidence. All repository content and deliverables are in English.
+This checklist maps assignment requirements to repository evidence. A checked item must be supported by a committed file.
 
 ## Repository and Runtime
 
-- [x] Public GitHub repository: [yukobayashi0811/personal-wiki-rag](https://github.com/yukobayashi0811/personal-wiki-rag)
-- [x] Public accessibility checked without GitHub authentication on 2026-09-22 PDT.
-- [x] Local Gemma model: `mlx-community/gemma-4-e4b-it-4bit` through MLX-LM 0.31.3.
-- [x] Model weights are excluded from Git; only the model identifier and cached-snapshot revision are documented.
-- [x] Custom CLI and harness implement `chat`, `ask`, `search`, `ingest`, `status`, and `--help`.
+- [x] Public repository: [yukobayashi0811/personal-wiki-rag](https://github.com/yukobayashi0811/personal-wiki-rag)
+- [x] Custom CLI implements chat, ask, search, ingest, status, and help.
+- [x] Local model configuration pins mlx-community/gemma-4-e4b-it-4bit and MLX-LM 0.31.3.
+- [x] Model weights, credentials, local database, and working drafts are excluded from Git.
 
-Implementation: [`src/personal_wiki/`](../src/personal_wiki/) and [`config/`](../config/).
+## Sources and Wiki
 
-## Wiki and Sources
+- [x] Three unchanged originals are committed under [vault/raw/](../vault/raw/).
+- [x] Provenance, revision, license, and SHA-256 values are documented in [SOURCES.md](SOURCES.md).
+- [x] Source summaries and subject-level concept notes use distinct folders and vault-root links.
+- [x] index.md is grouped by frontmatter topic and provides a navigation path to notes and originals.
+- [x] Automated tests require every authored wikilink to resolve to exactly one file.
+- [x] The repository owner confirmed review of every v2 note against the originals; all six notes are marked reviewed: true.
 
-- [x] Three original public source documents are preserved unchanged in [`vault/raw/`](../vault/raw/).
-- [x] Provenance, license, revision, checksum, and selection rationale are recorded in [`SOURCES.md`](SOURCES.md).
-- [x] Three reviewed, linked concept notes are in [`vault/wiki/Concepts/`](../vault/wiki/Concepts/).
-- [x] A human-readable topic index is at [`vault/index.md`](../vault/index.md).
-- [x] Source links, related-note links, and topic coverage are visible in the saved Obsidian screenshots.
-- [x] The graph screenshot uses `path:wiki OR file:index` with attachments disabled, so labels and intended note connections remain readable.
+Review instructions: [HUMAN-STEPS.md](HUMAN-STEPS.md).
 
-Visual evidence: [`obsidian-index.png`](../evidence/screenshots/obsidian-index.png), [`obsidian-note.png`](../evidence/screenshots/obsidian-note.png), [`obsidian-note-source.png`](../evidence/screenshots/obsidian-note-source.png), and [`obsidian-graph.png`](../evidence/screenshots/obsidian-graph.png).
+## Safe Ingestion
 
-## Fixed Evaluation
+- [x] Every model draft is written to ignored data/drafts/.
+- [x] Reviewed, curated, protected legacy, and non-generated notes are not overwritten.
+- [x] An unreviewed generated note updates in place without duplication.
+- [x] Removed sources and their chunks are deleted from the index.
+- [x] The ingest summary reports removed sources, drafts, created notes, protected notes, and truncated sources.
+- [x] The final sandboxed changed-source demonstration is committed and indexed.
 
-- [x] Three answerable questions and one unsupported question are defined before the final run, with expected evidence and pass conditions.
-- [x] Each final ask record includes the input, exact model, local execution mode, retrieved source paths and locators, actual answer, citations, and metrics.
-- [x] Q1 passed: agent brain and body.
-- [x] Q2 passed: context and memory.
-- [x] Q3 passed: model capability versus harness design bottleneck.
-- [x] Q4 passed: exact insufficient-evidence response instead of a guess.
-- [x] One earlier Q3 truncation is retained and diagnosed; the final passing rerun used the documented 1,400-token budget.
+## Modes and Evaluation
 
-Definitions: [`evaluation/questions.md`](../evaluation/questions.md). Assessments: [`evaluation/results.md`](../evaluation/results.md). Final records: [`evidence/offline-demo/runs/`](../evidence/offline-demo/runs/).
+- [x] Ask and chat prompts and histories remain separated.
+- [x] Search works without importing MLX-LM.
+- [x] Chat supports deterministic automatic retrieval and /notes <query>.
+- [x] Chat history is bounded by WIKI_CHAT_TURNS, default 12.
+- [x] The fixed Q1-Q4 questions and pass conditions remain unchanged.
+- [x] The v2 fixed-question results and claim-by-claim citation assessment are committed.
 
-## Mode Boundaries
+## Offline Evidence
 
-- [x] `chat` answers a capability question without retrieval.
-- [x] `chat` drafts a plan and follows “Make that shorter” using conversation history without retrieval.
-- [x] `chat` retrieves and cites sources when notes are explicitly requested.
-- [x] `search` returns original passages and locations without loading the model.
-- [x] `ask` is independent of chat persona and history; a chat-only fact is unavailable to a later standalone ask.
-- [x] Re-ingesting unchanged sources writes zero new chunks and does not create duplicate notes.
+- [x] The v1 demonstration remains available as historical evidence.
+- [x] The v2 wrapper records the exact command, commit, UTC time, outside DNS/TCP success, and inside DNS/TCP failure.
+- [x] The v2 inner script covers ingestion, repeat ingestion, all fixed questions, chat boundaries, search, ask/chat separation, and changed-source re-ingestion.
+- [x] The complete v2 transcript ends with OFFLINE_DEMO_V2_COMPLETE.
+- [x] Unedited screen captures of the committed transcript document the v2 control probe, sandbox isolation, core commands, and completion; they are explicitly labeled as transcript views rather than an original Terminal recording.
+- [x] Updated Obsidian screenshots show properties, expanded folders, readable graph labels, and source navigation.
 
-Evidence links are collected in the [`complete offline demonstration`](../evidence/offline-demo/README.md).
+## Documentation and Measurements
 
-## Offline Demonstration
-
-- [x] The final demonstration runs in a clean local project copy.
-- [x] macOS denies network access to the demonstration process and every child process.
-- [x] Hugging Face and Transformers offline flags are enabled.
-- [x] A connection probe fails with `NETWORK_BLOCKED` before assignment commands run.
-- [x] The same session runs `--help`, full model-backed ingestion, repeat ingestion, status, all four ask questions, chat checks, note retrieval, search, and ask/chat separation.
-- [x] The session ends with `OFFLINE_DEMO_COMPLETE`.
-
-Transcript: [`evidence/recordings/offline-full-session.txt`](../evidence/recordings/offline-full-session.txt). Reproduction script: [`scripts/run_offline_demo.sh`](../scripts/run_offline_demo.sh).
-
-## README and Measurements
-
-- [x] Exact installation and model-download commands are documented.
-- [x] Device details include OS, CPU, GPU, unified RAM, observed available memory, and free disk space.
-- [x] Model details include identifier, revision, instruction tuning, 4-bit quantization, runtime, and download size.
-- [x] Model-selection rationale explains the E4B tradeoff on the submitted Mac.
-- [x] Full ingestion time and memory are measured: 95.26 seconds and approximately 5.40 GB maximum resident memory.
-- [x] Ask time and memory are measured: Q1 took 10.89 seconds and ended at 4.70 GB resident memory.
-- [x] Architecture and design choices cover source-to-Gemma flow, passage size and overlap, retrieval, prompt separation, chat context, generation settings, naming, source IDs, and deduplication.
-- [x] A concrete observed limitation and a local retrieval/reranking improvement are documented.
-
-Primary documentation: [`README.md`](../README.md).
+- [x] README documents setup, model choice, E2B non-benchmark status, architecture, retrieval scope, review flow, chat rule, and limitations.
+- [x] Measurement definitions distinguish generation time, end-to-end wall time, RSS, macOS peak footprint, and MLX peak memory.
+- [x] Evidence cards record repair status, generation metrics, wall time, cited sources, structural validation, and citation mapping.
+- [x] Development v1 runs are cataloged in [evidence/runs/README.md](../evidence/runs/README.md).
+- [x] README and evaluation results contain only values copied from committed v2 evidence.
 
 ## Final Verification
 
-- [x] Unit tests: 8 passed.
-- [x] Demonstration script syntax: passed.
-- [x] Git whitespace/error check: passed.
-- [x] Authored local Markdown links: passed.
-- [x] Twelve final JSON evidence records, including all fixed questions and model-free search, validated.
-- [x] Public repository page, README, offline evidence index, evaluation results, source file, graph image, and full transcript each returned HTTP 200 without authentication.
-- [x] Working tree clean after push.
-
+- [x] Full test suite passes after the final evidence and documentation changes: 24 passed.
+- [x] Every scoped authored Markdown link resolves; links embedded in unchanged upstream sources and verbatim retrieved passages are outside this check.
+- [x] vault/raw/ SHA-256 values match docs/SOURCES.md.
+- [x] Demonstration scripts pass zsh -n.
+- [x] The submitted branch contains every intended change and the pull request links every v2 artifact; the repository owner's local Obsidian workspace state is intentionally excluded.

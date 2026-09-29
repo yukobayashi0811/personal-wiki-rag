@@ -1,3 +1,13 @@
+---
+reviewed: true
+origin: legacy-v1
+source: raw/Evaluating AI Agents.md
+source_sha256: 813232a986ca3c16ba47d27c7f1d29903f7f1162df6456cba13ce899acbc3944
+upstream_revision: d0daf079e7c8da56670886b48c329e9f9fc8281d
+topic: Agent Evaluation
+description: Tasks, metrics, verifiers, failure analysis, and production evaluation.
+---
+
 # Evaluating AI Agents
 
 ## Summary
@@ -41,11 +51,11 @@ Useful traces include model inputs and outputs, tool calls, observations, state 
 
 ## Source
 
-- [[../../raw/Evaluating AI Agents.md|Evaluating AI Agents]]
+- [[raw/Evaluating AI Agents.md|Source: Evaluating AI Agents]]
 - Original: *Understanding AI Agent: Design Principles and Engineering Practices*, Chapter 7, “Evaluating Agents”
 
 ## Related Notes
 
-- [[AI Agent Fundamentals]] — supplies the basic model, tool, action, and agency concepts being evaluated.
-- [[AI Agents Study Guide]] — places evaluation alongside RAG, context, memory, planning, observability, and security.
-
+- [[wiki/Source Summaries/AI Agent Fundamentals|AI Agent Fundamentals]] — supplies the basic model, tool, action, and agency concepts being evaluated.
+- [[wiki/Source Summaries/AI Agents Study Guide|AI Agents Study Guide]] — places evaluation alongside RAG, context, memory, planning, observability, and security.
+- [[wiki/Concepts/Model Swap Experiment|Model Swap Experiment]] — isolates the controlled comparison used to diagnose model versus harness limitations.

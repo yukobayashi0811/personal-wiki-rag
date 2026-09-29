@@ -1,3 +1,13 @@
+---
+reviewed: true
+origin: legacy-v1
+source: raw/AI Agent Fundamentals.md
+source_sha256: 7b40365e7f037ae8dbc6d94fb570ff92a43d038a489824b91e06105d2a17e3d7
+upstream_revision: b3946b1d09d29c65736e219d48a8a736a2c52154
+topic: Agent Foundations
+description: Definitions, agency levels, reasoning, planning, tools, and actions.
+---
+
 # AI Agent Fundamentals
 
 ## Summary
@@ -36,11 +46,11 @@ The source describes personal assistants, customer-service systems, and game cha
 
 ## Source
 
-- [[../../raw/AI Agent Fundamentals.md|AI Agent Fundamentals]]
+- [[raw/AI Agent Fundamentals.md|Source: AI Agent Fundamentals]]
 - Original: Hugging Face Agents Course, “What is an Agent?”
 
 ## Related Notes
 
-- [[AI Agents Study Guide]] — expands the architecture with knowledge, context, memory, orchestration, RAG, and trust.
-- [[Evaluating AI Agents]] — explains how to measure the combined model-and-harness system.
-
+- [[wiki/Source Summaries/AI Agents Study Guide|AI Agents Study Guide]] — expands the architecture with knowledge, context, memory, orchestration, RAG, and trust.
+- [[wiki/Source Summaries/Evaluating AI Agents|Evaluating AI Agents]] — explains how to measure the combined model-and-harness system.
+- [[wiki/Concepts/Tools and Actions|Tools and Actions]] — develops the source's distinction between a tool and an action.

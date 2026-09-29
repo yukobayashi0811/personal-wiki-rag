@@ -1,0 +1,14 @@
+Fourth development rerun with response-prefix continuation instruction; network available.
+you> Help me draft a design document for my team
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files: 100%|██████████| 8/8 [00:00<00:00, 5578.46it/s]
+wiki> Suggestion: Suggestion:
+To draft a comprehensive design document, we should first define its scope and target audience. A standard structure usually includes sections like these. Which of these areas should we focus on first?
+
+1.  **Introduction/Goal:** What problem is this design solving? (The "Why")
+2.  **Current State/Context:** What is the existing system or situation? (The "Before")
+3.  **Proposed Solution/Design:** Detailed explanation of the new design. (The "What")
+4.  **Technical Specification:** Implementation details, architecture diagrams, APIs, etc. (The "How")
+5.  **Risks and Trade-offs:** Potential issues, constraints, and alternatives considered. (The "Watch Outs")
+6.  **Testing/Rollout Plan:** How will we verify success?
+
+If you provide me with the project goal or the most complex part of the design, I can start drafting that section immediately.

@@ -1,0 +1,61 @@
+{
+  "timestamp_utc": "2026-09-29T18:46:22.479562+00:00",
+  "mode": "chat",
+  "execution": "local",
+  "model": "mlx-community/gemma-4-e4b-it-4bit",
+  "input": "/notes context and memory",
+  "retrieved_passages": [
+    {
+      "source_path": "Evaluating AI Agents.md",
+      "locator": "LLM-as-a-Judge: The Core of Automated Evaluation",
+      "text": "scored, but where to look next.\n\nThe following takes user memory as a concrete case, showing how to bring this general method down to an executable evaluation set and verifier.\n\n> **Experiment 7-3 ★★: Building a Rubric-Based User Memory Evaluation System**\n>\n> **Prerequisites**: Must complete the Chapter 3 User Memory Experiment (`chapter3/user-memory-evaluation`).\n>\n> This experiment requires modifying the `chapter3/user-memory-evaluation` framework from Chapter 3, upgrading the current simple LLM-as-a-Judge scoring mechanism to a structured, multi-dimensional Rubric evaluation system. The existing system uses a single LLM call to return a pass/fail result plus evaluation reasoning, lacking structured diagnostic capabilities.\n>\n> Design a unified multi-dimensional Rubric framework applicable to all three task levels. Evaluation dimensions include: Factual Correctness (precision: of all the information given, how much is correct—verifies that numbers/dates/names are consistent with the stored memory); Information Completeness (recall: of all the information that should be given, how much is mentioned—verifies that all relevant information is provided with no key content omitted); Reasoning Correctness (checks whether the relationships between pieces of information and implicit logic are correctly understood); Reasoning Proactiveness (evaluates whether suggestions or risk warnings beyond a direct answer are provided when appropriate); Hallucination Detection (ensures no information not present in memory is fabricated).\n>\n> Four-level scoring (Excellent/Good/Passable/Fail), with specific judgment criteria for each level rather than abstract descriptions. The hallucination dimension is a veto item. Provide examples and boundary cases for each dimension.\n>\n> **Experiment 7-4 ★★: Comparative Evaluation of Advanced JSON Cards vs. RAG**\n>\n> **Prerequisites**: Must complete the Chapter 3 User Memory and RAG experiments (`chapter3/user-memory`, `chapter3/agentic-rag-for-user-memory`).\n>\n> **Objective**: Fairly compare the advantages and boundaries of structured memory versus unstructured retrieval on the same evaluation set. Reuse the two Chapter 3 projects and compare three configurations on the 60 test cases from `chapter3/user-memory-evaluation`—Pure Advanced JSON Cards (structured cards kept in context, with no retrieval needed), Pure RAG (conversation chunks embedded in a vector store, retrieval required), Hybrid System (core facts resident + original conversations retrieved on demand).\n>\n> **Acceptance Criteria**: Record success rate, average steps, number of tool calls, latency, and cost across three complexity levels (basic recall / multi-session disambiguation / cross-session hidden associations). Clearly describe the failure boundaries for each approach—what structured memory misses, what retrieval misses, and whether the hybrid truly achieves synergy. This is an **end-to-end regression layer**: it checks that the complete task still works, but cannot by itself show whether the Agent correctly scopes a memory once it has been supplied. Configuration details and test cases are available in the companion repository.\n>",
+      "score": 4.857568896442876
+    },
+    {
+      "source_path": "Evaluating AI Agents.md",
+      "locator": "Ablation Infrastructure: Understanding the True Contribution of Each Feature",
+      "text": "ML researchers have long used ablation studies to learn which components of a model actually matter—ablation means \"removing\" one component at a time and observing how much overall performance drops. OpenClaw brings this methodology into product engineering: a built-in master switch can disable several major features at once (thinking mode, context compression, automatic memory, background tasks, and more), creating a \"bare model\" baseline. That lets the team answer a key question: **does a feature truly improve the user experience, or does it just feel useful?**",
+      "score": 4.559997307909577
+    },
+    {
+      "source_path": "Evaluating AI Agents.md",
+      "locator": "Evaluation-Driven Continuous Iteration",
+      "text": "on complex tasks to protect quality—rather than a blind wholesale switch. Decisions this granular and data-driven are only possible with an evaluation system built in advance.\n\n> **Experiment 7-11 ★★: Multi-Dimensional Model Performance Benchmarking**\n>\n> Conduct a comprehensive benchmark of mainstream LLMs and different API providers to build a multi-dimensional model selection decision database.\n>\n> Select test scope: Closed-source SOTA models like GPT series, Claude series, Gemini series, Doubao series, and open-source models like Qwen, Kimi, DeepSeek. Test the same model with different API providers (e.g., DeepSeek official vs. Siliconflow) to verify results from third-party performance monitoring platforms (e.g., Artificial Analysis).\n>\n> Design standardized test workloads: Input throughput tests use fixed-length contexts (8K/32K/128K tokens), output throughput tests request fixed-length responses (512/2048 tokens). Latency tests include TTFT (Time to First Token) and end-to-end latency. For models supporting thinking, separately measure thinking length and thinking latency. For each configuration, make at least 100 requests and calculate the standard deviation, p50, p95, and p99; high latency variance indicates an unstable user experience.\n>\n> Evaluate API availability and stability: Probe once per hour for a week, recording success rate, error types, and failure duration. Calculate failure rate, MTTR (Mean Time to Recovery), and longest continuous uptime. Test the actual thresholds of rate limits—gradually increase concurrency to find the throttling point, recording RPM/TPM limits. Calculate comprehensive cost: Collect pricing information (unit prices for input/output/cache tokens), consider the impact of KV Cache, and calculate the average cost for typical multi-round Agent tasks.\n>\n> **Experiment 7-12 ★★: End-to-End Selection Evaluation of User Memory Systems**\n>\n> **Prerequisites**: Must complete the contextual retrieval or agentic RAG experiment from Chapter 3.\n>\n> **Goal**: Perform an end-to-end model-selection evaluation of a user-memory retrieval Agent, examining how the embedding model, reranker, and Agent's main model jointly affect retrieval quality, latency, and cost. Reuse `chapter3/contextual-retrieval-for-user-memory` or `chapter3/agentic-rag-for-user-memory`, and compare the configurations on 60 test cases.\n>\n> **Acceptance**: Evaluate each of the three selection points in turn—embedding model (BGE-M3 / OpenAI / Doubao, etc., record top-5 retrieval accuracy, latency, cost), reranker (include a \"no reranker\" baseline, quantify its marginal value), and main model (compare success rate and tool usage efficiency under the same retrieval configuration). The key is to identify synergies among the components: a stronger embedding might make the reranker redundant, and a stronger main model might compensate for retrieval shortcomings. Selection is a systemic trade-off, not simply a matter of choosing the strongest component in isolation. Configuration details are in the companion repository.\n>",
+      "score": 4.50947724466386
+    },
+    {
+      "source_path": "AI Agents Study Guide.md",
+      "locator": "Suggested Capstone Exercise",
+      "text": "At the end of the course, build a small agent that helps a learner navigate this\nrepository.\n\nMinimum version:\n\n- Accept a topic from the user.\n- Find the most relevant lessons.\n- Summarize what to read first.\n- Suggest one hands-on practice task.\n- Show which lesson files or links were used.\n\nStretch version:\n\n- Remember the learner's preferred programming language.\n- Use a simple plan before answering.\n- Add a self-check step before the final response.\n- Log tool calls and retrieved sources.\n- Ask for confirmation before opening browser or UI automation tasks.\n\nThis gives you a small but realistic way to practice tools, RAG, planning,\ncontext, memory, observability, and trust in one project.",
+      "score": 4.230628207293064
+    },
+    {
+      "source_path": "Evaluating AI Agents.md",
+      "locator": "Evaluating Agents",
+      "text": "The first six chapters laid out how to build a single Agent: its context, knowledge, tools, coding capabilities, and observation and action spaces. But building an Agent does not mean it works correctly. Reliable measurement is essential for guiding further model training and system improvement.\n\nWhen building an Agent system, developers face numerous design choices that often lack obvious correct answers:\n\n- Which model should be used?\n- What tools should the model be able to call?\n- What data should the knowledge base store, and how should it be structured?\n- How should user memory be implemented?\n- How should the model's prompts and Skills be organized?\n- What constraints need to be added to the Harness?\n- How should evaluation results be transformed into learning signals for the Agent's continuous evolution?",
+      "score": 4.004274911278165
+    }
+  ],
+  "output": "*   **Function and Architecture:** Context and memory are fundamental to building a functional Agent system, involving critical design choices regarding model selection, knowledge base structure, and user memory implementation [S5]. Advanced evaluation experiments compare retrieval methods—such as Pure Advanced JSON Cards (structured memory) versus Pure RAG (unstructured retrieval)—to assess the boundaries and synergies of different configurations [S1, S3].\n*   **Evaluation and Quality:** A robust measurement of memory systems requires multi-dimensional checks, including Factual Correctness (precision), Information Completeness (recall), and Reasoning Correctiveness [S1]. Furthermore, ablation studies can be used to determine if specific features, like automatic memory or context compression, genuinely improve the user experience or merely feel useful [S2].",
+  "repair_attempted": false,
+  "cited_sources": [
+    "S1",
+    "S2",
+    "S5"
+  ],
+  "citations_valid": true,
+  "metrics": {
+    "elapsed_seconds": 36.575706375000664,
+    "process_memory_before_gb": 4.686528512,
+    "process_memory_after_gb": 4.701618176,
+    "mlx_peak_memory_gb": 4.977445544,
+    "generations": [
+      {
+        "elapsed_seconds": 36.575706375000664,
+        "process_memory_before_gb": 4.686528512,
+        "process_memory_after_gb": 4.701618176,
+        "mlx_peak_memory_gb": 4.977445544
+      }
+    ]
+  }
+}
