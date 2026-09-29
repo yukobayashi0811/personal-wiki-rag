@@ -30,5 +30,6 @@ The threshold sits below the lowest required positive automatic case (`2.7180`) 
 - [`session-rerun-3.txt`](session-rerun-3.txt) records the first response-prefix experiment; it produced duplicate `Suggestion:` labels.
 - [`session-rerun-4.txt`](session-rerun-4.txt) records a second response-prefix experiment; it still produced duplicate labels.
 - [`session-rerun-5.txt`](session-rerun-5.txt) records the passing general solution: the final user instruction requires the exact leading label, without editing the generated answer.
+- [`session-rerun-notes.txt`](session-rerun-notes.txt) records the passing `/notes` rerun after requiring a brief, directly cited response. The earlier broad and uncited response remains in the first session record.
 
 Every Markdown and JSON evidence pair in this directory is the direct output of one of those runs. Failed records are intentionally retained.

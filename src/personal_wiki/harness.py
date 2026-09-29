@@ -189,7 +189,8 @@ class PersonalWikiHarness:
         save: bool = False,
     ) -> str:
         query = message.strip()
-        if query.lower().startswith("/notes "):
+        forced_notes = query.lower().startswith("/notes ")
+        if forced_notes:
             query = query[7:].strip()
 
         candidates: list[SearchResult] = []
@@ -214,7 +215,14 @@ class PersonalWikiHarness:
         bounded_history = history[-(self.settings.chat_turns * 2) :]
         proposal_request = not results and self.PROPOSAL_REQUEST.search(message) is not None
         model_message = query
-        if proposal_request:
+        if forced_notes:
+            model_message = (
+                "Using only the retrieved notes, briefly and directly explain the requested topic. "
+                "Prefer two short paragraphs or bullets. End every factual paragraph or bullet "
+                "with a valid [S#] citation.\n\n"
+                f"Requested topic: {query}"
+            )
+        elif proposal_request:
             model_message = (
                 "Your response must begin with the exact text 'Suggestion:'. "
                 "Do not write any characters before it.\n\n"

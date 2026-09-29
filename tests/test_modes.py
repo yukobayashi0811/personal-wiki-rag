@@ -5,6 +5,7 @@ from personal_wiki.harness import PersonalWikiHarness
 from personal_wiki.model import GenerationMetrics, GenerationResult, clean_model_output
 from personal_wiki.prompts import chat_system_prompt
 from personal_wiki.settings import Settings
+from personal_wiki.store import SearchResult
 
 
 DO_NOT_RETRIEVE = (
@@ -92,3 +93,28 @@ def test_chat_repairs_a_proposal_that_does_not_start_with_suggestion(tmp_path: P
     answer = harness.chat_turn("Help me draft a design document for my team", [], save=False)
     assert answer == "Suggestion: Draft body."
     assert model.calls == 1
+
+
+def test_notes_command_forces_a_concise_cited_request(tmp_path: Path) -> None:
+    settings = Settings.from_environment(tmp_path)
+    settings.persona_path.parent.mkdir(parents=True, exist_ok=True)
+    settings.persona_path.write_text("Persona", encoding="utf-8")
+    settings.research_rules_path.write_text("Rules", encoding="utf-8")
+    harness = PersonalWikiHarness(settings)
+    harness.search = lambda _query: [SearchResult("source.md", "Context", "Evidence", 3.0)]
+
+    class FakeModel:
+        messages = []
+
+        def generate(self, messages, **_kwargs) -> GenerationResult:
+            self.messages = messages
+            return GenerationResult(
+                "Context is information supplied to the current model call [S1].",
+                GenerationMetrics(0.1, 1.0, 1.0, None),
+            )
+
+    model = FakeModel()
+    harness.model = model
+    answer = harness.chat_turn("/notes context and memory", [], save=False)
+    assert answer.endswith("[S1].")
+    assert "briefly and directly explain" in model.messages[-1]["content"]
