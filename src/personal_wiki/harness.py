@@ -84,6 +84,10 @@ class PersonalWikiHarness:
         re.compile(r"\brewrite\b", re.IGNORECASE),
         re.compile(r"\bremember it\b", re.IGNORECASE),
     )
+    PROPOSAL_REQUEST = re.compile(
+        r"\b(?:draft|plan|idea|ideas|brainstorm|make that|shorter|rewrite)\b",
+        re.IGNORECASE,
+    )
 
     def __init__(self, settings: Settings):
         self.settings = settings
@@ -208,12 +212,49 @@ class PersonalWikiHarness:
         persona = self._read_instructions(self.settings.persona_path)
         rules = self._read_instructions(self.settings.research_rules_path)
         bounded_history = history[-(self.settings.chat_turns * 2) :]
+        proposal_request = not results and self.PROPOSAL_REQUEST.search(message) is not None
+        model_message = query
+        if proposal_request:
+            model_message = (
+                "Your response must begin with the exact text 'Suggestion:'. "
+                "Do not write any characters before it.\n\n"
+                f"Original request: {query}"
+            )
         messages = [
             {"role": "system", "content": chat_system_prompt(persona, rules, results)},
             *bounded_history,
-            {"role": "user", "content": query},
+            {"role": "user", "content": model_message},
         ]
-        generated = self.model.generate(messages, max_tokens=self.settings.max_tokens, temperature=0.5)
+        generated = self.model.generate(
+            messages,
+            max_tokens=self.settings.max_tokens,
+            temperature=0.5,
+        )
+        generations = [asdict(generated.metrics)]
+        repair_attempted = False
+        if (
+            not results
+            and self.PROPOSAL_REQUEST.search(message)
+            and not generated.text.startswith("Suggestion:")
+        ):
+            repair_attempted = True
+            repair_messages = [
+                *messages,
+                {"role": "assistant", "content": generated.text},
+                {
+                    "role": "user",
+                    "content": (
+                        "Rewrite the response so its first exact characters are 'Suggestion:'. "
+                        "Keep the substance concise and do not add factual claims from notes."
+                    ),
+                },
+            ]
+            generated = self.model.generate(
+                repair_messages,
+                max_tokens=self.settings.max_tokens,
+                temperature=0.0,
+            )
+            generations.append(asdict(generated.metrics))
         if save:
             save_run(
                 self.settings.evidence_dir,
@@ -223,7 +264,8 @@ class PersonalWikiHarness:
                 self.settings.model_id,
                 results,
                 asdict(generated.metrics),
-                generation_metrics=[asdict(generated.metrics)],
+                repair_attempted=repair_attempted,
+                generation_metrics=generations,
             )
         return generated.text
 

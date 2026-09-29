@@ -1,0 +1,185 @@
+Development run: network available; actual local Gemma; threshold 2.5
+
+=== SESSION 1 ===
+you> What can you help me with?
+retrieval_decision=False top_bm25=4.513579630487689
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files: 100%|██████████| 8/8 [00:00<00:00, 4054.43it/s]
+wiki> I am Atlas, a personal knowledge assistant. I can help you with several tasks:
+
+*   **Idea Development:** Brainstorming, drafting documents, outlining projects, or developing concepts.
+*   **Planning & Strategy:** Creating detailed plans, comparing different options, or structuring complex ideas.
+*   **Information Synthesis:** Working through information you provide, organizing data, or comparing concepts.
+*   **Knowledge Retrieval:** I can interact with your local knowledge base (the CLI/Wiki) to search your notes, retrieve specific passages, or ingest new information to update your drafts.
+
+Think of me as a sounding board, drafter, and organizational tool for your ideas and your local information.
+
+How can I assist you first?
+
+=== SESSION 2 ===
+you> What can we do?
+retrieval_decision=False top_bm25=1.621581456882056
+wiki> I am Atlas, a personal knowledge assistant. I can help you with many tasks, depending on whether you need to generate new content or retrieve information from the local knowledge base.
+
+**I can assist by:**
+
+*   **Ideation & Drafting:** Brainstorming, outlining, drafting documents, emails, or code.
+*   **Planning & Analysis:** Creating project plans, comparing options (pros/cons), or working through complex ideas.
+*   **Knowledge Retrieval:** Interacting with your local notes using commands like `/notes <query>` (chat search), `wiki ask` (standalone query), or `wiki search` (original passages).
+
+How would you like to begin? Do you have a topic, a document to refine, or a question you need answered?
+
+=== SESSION 3 ===
+you> Draft a three-step plan for learning AI agents.
+retrieval_decision=False top_bm25=7.9648298947596
+wiki> Suggestion: Here is a three-step plan for learning AI agents:
+
+1.  **Master the Fundamentals:** Understand the core components of an agent architecture (e.g., perception, decision-making loop, action space) and review foundational concepts like simple reactive vs. goal-driven agents.
+2.  **Implement a Basic Agent:** Build a simple, functional agent using a framework (e.g., OpenAI Gym, LangChain). Focus on getting the perception-action loop working with a controlled environment.
+3.  **Explore Advanced Concepts:** Introduce complexity by adding memory (long-term context), planning capabilities, and self-reflection/error correction mechanisms to evolve the agent's intelligence.
+you> Make that shorter.
+retrieval_decision=False top_bm25=2.182737108589797
+wiki> Suggestion: Here is a shorter, three-step plan for learning AI agents:
+
+1.  **Fundamentals:** Grasp agent architecture (perception, decision, action).
+2.  **Build:** Implement a basic agent in a controlled environment.
+3.  **Advance:** Add memory, planning, and self-reflection.
+
+=== SESSION 4 ===
+you> Help me draft a design document for my team
+retrieval_decision=False top_bm25=7.419098085132985
+wiki> I can certainly help structure and draft it. A good design document serves as a blueprint, ensuring everyone is aligned on the *why*, the *what*, and the *how*.
+
+To start, we need to define the scope. Once you provide some context about the project, we can fill in the details.
+
+Here is a standard, comprehensive outline for a technical design document. We can use this as a template and fill in each section as we go:
+
+### Technical Design Document Outline
+
+**1. Introduction**
+*   **Goal/Objective:** What problem does this design solve? (The "Why").
+*   **Scope:** What is included in this design, and equally important, what is explicitly *out* of scope?
+*   **Target Audience:** Who is this document for (e.g., engineering team, product management, stakeholders)?
+*   **Background:** Brief context on the current system or project constraints.
+
+**2. Current State & Problem Statement**
+*   **Current System Analysis (Optional):** How does the existing system handle this feature? What are its limitations?
+*   **Requirements:** Detailed functional and non-functional requirements (e.g., "must handle 100 RPS," "must integrate with X service").
+
+**3. Proposed Solution Design**
+*   **High-Level Architecture:** A diagram or description of the new system components and how they interact.
+*   **Component Breakdown:** Detailed description of each major part of the solution.
+*   **Data Model/Flow:** How data enters, moves through, and exits the system.
+*   **API/Interface Design:** Specifications for how internal or external services communicate.
+
+**4. Technical Deep Dive**
+*   **Algorithms/Logic:** Specific technical choices made to solve a complex problem.
+*   **Technology Stack:** Why specific technologies were chosen (e.g., "We chose Kafka for queuing because...").
+*   **Deployment Plan:** How will this solution be deployed into production?
+
+**5. Analysis & Tradeoffs**
+*   **Alternatives Considered:** What other solutions were rejected, and why? (Crucial for showing due diligence).
+*   **Risks & Mitigation:** Potential failure points and how we plan to handle them.
+*   **Scalability & Performance:** How well does this handle future growth?
+
+**6. Conclusion & Next Steps**
+*   **Summary:** A quick restatement of how the proposed design meets the initial goals.
+*   **Action Items:** What needs to happen next (e.g., "Begin Phase 1 implementation," "Prototype the payment gateway").
+
+---
+
+**Where would you like to start?** If you tell me what the project is, we can begin drafting Section 1: Introduction.
+
+=== SESSION 5 ===
+you> My favorite color for this conversation is teal. Please remember it.
+retrieval_decision=False top_bm25=7.46863784648847
+wiki> Understood. Teal it is.
+
+=== SESSION 6 ===
+you> What is an open-source license?
+retrieval_decision=False top_bm25=4.255635860042136
+wiki> An open-source license is a legal document that defines how software users are allowed to use, modify, and distribute the software. It grants permissions to the user regarding the source code, often including the right to view, change, and share the code, provided they adhere to the terms of the license.
+
+If you would like to explore specific types of licenses (e.g., MIT, GPL, Apache), please let me know.
+
+=== SESSION 7 ===
+you> According to my notes, what are tools?
+retrieval_decision=True top_bm25=7.978458879243651
+wiki> Based on your notes, here is what Tools are:
+
+*   **Function:** An Agent uses **Tools** to perform specific tasks and complete **Actions** [S1].
+*   **Implementation:** A Tool is essentially an implemented function or code that allows the Agent to interact with its environment. For example, a function like `send_message_to(recipient, message)` acts as a Tool that the Agent can use when needing to send an email [S1].
+*   **Importance:** The design of these Tools is crucial, as it significantly impacts the quality of the Agent's performance [S1].
+
+In short, Tools are the specific, implemented capabilities that allow the Agent to execute real-world tasks.
+
+=== SESSION 8 ===
+you> Explain the model swap experiment.
+retrieval_decision=True top_bm25=5.926193072240241
+wiki> The model swap experiment is a diagnostic technique used to determine whether performance bottlenecks lie with the AI model itself or with the surrounding execution environment (the Harness). [S1]
+
+**Purpose and Method**
+The goal is to isolate the model's contribution to the overall performance. This is achieved by:
+
+1.  Keeping the Harness (which includes prompts, tool design, and feedback loops) completely constant.
+2.  Swapping in a stronger or weaker model.
+3.  Observing how much the score moves.
+
+**Interpreting the Results**
+The experiment helps distinguish between two potential issues:
+
+*   **If a stronger model does not raise the score:** The bottleneck is likely the Harness design. [S1]
+*   **If a weaker model tanks the score, and results swing sharply with the model's capability:** The model itself is the bottleneck. [S1]
+
+**Distinction from Ablation**
+It is important to note that this differs from an ablation experiment. While ablation involves disabling a Harness component to see how performance changes, model swapping holds the Harness constant and only changes the model to determine the source of the performance variance. [S1]
+
+=== SESSION 9 ===
+you> What is pass^k?
+retrieval_decision=True top_bm25=2.717970948534941
+wiki> $\text{Pass}^k$ is a metric used to measure the **reliability** of an AI Agent, distinct from its raw capability.
+
+Here is a breakdown of what it means:
+
+1.  **Operational Definition:** $\text{Pass}^k$ requires running the exact same task $k$ times in a row, and demanding that *every single run* succeeds without triggering any automatic failure criteria (like safety violations or hallucinations) [S1].
+2.  **Probabilistic Relationship:** If $p$ is the single-run success rate, the probability of achieving $\text{Pass}^k$ is $p^k$ [S1].
+
+**Key Distinction:**
+
+*   **$\text{Pass@k}$** measures the upper bound of capability—it requires that *at least one* of $k$ runs succeeds [S1, S4].
+*   **$\text{Pass}^k$** measures the stability and reliability—it requires *all* $k$ runs to succeed [S1, S3].
+
+For critical operations, $\text{Pass}^k$ is the appropriate metric, as it reflects the stability of "never making a mistake" [S3].
+
+=== SESSION 10 ===
+you> /notes context and memory
+retrieval_decision=True top_bm25=4.857568896442876
+wiki> Context and memory are critical components in building reliable AI agents, and the notes detail several advanced methods for designing, implementing, and rigorously evaluating these systems.
+
+Here is an overview of how context and memory are approached in the research materials:
+
+### 🧠 User Memory Implementation and Evaluation
+
+When building an Agent, deciding how to implement user memory is a key design choice [S5]. The notes describe advanced experiments to test the quality of memory systems:
+
+*   **Rubric-Based Evaluation (Experiment 7-3):** To move beyond simple pass/fail judgments, a structured, multi-dimensional Rubric system can be used to evaluate memory usage. This requires checking for:
+    *   **Factual Correctness:** Consistency of numbers, dates, and names with stored memory.
+    *   **Information Completeness:** Whether all relevant information that should be given is mentioned (recall).
+    *   **Reasoning Correctness:** Whether the relationships and implicit logic between pieces of information are correctly understood.
+    *   **Reasoning Proactiveness:** Whether suggestions or risk warnings beyond a direct answer are appropriately provided.
+    *   **Hallucination Detection:** Ensuring no information fabricated by the model is presented.
+*   **Ablation Studies (Experiment 7-2):** To understand the true contribution of memory features, a "bare model" baseline can be established by disabling major features like automatic memory or context compression, allowing researchers to determine if a feature truly improves the user experience or just feels useful [S2].
+
+### 💾 Contextual Retrieval and Advanced Architectures
+
+For agents handling large or complex knowledge bases, the notes compare different ways to manage context:
+
+*   **RAG vs. Structured Memory (Experiment 7-4):** A fair comparison can be made between three configurations using a common test set:
+    1.  **Pure Advanced JSON Cards:** Structured memory held in context without retrieval.
+    2.  **Pure RAG:** Unstructured retrieval from a vector store.
+    3.  **Hybrid System:** Core facts resident alongside original conversations retrieved on demand.
+    The acceptance criteria for this comparison include tracking success rate, average steps, latency, and cost across different complexity levels [S1].
+*   **Systemic Trade-offs (Experiment 7-12):** When evaluating a memory retrieval Agent, it is essential to examine the synergy among components: the embedding model, the reranker, and the main model. A stronger embedding model might make a reranker less necessary, demonstrating that selection is a systemic trade-off, not just choosing the strongest individual component [S3].
+
+***
+
+**In summary:** The notes treat memory not as a simple black box, but as a complex, measurable system whose effectiveness can be tested through rigorous experiments involving structured rubrics, comparative architectures (RAG vs. Hybrid), and ablation studies.

@@ -1,0 +1,5 @@
+Third development rerun using an assistant response prefix; network available.
+you> Help me draft a design document for my team
+Fetching 8 files:   0%|          | 0/8 [00:00<?, ?it/s]Fetching 8 files: 100%|██████████| 8/8 [00:00<00:00, 5805.27it/s]
+wiki> Suggestion: Suggestion:
+To help you draft the design document, please provide some context. What is the project about, what is the goal of the document, and what specific sections or content do you need assistance with?

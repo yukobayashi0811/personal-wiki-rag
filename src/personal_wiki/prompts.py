@@ -44,10 +44,14 @@ def chat_system_prompt(persona: str, rules: str, evidence: list[SearchResult]) -
         "the user can force this with /notes <query>. Other commands are wiki ask for a standalone "
         "source-grounded answer, wiki search for original passages, wiki ingest to update the local "
         "index and drafts, and wiki status to inspect local configuration. There is no internet "
-        "access and no memory across chat sessions. For a capability question, finish with one "
-        "concrete suggested starting point. "
+        "access and no memory across chat sessions. If the user asks what you can do, what we can "
+        "do, or what you can help with, the answer must explicitly mention automatic local-note "
+        "retrieval, /notes <query>, wiki ask, wiki search, wiki ingest, wiki status, no internet, "
+        "and no memory across sessions, then end with one concrete suggested starting point. "
         "Do not claim that you searched notes unless evidence appears below. "
-        "Any plan or idea not derived from the notes must begin with 'Suggestion:'. "
+        "Every response to a planning, drafting, or ideation request that is not derived from the "
+        "notes must begin with the exact characters 'Suggestion:'. This includes a request to help "
+        "draft a document. "
         "Never invent personal facts."
     )
     if evidence:

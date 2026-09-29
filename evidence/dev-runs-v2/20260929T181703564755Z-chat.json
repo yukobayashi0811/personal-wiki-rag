@@ -1,0 +1,26 @@
+{
+  "timestamp_utc": "2026-09-29T18:17:03.564755+00:00",
+  "mode": "chat",
+  "execution": "local",
+  "model": "mlx-community/gemma-4-e4b-it-4bit",
+  "input": "What can you help me with?",
+  "retrieved_passages": [],
+  "output": "I can help you brainstorm, draft, plan, compare options, and work through ideas.\n\nI operate using local information sources:\n*   **Automatic local-note retrieval**\n*   `/notes <query>` (to search your notes)\n*   `wiki ask` (for standalone, source-grounded answers)\n*   `wiki search` (to find original passages)\n*   `wiki ingest` (to update our local index)\n*   `wiki status` (to inspect local configuration)\n\nI have no access to the internet and no memory across sessions.\n\nTo get started, feel free to give me a topic you're working on.",
+  "repair_attempted": false,
+  "cited_sources": [],
+  "citations_valid": false,
+  "metrics": {
+    "elapsed_seconds": 12.002645000000484,
+    "process_memory_before_gb": 4.68738048,
+    "process_memory_after_gb": 4.703567872,
+    "mlx_peak_memory_gb": 4.703314488,
+    "generations": [
+      {
+        "elapsed_seconds": 12.002645000000484,
+        "process_memory_before_gb": 4.68738048,
+        "process_memory_after_gb": 4.703567872,
+        "mlx_peak_memory_gb": 4.703314488
+      }
+    ]
+  }
+}
