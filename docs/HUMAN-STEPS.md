@@ -1,8 +1,8 @@
-# Human Steps Before Merge
+# Human Review and Screenshot Record
 
-The code, local-model runs, terminal evidence, and automated checks can be completed by the implementation agent. The following content decisions still require the repository owner's direct review. Do not mark these complete until they have actually been performed.
+The repository owner confirmed completion of the source review on 2026-09-29. This file preserves the procedure that was followed and records the completed screenshot set.
 
-## 1. Review Notes and Gemma Drafts
+## 1. Review Notes and Gemma Drafts — Complete
 
 1. Open every Markdown file in `vault/wiki/Concepts/` and `vault/wiki/Source Summaries/`.
 2. Open the corresponding unchanged original in `vault/raw/`.
@@ -31,4 +31,4 @@ git commit -m "Complete human note review and refresh Obsidian evidence"
 git push
 ```
 
-Before committing, verify that `vault/raw/` is unchanged and that no private information or absolute personal path appears in the screenshots.
+Before committing, verify that `vault/raw/` is unchanged and that no private information or absolute personal path appears in the screenshots. This verification is repeated in the final automated checks.

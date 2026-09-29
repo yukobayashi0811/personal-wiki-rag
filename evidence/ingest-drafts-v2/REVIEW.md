@@ -4,7 +4,7 @@ Review date: 2026-09-29 PDT
 
 These three files are the verbatim outputs written by `wiki ingest` during the successful network-denied v2 demonstration. They were copied from the disposable demonstration clone before it was removed. They have not been edited to resemble the committed wiki notes.
 
-The comparison below records the relationship between each actual Gemma draft and its protected v1 source summary. It does not mark the wiki notes `reviewed: true`; that frontmatter value remains reserved for the repository owner's direct source review.
+The comparison below records the relationship between each actual Gemma draft and its protected v1 source summary. The repository owner subsequently confirmed direct source review on 2026-09-29, after which all six current notes were marked `reviewed: true`.
 
 ## AI Agent Fundamentals
 

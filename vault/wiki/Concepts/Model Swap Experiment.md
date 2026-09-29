@@ -1,5 +1,5 @@
 ---
-reviewed: false
+reviewed: true
 origin: curated
 topic: Agent Evaluation
 description: A controlled experiment for distinguishing model and harness bottlenecks.

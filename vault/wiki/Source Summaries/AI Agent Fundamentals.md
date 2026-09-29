@@ -1,7 +1,6 @@
 ---
-reviewed: false
+reviewed: true
 origin: legacy-v1
-ingest_protected: true
 source: raw/AI Agent Fundamentals.md
 source_sha256: 7b40365e7f037ae8dbc6d94fb570ff92a43d038a489824b91e06105d2a17e3d7
 upstream_revision: b3946b1d09d29c65736e219d48a8a736a2c52154

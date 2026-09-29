@@ -1,7 +1,6 @@
 ---
-reviewed: false
+reviewed: true
 origin: legacy-v1
-ingest_protected: true
 source: raw/Evaluating AI Agents.md
 source_sha256: 813232a986ca3c16ba47d27c7f1d29903f7f1162df6456cba13ce899acbc3944
 upstream_revision: d0daf079e7c8da56670886b48c329e9f9fc8281d

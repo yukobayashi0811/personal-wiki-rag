@@ -1,5 +1,5 @@
 ---
-reviewed: false
+reviewed: true
 origin: curated
 topic: Agent Foundations
 description: How harness-provided tools enable an agent to perform actions.

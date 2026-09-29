@@ -1,7 +1,6 @@
 ---
-reviewed: false
+reviewed: true
 origin: legacy-v1
-ingest_protected: true
 source: raw/AI Agents Study Guide.md
 source_sha256: 04e1b967117003ed9a898d073572f23d2efe89cd9f9339ddbd9910e93f43ac1f
 upstream_revision: 25b7985f3b2dc37a84f4a7387ccd3c9f0e5b1595

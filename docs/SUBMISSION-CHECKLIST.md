@@ -1,6 +1,6 @@
 # Submission Checklist
 
-This checklist maps assignment requirements to repository evidence. A checked item must be supported by a committed file; pending review and screenshots remain unchecked until they are actually complete.
+This checklist maps assignment requirements to repository evidence. A checked item must be supported by a committed file.
 
 ## Repository and Runtime
 
@@ -16,7 +16,7 @@ This checklist maps assignment requirements to repository evidence. A checked it
 - [x] Source summaries and subject-level concept notes use distinct folders and vault-root links.
 - [x] index.md is grouped by frontmatter topic and provides a navigation path to notes and originals.
 - [x] Automated tests require every authored wikilink to resolve to exactly one file.
-- [ ] Every v2 note has been compared with the original and marked reviewed: true.
+- [x] The repository owner confirmed review of every v2 note against the originals; all six notes are marked reviewed: true.
 
 Review instructions: [HUMAN-STEPS.md](HUMAN-STEPS.md).
 

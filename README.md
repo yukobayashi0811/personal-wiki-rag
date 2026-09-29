@@ -132,7 +132,7 @@ Automatic chat retrieval follows a deterministic, model-free rule. Explicit word
 
 Ingestion always writes the model's verbatim note output to ignored `data/drafts/`. A missing source-summary note is created with `reviewed: false`; a generated and still-unreviewed note may be refreshed in place without creating a duplicate. A note marked `reviewed: true`, a protected legacy note, or a curated note is preserved while the new draft waits for review.
 
-The v1 source summaries were substantially rewritten during human review, beyond the original Gemma drafts. In particular, the 24,000-character draft budget exposed Gemma to only about 18% of the approximately 129,000-character `Evaluating AI Agents.md`, while the final v1 summary incorporated material from later sections. The v2 evidence therefore preserves the actual regenerated drafts and an actual diff against the committed notes. A reviewer must check each note against the unchanged original before setting `reviewed: true`.
+The v1 source summaries were substantially rewritten during human review, beyond the original Gemma drafts. In particular, the 24,000-character draft budget exposed Gemma to only about 18% of the approximately 129,000-character `Evaluating AI Agents.md`, while the final v1 summary incorporated material from later sections. The v2 evidence therefore preserves the actual regenerated drafts and an actual diff against the committed notes. On 2026-09-29, the repository owner confirmed that the six current notes had been reviewed against the originals; their frontmatter now records `reviewed: true`.
 
 ## Measurement Definitions
 
@@ -193,7 +193,7 @@ One macOS sandbox session denied DNS and direct TCP access to the CLI and every 
 
 ### V2 Obsidian Evidence
 
-The refreshed captures show the current vault without image editing or compositing. Notes remain visibly `reviewed: false` pending the repository owner's source review.
+The refreshed captures show the current vault without image editing or compositing. The note capture visibly records the repository owner's completed review as `reviewed: true`.
 
 ![V2 note properties, related notes, and source links](evidence/screenshots/obsidian-note-v2.png)
 

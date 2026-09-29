@@ -1,5 +1,5 @@
 ---
-reviewed: false
+reviewed: true
 origin: curated
 topic: Agent System Design
 description: The boundary between current-call context and information retained for later.
