@@ -191,7 +191,21 @@ One macOS sandbox session denied DNS and direct TCP access to the CLI and every 
 
 ## Visual Evidence
 
-The following images are the original v1 Obsidian captures and are retained as historical evidence. The v2 terminal captures and refreshed Obsidian views are indexed in the v2 demonstration directory when available.
+### V2 Obsidian Evidence
+
+The refreshed captures show the current vault without image editing or compositing. Notes remain visibly `reviewed: false` pending the repository owner's source review.
+
+![V2 note properties, related notes, and source links](evidence/screenshots/obsidian-note-v2.png)
+
+![V2 expanded vault explorer and topic index](evidence/screenshots/obsidian-index-v2.png)
+
+![V2 filtered wiki graph with readable labels](evidence/screenshots/obsidian-graph-v2.png)
+
+![V2 unchanged raw source reached through a note source link](evidence/screenshots/obsidian-source-navigation-v2.png)
+
+### V1 Historical Captures
+
+The following images are the original v1 Obsidian captures and are retained as historical evidence.
 
 ### Topic Index
 

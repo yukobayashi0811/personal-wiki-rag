@@ -45,7 +45,7 @@ Review instructions: [HUMAN-STEPS.md](HUMAN-STEPS.md).
 - [x] The v2 inner script covers ingestion, repeat ingestion, all fixed questions, chat boundaries, search, ask/chat separation, and changed-source re-ingestion.
 - [x] The complete v2 transcript ends with OFFLINE_DEMO_V2_COMPLETE.
 - [x] Unedited screen captures of the committed transcript document the v2 control probe, sandbox isolation, core commands, and completion; they are explicitly labeled as transcript views rather than an original Terminal recording.
-- [ ] Updated Obsidian screenshots show properties, expanded folders, readable graph labels, and source navigation.
+- [x] Updated Obsidian screenshots show properties, expanded folders, readable graph labels, and source navigation.
 
 ## Documentation and Measurements
 
