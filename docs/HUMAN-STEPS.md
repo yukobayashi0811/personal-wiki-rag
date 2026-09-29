@@ -23,12 +23,8 @@ The following unedited captures were completed on 2026-09-29 and are committed u
 
 The files were saved directly from the Obsidian window and were not edited or composited.
 
-## 3. Commit the Human Review
+## 3. Human Review Commit — Complete
 
-```bash
-git add vault/wiki
-git commit -m "Complete human note review and refresh Obsidian evidence"
-git push
-```
+The completed review and refreshed note capture are recorded in commit `495b22c` (`Record completed human note review`).
 
 Before committing, verify that `vault/raw/` is unchanged and that no private information or absolute personal path appears in the screenshots. This verification is repeated in the final automated checks.

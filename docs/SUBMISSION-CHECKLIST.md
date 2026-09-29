@@ -61,4 +61,4 @@ Review instructions: [HUMAN-STEPS.md](HUMAN-STEPS.md).
 - [x] Every scoped authored Markdown link resolves; links embedded in unchanged upstream sources and verbatim retrieved passages are outside this check.
 - [x] vault/raw/ SHA-256 values match docs/SOURCES.md.
 - [x] Demonstration scripts pass zsh -n.
-- [ ] The branch is clean and the pull request links every v2 artifact.
+- [x] The submitted branch contains every intended change and the pull request links every v2 artifact; the repository owner's local Obsidian workspace state is intentionally excluded.
