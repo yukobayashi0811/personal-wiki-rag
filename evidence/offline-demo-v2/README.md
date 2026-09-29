@@ -10,6 +10,22 @@ The demonstration used commit `df41bf599cc53a99ee653bc19ca9db0d1871f3d1`, Python
 - [Actual Gemma ingest drafts and review](../ingest-drafts-v2/REVIEW.md) — preserves the three verbatim drafts and documents their differences from the protected notes.
 - `runs/` — machine-readable JSON evidence and matching human-readable Markdown cards from the successful session.
 
+## Screen Captures
+
+The following unedited screen captures show the committed transcript on the public audit branch with GitHub line numbers and highlighted ranges. They supplement the text transcript; they are not presented as a recording of the original Terminal window.
+
+- [Exact sandbox command and successful outside DNS/TCP controls](../screenshots/offline-v2-01-control-probes.jpg)
+- [Model snapshot plus failed inside DNS/TCP probes](../screenshots/offline-v2-02-network-blocked.jpg)
+- [Full ingest command and protected-note result](../screenshots/offline-v2-03-ingest.jpg)
+- [Fixed ask Q1](../screenshots/offline-v2-04-ask-q1.jpg)
+- [Fixed ask Q2](../screenshots/offline-v2-05-ask-q2.jpg)
+- [Fixed ask Q3](../screenshots/offline-v2-06-ask-q3.jpg)
+- [Fixed ask Q4 insufficient-evidence result](../screenshots/offline-v2-07-ask-q4.jpg)
+- [Chat capability and suggestion checks](../screenshots/offline-v2-08-chat.jpg)
+- [Changed-source re-ingestion](../screenshots/offline-v2-09-reingest.jpg)
+- [Restoration re-ingestion](../screenshots/offline-v2-10-reingest-restoration.jpg)
+- [Final `OFFLINE_DEMO_V2_COMPLETE` marker](../screenshots/offline-v2-11-complete-marker.jpg)
+
 ## Fixed Ask Evaluation
 
 | Check | Result | Evidence |

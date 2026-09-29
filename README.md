@@ -179,6 +179,7 @@ One macOS sandbox session denied DNS and direct TCP access to the CLI and every 
 
 - [V2 demonstration index](evidence/offline-demo-v2/README.md)
 - [V2 full command-by-command transcript](evidence/recordings/offline-full-session-v2.txt)
+- [V2 unedited transcript screen captures](evidence/offline-demo-v2/README.md#screen-captures)
 - [Actual v2 Gemma drafts and comparison](evidence/ingest-drafts-v2/REVIEW.md)
 - [Q1: Agent anatomy](evidence/offline-demo-v2/runs/20260929T184251661935Z-ask.md)
 - [Q2: Context and memory](evidence/offline-demo-v2/runs/20260929T184316710872Z-ask.md)
