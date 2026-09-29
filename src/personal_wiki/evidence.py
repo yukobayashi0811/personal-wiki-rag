@@ -19,6 +19,24 @@ def citations_are_valid(text: str, source_count: int) -> bool:
     return bool(cited) and all(1 <= number <= source_count for number in cited)
 
 
+def chat_citations_are_complete(text: str, source_count: int) -> bool:
+    """Require each material prose block or list item to carry a valid marker."""
+    if not citations_are_valid(text, source_count):
+        return False
+    for block in re.split(r"\n\s*\n", text):
+        stripped = block.strip()
+        if not stripped or stripped.startswith("#"):
+            continue
+        lines = [line.strip() for line in stripped.splitlines() if line.strip()]
+        for line in lines:
+            plain = re.sub(r"^[*>\-+\d.()\s]+", "", line)
+            if len(re.findall(r"\b\w+\b", plain)) < 6:
+                continue
+            if not re.search(r"\[S\d+\]", line):
+                return False
+    return True
+
+
 def save_run(
     evidence_dir: Path,
     mode: str,

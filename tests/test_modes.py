@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from personal_wiki.evidence import citations_are_valid
+from personal_wiki.evidence import chat_citations_are_complete, citations_are_valid
 from personal_wiki.harness import PersonalWikiHarness
 from personal_wiki.model import GenerationMetrics, GenerationResult, clean_model_output
 from personal_wiki.prompts import chat_system_prompt
@@ -42,6 +42,13 @@ def test_citation_validation_rejects_missing_and_unknown_sources() -> None:
     assert citations_are_valid("The claim is supported [S1].", 2) is True
     assert citations_are_valid("The claim has no citation.", 2) is False
     assert citations_are_valid("The claim cites an unknown source [S3].", 2) is False
+
+
+def test_chat_citation_validation_requires_every_material_line() -> None:
+    complete = "Definition is supported by the source passage [S1].\n\n- Another material claim is supported here [S2]."
+    incomplete = "Definition is supported by the source passage.\n\n- Another material claim is supported here [S2]."
+    assert chat_citations_are_complete(complete, 2) is True
+    assert chat_citations_are_complete(incomplete, 2) is False
 
 
 def test_model_output_keeps_only_final_channel() -> None:

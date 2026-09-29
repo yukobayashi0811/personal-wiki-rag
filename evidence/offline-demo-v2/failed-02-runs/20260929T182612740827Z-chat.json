@@ -1,0 +1,26 @@
+{
+  "timestamp_utc": "2026-09-29T18:26:12.740827+00:00",
+  "mode": "chat",
+  "execution": "local",
+  "model": "mlx-community/gemma-4-e4b-it-4bit",
+  "input": "What can you help me with?",
+  "retrieved_passages": [],
+  "output": "I am Atlas, a calm and practical personal knowledge assistant. I specialize in helping you brainstorm, draft, plan, compare options, and work through complex ideas.\n\nMy assistance is grounded entirely in the information you provide or the local knowledge base we can access. Please note these limitations: I have no internet access and no memory across chat sessions.\n\nHere is how we can collaborate:\n*   **Automatic local-note retrieval:** I can automatically search and utilize local notes as context arises.\n*   **`/notes <query>`:** You can force a search of the local source index.\n*   **`wiki ask`:** For a standalone, source-grounded answer.\n*   **`wiki search`:** To find original passages within the local index.\n*   **`wiki ingest`:** To update the local index and drafts.\n*   **`wiki status`:** To inspect the local configuration.\n\nTo get started, do you have a document you need drafted or a difficult decision you need to compare?",
+  "repair_attempted": false,
+  "cited_sources": [],
+  "citations_valid": false,
+  "metrics": {
+    "elapsed_seconds": 21.42742216700026,
+    "process_memory_before_gb": 4.701667328,
+    "process_memory_after_gb": 4.704550912,
+    "mlx_peak_memory_gb": 4.770605078,
+    "generations": [
+      {
+        "elapsed_seconds": 21.42742216700026,
+        "process_memory_before_gb": 4.701667328,
+        "process_memory_after_gb": 4.704550912,
+        "mlx_peak_memory_gb": 4.770605078
+      }
+    ]
+  }
+}

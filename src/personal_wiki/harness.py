@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from .documents import SourceDocument, chunk_document, discover_sources, load_source, readable_title
-from .evidence import citations_are_valid, save_run
+from .evidence import chat_citations_are_complete, citations_are_valid, save_run
 from .model import LocalGemma
 from .prompts import INSUFFICIENT_EVIDENCE, ask_messages, chat_system_prompt, wiki_note_messages
 from .settings import Settings
@@ -231,16 +231,17 @@ class PersonalWikiHarness:
             temperature=0.5,
         )
         generations = [asdict(generated.metrics)]
+        answer = generated.text
         repair_attempted = False
         if (
             not results
             and self.PROPOSAL_REQUEST.search(message)
-            and not generated.text.startswith("Suggestion:")
+            and not answer.startswith("Suggestion:")
         ):
             repair_attempted = True
             repair_messages = [
                 *messages,
-                {"role": "assistant", "content": generated.text},
+                {"role": "assistant", "content": answer},
                 {
                     "role": "user",
                     "content": (
@@ -255,19 +256,43 @@ class PersonalWikiHarness:
                 temperature=0.0,
             )
             generations.append(asdict(generated.metrics))
+            answer = generated.text
+        elif results and not chat_citations_are_complete(answer, len(results)):
+            repair_attempted = True
+            repair_messages = [
+                *messages,
+                {"role": "assistant", "content": answer},
+                {
+                    "role": "user",
+                    "content": (
+                        "Rewrite the answer using only the supplied evidence. Every factual prose "
+                        "paragraph and every factual bullet or numbered item must end with one or "
+                        "more valid [S#] citations. Headings need no citation."
+                    ),
+                },
+            ]
+            generated = self.model.generate(
+                repair_messages,
+                max_tokens=self.settings.max_tokens,
+                temperature=0.0,
+            )
+            generations.append(asdict(generated.metrics))
+            answer = generated.text
+            if not chat_citations_are_complete(answer, len(results)):
+                answer = INSUFFICIENT_EVIDENCE
         if save:
             save_run(
                 self.settings.evidence_dir,
                 "chat",
                 message,
-                generated.text,
+                answer,
                 self.settings.model_id,
                 results,
                 asdict(generated.metrics),
                 repair_attempted=repair_attempted,
                 generation_metrics=generations,
             )
-        return generated.text
+        return answer
 
     def ingest(self, generate_notes: bool = True) -> dict[str, Any]:
         source_paths = discover_sources(self.settings.raw_dir)
