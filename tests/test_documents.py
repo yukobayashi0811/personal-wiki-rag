@@ -18,3 +18,20 @@ def test_chunk_document_preserves_source_locator() -> None:
 def test_readable_title_removes_machine_suffix() -> None:
     assert readable_title(Path("retrieval_augmented_generation-c8d92e24fd.md")) == "Retrieval Augmented Generation"
 
+
+def test_overlap_starts_on_a_word_boundary() -> None:
+    document = SourceDocument(
+        path=Path("example.md"),
+        relative_path="example.md",
+        sha256="abc",
+        sections=(
+            SourceSection(
+                "Design",
+                "Alpha beta gamma delta epsilon.\n\nZeta eta theta iota kappa.",
+            ),
+        ),
+    )
+    chunks = chunk_document(document, target_chars=35, overlap_chars=12)
+    assert len(chunks) == 2
+    assert chunks[1].text.startswith("epsilon.")
+    assert not chunks[1].text.startswith("psilon.")

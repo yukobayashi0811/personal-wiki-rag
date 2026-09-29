@@ -15,11 +15,36 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="wiki",
         description="Offline personal wiki CLI powered by local Gemma and MLX-LM.",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Prerequisites:
+  - Apple Silicon Mac with MLX-LM installed
+  - At least three source files in vault/raw
+  - Download the configured model while online, then run `wiki ingest` first
+
+Environment variables:
+  WIKI_MODEL, WIKI_MAX_TOKENS, WIKI_TOP_K, WIKI_CHAT_TURNS,
+  WIKI_CHAT_RETRIEVAL_THRESHOLD, HF_HUB_OFFLINE
+
+Examples:
+  wiki ingest ./vault/raw
+  wiki search "agent tools"
+  wiki ask "What are the two main parts of an AI agent?" --mode local
+  wiki chat
+  wiki status
+""",
     )
-    parser.add_argument("--project-root", type=Path, default=Path.cwd())
+    parser.add_argument(
+        "--project-root",
+        type=Path,
+        default=Path.cwd(),
+        help="Project directory containing vault/, config/, data/, and evidence/.",
+    )
     subparsers = parser.add_subparsers(dest="command", required=True)
 
-    ingest = subparsers.add_parser("ingest", help="Index sources and generate reviewed wiki-note drafts.")
+    ingest = subparsers.add_parser(
+        "ingest", help="Index sources and generate reviewable Gemma drafts."
+    )
     ingest.add_argument("source", nargs="?", type=Path, help="Optional source directory; defaults to vault/raw.")
     ingest.add_argument("--index-only", action="store_true", help="Skip Gemma wiki-note generation.")
 
@@ -55,6 +80,13 @@ def main(argv: list[str] | None = None) -> int:
     settings = Settings.from_environment(args.project_root)
     harness = PersonalWikiHarness(settings)
 
+    def require_nonempty_index() -> None:
+        from .store import WikiStore
+
+        with WikiStore(settings.database_path) as store:
+            if store.document_count() == 0:
+                raise RuntimeError("The index is empty. Run `wiki ingest` first.")
+
     try:
         if args.command == "ingest":
             if args.source and args.source.resolve() != settings.raw_dir.resolve():
@@ -62,15 +94,18 @@ def main(argv: list[str] | None = None) -> int:
             summary = harness.ingest(generate_notes=not args.index_only)
             print(json.dumps(summary, indent=2))
         elif args.command == "search":
+            require_nonempty_index()
             results = harness.search(args.query)
             _print_search_results(results)
             if args.save:
                 output = "\n\n".join(result.text for result in results)
                 save_run(settings.evidence_dir, "search", args.query, output, None, results)
         elif args.command == "ask":
+            require_nonempty_index()
             print(f"Model: {settings.model_id} | Execution: local")
             print(harness.ask(args.question, save=not args.no_save))
         elif args.command == "chat":
+            require_nonempty_index()
             print(f"Model: {settings.model_id} | Execution: local")
             print("Type /exit to quit or /help for chat guidance.")
             history: list[dict[str, str]] = []
@@ -83,7 +118,10 @@ def main(argv: list[str] | None = None) -> int:
                 if message == "/exit":
                     break
                 if message == "/help":
-                    print("Ask for drafting, planning, or ideas. Mention 'my notes' to retrieve wiki evidence.")
+                    print(
+                        "Ask for drafting, planning, or ideas. Use /notes <query> to force local "
+                        "wiki retrieval. Chat has no internet access or memory across sessions."
+                    )
                     continue
                 if not message:
                     continue
@@ -95,6 +133,7 @@ def main(argv: list[str] | None = None) -> int:
                         {"role": "assistant", "content": answer},
                     ]
                 )
+                history = history[-(settings.chat_turns * 2) :]
         elif args.command == "status":
             from .store import WikiStore
 
@@ -112,4 +151,3 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

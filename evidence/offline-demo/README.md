@@ -1,5 +1,7 @@
 # Complete Offline Demonstration
 
+> **Historical v1 evidence.** This demonstration was produced by the code at commit `e64bdfc`. It is preserved unchanged as audit history and is superseded by the v2 demonstration in [`../offline-demo-v2/README.md`](../offline-demo-v2/README.md).
+
 Date: 2026-09-22 PDT (2026-09-23 UTC)
 
 This demonstration ran the project in a clean local clone while macOS denied every network operation to the entire process tree. The clean clone protected the reviewed submission vault from being overwritten during the fresh model-backed ingestion test.

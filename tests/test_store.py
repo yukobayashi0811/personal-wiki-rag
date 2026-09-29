@@ -33,3 +33,10 @@ def test_changed_source_replaces_chunks_without_duplicates(tmp_path: Path) -> No
         assert store.chunk_count() == 1
         assert store.search("new passage")[0].text == "new passage"
 
+
+def test_missing_sources_are_removed_with_their_chunks(tmp_path: Path) -> None:
+    with WikiStore(tmp_path / "wiki.db") as store:
+        store.upsert_document(source("one"), [Chunk(0, "A", "old passage")])
+        assert store.remove_missing_documents(set()) == 1
+        assert store.document_count() == 0
+        assert store.chunk_count() == 0

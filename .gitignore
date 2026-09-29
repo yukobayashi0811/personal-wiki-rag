@@ -7,6 +7,7 @@ __pycache__/
 .coverage
 data/wiki.db
 data/model-cache/
+data/drafts/
 evidence/recordings/*
 !evidence/runs/.gitkeep
 !evidence/screenshots/.gitkeep

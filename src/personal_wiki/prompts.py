@@ -38,10 +38,17 @@ def ask_messages(question: str, evidence: list[SearchResult], rules: str) -> lis
 def chat_system_prompt(persona: str, rules: str, evidence: list[SearchResult]) -> str:
     prompt = (
         f"{persona}\n\n"
-        "You are operating in chat mode. Use recent conversation for follow-ups. "
-        "Help with brainstorming, drafting, planning, and working through ideas. "
+        "You are operating in chat mode. Use only the bounded recent conversation for follow-ups. "
+        "You can brainstorm, draft, plan, compare options, and work through ideas. "
+        "When a request needs the local wiki, chat searches the local source index automatically; "
+        "the user can force this with /notes <query>. Other commands are wiki ask for a standalone "
+        "source-grounded answer, wiki search for original passages, wiki ingest to update the local "
+        "index and drafts, and wiki status to inspect local configuration. There is no internet "
+        "access and no memory across chat sessions. For a capability question, finish with one "
+        "concrete suggested starting point. "
         "Do not claim that you searched notes unless evidence appears below. "
-        "Label proposals as suggestions and never invent personal facts."
+        "Any plan or idea not derived from the notes must begin with 'Suggestion:'. "
+        "Never invent personal facts."
     )
     if evidence:
         prompt += (
@@ -51,7 +58,13 @@ def chat_system_prompt(persona: str, rules: str, evidence: list[SearchResult]) -
     return prompt
 
 
-def wiki_note_messages(title: str, source_path: str, source_text: str) -> list[dict[str, str]]:
+def wiki_note_messages(
+    title: str,
+    source_path: str,
+    source_text: str,
+    related_notes: list[str],
+) -> list[dict[str, str]]:
+    related = "\n".join(f"- [[wiki/Source Summaries/{name}|{name}]]" for name in related_notes)
     return [
         {
             "role": "system",
@@ -59,13 +72,17 @@ def wiki_note_messages(title: str, source_path: str, source_text: str) -> list[d
                 "Create one concise Obsidian note from the supplied source. Return Markdown only. "
                 "Output the finished note directly; do not explain your reasoning or review process. "
                 "Start with the exact H1 title requested. Include Summary, Key Ideas, Source, and "
-                "Related Notes sections. Do not invent facts. Keep all claims traceable to the source."
+                "Related Notes sections. Do not invent facts. Keep all claims traceable to the source. "
+                "Use the exact vault-root Source link supplied below. Use only the supplied existing "
+                "note links in Related Notes; do not invent a note name."
             ),
         },
         {
             "role": "user",
             "content": (
-                f"Required H1 title: {title}\nSource path: vault/raw/{source_path}\n\n"
+                f"Required H1 title: {title}\n"
+                f"Required Source link: [[raw/{source_path}|Source: {title}]]\n"
+                f"Existing related note links:\n{related or '- None'}\n\n"
                 f"Source text:\n{source_text[:24_000]}"
             ),
         },
