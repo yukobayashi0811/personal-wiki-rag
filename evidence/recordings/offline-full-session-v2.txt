@@ -1,0 +1,442 @@
+UTC_START=2026-09-29T18:40:54Z
+GIT_COMMIT=df41bf599cc53a99ee653bc19ca9db0d1871f3d1
+OUTER_COMMAND=/usr/bin/sandbox-exec -p '(version 1) (allow default) (deny network*)' /bin/zsh [isolated-demo-root]/scripts/run_offline_demo_v2.sh [isolated-demo-root] [project-root]/.venv/bin/python
+
+=== OUTSIDE-SANDBOX CONTROL PROBES (BOTH MUST SUCCEED) ===
+OUTSIDE_DNS_OK: 8 address records
+OUTSIDE_TCP_OK: connected to 1.1.1.1:443
+
+=== SANDBOXED DEMONSTRATION ===
+=== DEVICE AND RUNTIME ===
+ProductName:		macOS
+ProductVersion:		27.0
+BuildVersion:		26A428
+Apple M5
+34359738368
+Mach Virtual Memory Statistics: (page size of 16384 bytes)
+Pages free:                                   346192.
+Pages active:                                 716504.
+Pages inactive:                               710965.
+Pages speculative:                              5210.
+Pages throttled:                                   0.
+Pages wired down:                             162601.
+Pages purgeable:                                3601.
+Filesystem      Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk3s5   460Gi   408Gi    13Gi    97%    2.3M  140M    2%   /System/Volumes/Data
+Python 3.13.15
+Name: mlx
+Version: 0.32.2
+Summary: A framework for machine learning on Apple silicon.
+Home-page: https://github.com/ml-explore/mlx
+Author: MLX Contributors
+Author-email: mlx@group.apple.com
+License: MIT
+Location: [project-root]/.venv/lib/python3.13/site-packages
+Requires: mlx-metal
+Required-by: mlx-lm
+---
+Name: mlx-lm
+Version: 0.31.3
+Summary: LLMs with MLX and the Hugging Face Hub
+Home-page: https://github.com/ml-explore/mlx-lm
+Author: MLX Contributors
+Author-email: mlx@group.apple.com
+License: MIT
+Location: [project-root]/.venv/lib/python3.13/site-packages
+Requires: jinja2, mlx, numpy, protobuf, pyyaml, sentencepiece, transformers
+Required-by: personal-wiki-rag
+Model snapshots:
+475b9088d29754a3379866cf5aeb6b41acd313c2
+
+=== INSIDE-SANDBOX NETWORK PROBES (BOTH MUST FAIL) ===
+INSIDE_DNS_BLOCKED: gaierror: [Errno 8] nodename nor servname provided, or not known
+INSIDE_TCP_BLOCKED: PermissionError: [Errno 1] Operation not permitted
+
+$ wiki --help
+usage: wiki [-h] [--project-root PROJECT_ROOT]
+            {ingest,search,ask,chat,status} ...
+
+Offline personal wiki CLI powered by local Gemma and MLX-LM.
+
+positional arguments:
+  {ingest,search,ask,chat,status}
+    ingest              Index sources and generate reviewable Gemma drafts.
+    search              Return original passages without generating an answer.
+    ask                 Answer one standalone question from retrieved
+                        evidence.
+    chat                Start the conversational personal assistant.
+    status              Show local configuration and index counts.
+
+options:
+  -h, --help            show this help message and exit
+  --project-root PROJECT_ROOT
+                        Project directory containing vault/, config/, data/,
+                        and evidence/.
+
+Prerequisites:
+  - Apple Silicon Mac with MLX-LM installed
+  - At least three source files in vault/raw
+  - Download the configured model while online, then run `wiki ingest` first
+
+Environment variables:
+  WIKI_MODEL, WIKI_MAX_TOKENS, WIKI_TOP_K, WIKI_CHAT_TURNS,
+  WIKI_CHAT_RETRIEVAL_THRESHOLD, HF_HUB_OFFLINE
+
+Examples:
+  wiki ingest ./vault/raw
+  wiki search "agent tools"
+  wiki ask "What are the two main parts of an AI agent?" --mode local
+  wiki chat
+  wiki status
+
+$ /usr/bin/time -l wiki ingest ./vault/raw
+Protected existing note: vault/wiki/Source Summaries/AI Agent Fundamentals.md; review the new draft at data/drafts/AI Agent Fundamentals.md.
+Protected existing note: vault/wiki/Source Summaries/AI Agents Study Guide.md; review the new draft at data/drafts/AI Agents Study Guide.md.
+Protected existing note: vault/wiki/Source Summaries/Evaluating AI Agents.md; review the new draft at data/drafts/Evaluating AI Agents.md.
+{
+  "sources_found": 3,
+  "sources_changed": 3,
+  "sources_removed": 0,
+  "chunks_written": 176,
+  "drafts_written": 3,
+  "notes_created": 0,
+  "notes_protected": 3,
+  "truncated_sources": [
+    "Evaluating AI Agents.md"
+  ]
+}
+      102.96 real        33.72 user         8.71 sys
+          5400821760  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+              344261  page reclaims
+                  40  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                  36  voluntary context switches
+              427288  involuntary context switches
+        250472317115  instructions retired
+        101116470824  cycles elapsed
+          5913186504  peak memory footprint
+
+$ wiki ingest ./vault/raw
+{
+  "sources_found": 3,
+  "sources_changed": 0,
+  "sources_removed": 0,
+  "chunks_written": 0,
+  "drafts_written": 0,
+  "notes_created": 0,
+  "notes_protected": 0,
+  "truncated_sources": [
+    "Evaluating AI Agents.md"
+  ]
+}
+
+$ wiki status
+Model: mlx-community/gemma-4-e4b-it-4bit
+Execution: local
+Indexed documents: 3
+Indexed passages: 176
+Raw source directory: /private[isolated-demo-root]/vault/raw
+
+=== FOUR FIXED ASK QUESTIONS ===
+
+$ /usr/bin/time -l wiki ask "What are the two main parts of an AI agent?" --mode local
+Model: mlx-community/gemma-4-e4b-it-4bit | Execution: local
+An AI agent is composed of two main parts [S1]:
+
+1.  **The Brain (AI Model)**: This component is responsible for all the thinking, including handling reasoning and planning. It determines which actions the agent should take based on the current situation [S1].
+2.  **The Body (Capabilities and Tools)**: This part represents everything the agent is equipped to do. The scope of possible actions is determined by the tools and capabilities the agent possesses [S1].
+       14.32 real         5.14 user         1.91 sys
+          5417598976  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+              339969  page reclaims
+                  46  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                2241  voluntary context switches
+               44383  involuntary context switches
+         50985419704  instructions retired
+         19421291749  cycles elapsed
+          5391241704  peak memory footprint
+
+$ /usr/bin/time -l wiki ask "How are context and memory defined in an agent system?" --mode local
+Model: mlx-community/gemma-4-e4b-it-4bit | Execution: local
+In an agent system, the terms "context" and "memory" are defined as follows:
+
+*   **Context:** Information that is included in the next model call [S5]. This information can include the user's goal and the results obtained from a tool [S5].
+*   **Memory:** Information that is saved for later use [S5].
+       25.04 real         9.07 user         2.82 sys
+          5417795584  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+              340013  page reclaims
+                  40  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                   0  voluntary context switches
+               82334  involuntary context switches
+         70198245694  instructions retired
+         28477086970  cycles elapsed
+          5605380200  peak memory footprint
+
+$ /usr/bin/time -l wiki ask "How can a team distinguish a model capability bottleneck from a harness design bottleneck?" --mode local
+Model: mlx-community/gemma-4-e4b-it-4bit | Execution: local
+A sound evaluation system must be able to distinguish between "insufficient model capability" and "Harness design flaws" [S1].
+
+A common method for making this distinction is the **model swap experiment** [S1]:
+
+1.  **Procedure:** The Harness is kept constant, and a different model (stronger or weaker) is swapped in, and the resulting score is observed [S1].
+2.  **Interpretation:**
+    *   If a stronger model does not raise the score, the bottleneck is the Harness [S1].
+    *   If a weaker model causes the score to drop, and the results swing sharply with the model's capability, the model itself is the bottleneck [S1].
+
+This model swap experiment differs from an ablation experiment, which involves disabling a Harness component to observe performance changes [S1].
+       28.25 real        10.74 user         3.11 sys
+          5399969792  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+              339754  page reclaims
+                  40  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                   0  voluntary context switches
+              101150  involuntary context switches
+         80104070411  instructions retired
+         32688967677  cycles elapsed
+          5419798632  peak memory footprint
+
+$ /usr/bin/time -l wiki ask "What was the global revenue of the AI agent market in 2024?" --mode local
+Model: mlx-community/gemma-4-e4b-it-4bit | Execution: local
+The available sources do not contain enough evidence to answer this question.
+        3.81 real         1.80 user         1.18 sys
+          5399887872  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+              339974  page reclaims
+                  40  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                   0  voluntary context switches
+                5940  involuntary context switches
+         31236699433  instructions retired
+         10700775423  cycles elapsed
+          5418684496  peak memory footprint
+
+=== CHAT MODE CHECKS ===
+you> What can we do?
+you> What can you help me with?
+you> Draft a three-step plan for learning AI agents.
+you> Make that shorter.
+you> Explain the model swap experiment.
+you> According to my notes, what are tools?
+Model: mlx-community/gemma-4-e4b-it-4bit | Execution: local
+Type /exit to quit or /help for chat guidance.
+you> wiki> I am Atlas, a personal knowledge assistant. I can help you brainstorm, draft, plan, compare options, and work through ideas.
+
+Here is what we can do with the local knowledge base:
+
+*   **Automatic Retrieval:** I automatically search and retrieve relevant local notes.
+*   **Targeted Search:** You can use `/notes <query>` to force a search of the local index.
+*   **Information Query:** We can use `wiki ask` for a standalone, source-grounded answer, `wiki search` to find original passages, `wiki ingest` to update the local index, or `wiki status` to inspect the local configuration.
+
+Please note that I have no internet access and no memory across sessions.
+
+To get started, do you have a document you need to draft?
+you> wiki> I am Atlas, your personal knowledge assistant. My core functions are to help you brainstorm, draft, plan, compare options, and organize your ideas.
+
+Specifically, I can assist by:
+
+*   **Working with Local Data:** I can automatically retrieve information from your local notes, or you can use `/notes <query>` to force a search.
+*   **Knowledge Base Interaction:** We can use `wiki ask` for quick, source-grounded answers, `wiki search` to locate original passages, `wiki ingest` to update your local index, or `wiki status` to check the system configuration.
+
+Please remember that I operate with no internet access and maintain no memory across chat sessions.
+
+How can I help you start today?
+you> wiki> Suggestion:
+Here is a three-step plan for learning about AI agents:
+
+1.  **Understand Fundamentals:** Begin by grasping the core concepts of AI agents, including their components (sensors, actuators, environment), types (simple reflex, model-based, goal-based, utility-based), and how they operate within an environment.
+2.  **Explore Architectures and Algorithms:** Move on to studying different architectures that power AI agents. This includes learning about search algorithms (e.g., A*, BFS, DFS), decision-making processes, and common AI techniques like reinforcement learning, supervised learning, and deep learning as they apply to agent behavior.
+3.  **Implement and Experiment:** The final step involves practical application. This means implementing a basic AI agent in a simulation or coding environment, testing its behavior against various scenarios, and experimenting with parameter tuning to improve its performance and decision-making capabilities.
+you> wiki> Suggestion:
+1. Grasp AI agent fundamentals (components, types, operation).
+2. Study architectures & algorithms (search, decision-making, RL/DL).
+3. Implement and experiment (build, test, tune a basic agent).
+you> wiki> **Model Swap Experiment**
+
+The model swap experiment is a method used within a sound evaluation system to differentiate between two potential problems when an Agent performs poorly: "insufficient model capability" or "Harness design flaws" [S1].
+
+**Procedure and Interpretation:**
+
+*   **Goal:** To determine if the poor performance is due to the model or the Harness [S1].
+*   **Method:** The Harness is held constant, and a stronger or weaker model is swapped in, and the score is watched [S1].
+*   **Outcomes:**
+    *   If a stronger model does not raise the score, the bottleneck is the Harness [S1].
+    *   If a weaker model tanks the score, and results swing sharply with model capability, the most direct reading is that the model itself is the bottleneck [S1].
+
+**Distinction from Ablation:**
+This experiment holds the Harness constant and changes only the model, which differs from the ablation experiment where a Harness component is disabled [S1].
+you> wiki> Based on the notes, **Tools** are implementations that allow an AI Agent to perform specific tasks and complete Actions [S1].
+
+*   **Function:** They are the means by which an Agent executes tasks [S1].
+*   **Implementation:** They are often specific code or functions (like `send_message_to`) that the Agent can use when needed [S1].
+*   **Relationship to Actions:** An Action is the overall task achieved, which may involve the use of multiple Tools to complete [S1].
+
+The design of these Tools significantly impacts the quality of the Agent [S1].
+you> 
+=== FORCED /notes CHECK ===
+you> /notes context and memory
+Model: mlx-community/gemma-4-e4b-it-4bit | Execution: local
+Type /exit to quit or /help for chat guidance.
+you> wiki> *   **Function and Architecture:** Context and memory are fundamental to building a functional Agent system, involving critical design choices regarding model selection, knowledge base structure, and user memory implementation [S5]. Advanced evaluation experiments compare retrieval methods—such as Pure Advanced JSON Cards (structured memory) versus Pure RAG (unstructured retrieval)—to assess the boundaries and synergies of different configurations [S1, S3].
+*   **Evaluation and Quality:** A robust measurement of memory systems requires multi-dimensional checks, including Factual Correctness (precision), Information Completeness (recall), and Reasoning Correctiveness [S1]. Furthermore, ablation studies can be used to determine if specific features, like automatic memory or context compression, genuinely improve the user experience or merely feel useful [S2].
+you> 
+$ wiki search "agent brain body tools" --save
+[S1] vault/raw/AI Agent Fundamentals.md (Let's go more formal)
+Now that you have the big picture, here’s a more precise definition:
+
+> An Agent is a system that leverages an AI model to interact with its environment in order to achieve a user-defined objective. It combines reasoning, planning, and the execution of actions (often via external tools) to fulfill tasks.
+
+Think of the Agent as having two main parts:
+
+1. **The Brain (AI Model)**
+
+This is where all the thinking happens. The AI model **handles reasoning and planning**.
+It decides **which Actions to take based on the situation**.
+
+2. **The Body (Capabilities and Tools)**
+
+This part represents **everything the Agent is equipped to do**.
+
+The **scope of possible actions** depends on what the agent **has been equipped with**. For example, because humans lack wings, they can't perform the "fly" **Action**, but they can execute **Actions** like "walk", "run", "jump", "grab", and so on.
+
+[S2] vault/raw/Evaluating AI Agents.md (Three Sources of an Evaluation Set)
+decisions. τ²-bench, for example, can serve as the skeleton for any evaluation system that needs a simulated user; you only have to substitute your own domain data and tool set.
+
+**Production trajectory feedback** comes from real failures in the field: cases where the user explicitly corrected the Agent, where the user gave a thumbs-down, and where a subsequent state check, rule-based verifier, or LLM review found a problem. After failure attribution, these settle into regression cases. The concrete method is described later in "Failure Attribution" and "End-to-End and Trajectory-Prefix Regression Tasks." This source is the most expensive and also the most accurate, because it comes directly from what users actually encountered.
+
+In the early stage there are usually only public benchmarks and a small hand-written business set; once the system has been running in production for a while, cases fed back from production trajectories become the main body.
+
+[S3] vault/raw/AI Agent Fundamentals.md (Example 3: AI Non-Playable Character in a video game)
+AI agents powered by LLMs can make Non-Playable Characters (NPCs) more dynamic and unpredictable.
+
+Instead of following rigid behavior trees, they can **respond contextually, adapt to player interactions**, and generate more nuanced dialogue. This flexibility helps create more lifelike, engaging characters that evolve alongside the player’s actions.
+
+---
+
+To summarize, an Agent is a system that uses an AI Model (typically an LLM) as its core reasoning engine, to:
+
+- **Understand natural language:**  Interpret and respond to human instructions in a meaningful way.
+
+- **Reason and plan:** Analyze information, make decisions, and devise strategies to solve problems.
+
+- **Interact with its environment:** Gather information, take actions, and observe the results of those actions.
+
+Now that you have a solid grasp of what Agents are, let’s reinforce your understanding with a short, ungraded quiz. After that, we’ll dive into the “Agent’s brain”: the [LLMs](what-are-llms).
+
+[S4] vault/raw/AI Agent Fundamentals.md (How does an AI take action on its environment?)
+LLMs are amazing models, but **they can only generate text**.
+
+However, if you ask a well-known chat application like HuggingChat or ChatGPT to generate an image, they can! How is that possible?
+
+The answer is that the developers of HuggingChat, ChatGPT and similar apps implemented additional functionality (called **Tools**), that the LLM can use to create images.
+
+<figure>
+<img src="https://huggingface.co/datasets/agents-course/course-images/resolve/main/en/unit1/eiffel_brocolis.jpg" alt="Eiffel Brocolis"/>
+<figcaption>The model used an Image Generation Tool to generate this image.
+</figcaption>
+</figure>
+
+We will learn more about tools in the [Tools](tools) section.
+
+[S5] vault/raw/Evaluating AI Agents.md (Exact-Copy Errors: From `old_string` Mismatch to Layer-by-Layer Localization)
+An `old_string` failure cannot be attributed simply to "the model copied it wrong" either. For the same string, store the raw byte hash, the Unicode code point sequence and the tokenizer token ID sequence, then look for the first divergence along this chain:
+
+```text
+original file bytes → tool return → Harness serialization → model context
+→ model token output → decoded string → JSON/tool-call parsing → tool matching
+```
+
+A minimal set of evaluation probes covers direct restatement, extraction from a long context, placement into tool arguments, selection among similar strings, and spaces, newlines, backslashes, Unicode combining characters and low-frequency tokens. The metrics are byte-exact match, code-point-exact match, token-exact match, the position of the first divergence, and the real tool success rate. If the model is correct on the direct probe but the tool call still fails, fix the tokenizer, the serialization, the Harness or the tool protocol; only when the first divergence appears in the model's own output should the case be turned into the copying training data of Chapter 8.
+
+
+=== CHAT FACT AND ASK SEPARATION ===
+you> My favorite color for this conversation is teal. Please remember it.
+you> What color did I just mention?
+Model: mlx-community/gemma-4-e4b-it-4bit | Execution: local
+Type /exit to quit or /help for chat guidance.
+you> wiki> Understood. Teal it is. I will keep that in mind as we proceed.
+you> wiki> You mentioned teal.
+you> $ wiki ask "What is my favorite color?" --mode local
+Model: mlx-community/gemma-4-e4b-it-4bit | Execution: local
+The available sources do not contain enough evidence to answer this question.
+
+=== CHANGED-SOURCE RE-INGEST IN THROWAWAY CLONE ===
+Protected existing note: vault/wiki/Source Summaries/AI Agent Fundamentals.md; review the new draft at data/drafts/AI Agent Fundamentals.md.
+{
+  "sources_found": 3,
+  "sources_changed": 1,
+  "sources_removed": 0,
+  "chunks_written": 11,
+  "drafts_written": 1,
+  "notes_created": 0,
+  "notes_protected": 1,
+  "truncated_sources": [
+    "Evaluating AI Agents.md"
+  ]
+}
+Wiki notes after changed-source ingest:
+vault/wiki/Concepts/Context and Memory.md
+vault/wiki/Concepts/Model Swap Experiment.md
+vault/wiki/Concepts/Tools and Actions.md
+vault/wiki/Source Summaries/AI Agent Fundamentals.md
+vault/wiki/Source Summaries/AI Agents Study Guide.md
+vault/wiki/Source Summaries/Evaluating AI Agents.md
+Drafts after changed-source ingest:
+data/drafts/AI Agent Fundamentals.md
+data/drafts/AI Agents Study Guide.md
+data/drafts/Evaluating AI Agents.md
+Source restored; re-ingesting restored bytes:
+Protected existing note: vault/wiki/Source Summaries/AI Agent Fundamentals.md; review the new draft at data/drafts/AI Agent Fundamentals.md.
+{
+  "sources_found": 3,
+  "sources_changed": 1,
+  "sources_removed": 0,
+  "chunks_written": 11,
+  "drafts_written": 1,
+  "notes_created": 0,
+  "notes_protected": 1,
+  "truncated_sources": [
+    "Evaluating AI Agents.md"
+  ]
+}
+
+OFFLINE_DEMO_V2_COMPLETE

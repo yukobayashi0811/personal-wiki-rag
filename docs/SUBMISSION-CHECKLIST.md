@@ -27,7 +27,7 @@ Review instructions: [HUMAN-STEPS.md](HUMAN-STEPS.md).
 - [x] An unreviewed generated note updates in place without duplication.
 - [x] Removed sources and their chunks are deleted from the index.
 - [x] The ingest summary reports removed sources, drafts, created notes, protected notes, and truncated sources.
-- [ ] The final sandboxed changed-source demonstration is committed and indexed.
+- [x] The final sandboxed changed-source demonstration is committed and indexed.
 
 ## Modes and Evaluation
 
@@ -36,14 +36,14 @@ Review instructions: [HUMAN-STEPS.md](HUMAN-STEPS.md).
 - [x] Chat supports deterministic automatic retrieval and /notes <query>.
 - [x] Chat history is bounded by WIKI_CHAT_TURNS, default 12.
 - [x] The fixed Q1-Q4 questions and pass conditions remain unchanged.
-- [ ] The v2 fixed-question results and claim-by-claim citation assessment are committed.
+- [x] The v2 fixed-question results and claim-by-claim citation assessment are committed.
 
 ## Offline Evidence
 
 - [x] The v1 demonstration remains available as historical evidence.
 - [x] The v2 wrapper records the exact command, commit, UTC time, outside DNS/TCP success, and inside DNS/TCP failure.
 - [x] The v2 inner script covers ingestion, repeat ingestion, all fixed questions, chat boundaries, search, ask/chat separation, and changed-source re-ingestion.
-- [ ] The complete v2 transcript ends with OFFLINE_DEMO_V2_COMPLETE.
+- [x] The complete v2 transcript ends with OFFLINE_DEMO_V2_COMPLETE.
 - [ ] Unedited terminal screenshots document the v2 control probe, sandbox isolation, core commands, and completion.
 - [ ] Updated Obsidian screenshots show properties, expanded folders, readable graph labels, and source navigation.
 
@@ -53,12 +53,12 @@ Review instructions: [HUMAN-STEPS.md](HUMAN-STEPS.md).
 - [x] Measurement definitions distinguish generation time, end-to-end wall time, RSS, macOS peak footprint, and MLX peak memory.
 - [x] Evidence cards record repair status, generation metrics, wall time, cited sources, structural validation, and citation mapping.
 - [x] Development v1 runs are cataloged in [evidence/runs/README.md](../evidence/runs/README.md).
-- [ ] README and evaluation results contain only values copied from committed v2 evidence.
+- [x] README and evaluation results contain only values copied from committed v2 evidence.
 
 ## Final Verification
 
-- [ ] Full test suite passes after the final evidence and documentation changes.
-- [ ] Every scoped Markdown link resolves.
-- [ ] vault/raw/ SHA-256 values match docs/SOURCES.md.
-- [ ] Demonstration scripts pass zsh -n.
+- [x] Full test suite passes after the final evidence and documentation changes: 24 passed.
+- [x] Every scoped authored Markdown link resolves; links embedded in unchanged upstream sources and verbatim retrieved passages are outside this check.
+- [x] vault/raw/ SHA-256 values match docs/SOURCES.md.
+- [x] Demonstration scripts pass zsh -n.
 - [ ] The branch is clean and the pull request links every v2 artifact.

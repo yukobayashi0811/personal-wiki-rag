@@ -6,7 +6,7 @@ Public repository: [github.com/yukobayashi0811/personal-wiki-rag](https://github
 
 ## Project Status
 
-The required CLI modes, local retrieval index, three-source wiki, fixed evaluation set, complete network-isolated demonstration, and Obsidian evidence are complete. The final index contains 3 documents and 176 passages. All saved outputs are from actual local runs; no sample answers are presented as evaluation results.
+The required CLI modes, local retrieval index, three-source wiki, fixed evaluation set, and complete network-isolated v2 demonstration are complete. The final index contains 3 documents and 176 passages. All saved outputs are from actual local runs; no sample answers are presented as evaluation results. Legacy v1 evidence is retained and labeled separately.
 
 ## Required Modes
 
@@ -30,7 +30,7 @@ The required CLI modes, local retrieval index, three-source wiki, fixed evaluati
 
 The E4B model was selected because the 32 GB device has enough unified memory for the 4-bit model plus prompt context, retrieval, and operating-system overhead. It offers more active model capacity than the smallest E2B option while avoiding the substantially larger storage and memory footprint of the 26B A4B model. E2B was not benchmarked in this project, so this is a capacity-versus-fit rationale rather than an empirical claim that E4B outperforms E2B on the fixed questions.
 
-The initial local smoke test generated a short answer in 1.18 seconds with approximately 4.69 GB of process resident memory. See [`evidence/setup/model-smoke-test.md`](evidence/setup/model-smoke-test.md). In the final network-isolated evaluation, full model-backed ingestion took 95.26 seconds and reached approximately 5.40 GB maximum resident memory. Q1 completed in 10.89 seconds and ended at 4.70 GB process resident memory.
+The initial local smoke test generated a short answer in 1.18 seconds with approximately 4.69 GB of process resident memory. See [`evidence/setup/model-smoke-test.md`](evidence/setup/model-smoke-test.md). In the final v2 network-isolated evaluation, full model-backed ingestion took 102.96 seconds, with 5,400,821,760 bytes maximum resident set size and 5,913,186,504 bytes peak memory footprint. Q1 took 14.000 seconds end to end, including 12.037 seconds in generation, and recorded 4.818 GB MLX peak memory.
 
 ## Architecture
 
@@ -168,29 +168,29 @@ Final results:
 - Three answerable questions passed with source citations.
 - The unsupported market-revenue question returned the exact insufficient-evidence response.
 - Chat followed a drafting request with “Make that shorter” while using no retrieval.
-- Chat retrieved and cited the wiki only when the user explicitly asked about notes.
+- Chat avoided retrieval for capability and drafting turns, while in-domain knowledge questions and explicit note requests retrieved and cited local sources.
 - Search returned original passages and locations without loading the model.
 - A personal fact introduced only in chat was not available to a separate ask command.
 - Repeated ingestion detected zero changed sources and wrote zero new chunks.
 
 ## Complete Offline Evidence
 
-One macOS sandbox session denied all network access to the CLI and every child process. A connection probe failed before the assignment commands ran. The same session then completed full ingestion, repeat ingestion, all four ask tests, chat and follow-up checks, explicit note retrieval, raw search, and ask/chat-history separation.
+One macOS sandbox session denied DNS and direct TCP access to the CLI and every child process after matching probes succeeded outside. The same session completed full ingestion, repeat ingestion, all four ask tests, both required capability questions, generic drafting and follow-up, automatic and forced note retrieval, raw search, ask/chat-history separation, and changed-source re-ingestion with note protection.
 
-- [Complete offline demonstration index](evidence/offline-demo/README.md)
-- [Full command-by-command terminal transcript](evidence/recordings/offline-full-session.txt)
-- [Q1: Agent anatomy](evidence/offline-demo/runs/20260923T051741822234Z-ask.md)
-- [Q2: Context and memory](evidence/offline-demo/runs/20260923T051756564232Z-ask.md)
-- [Q3: Model versus harness bottleneck](evidence/offline-demo/runs/20260923T051814816080Z-ask.md)
-- [Q4: Unsupported market revenue](evidence/offline-demo/runs/20260923T051818429817Z-ask.md)
-- [Capability chat](evidence/offline-demo/runs/20260923T051828138943Z-chat.md)
-- [Drafting chat](evidence/offline-demo/runs/20260923T051841680188Z-chat.md)
-- [“Make that shorter” follow-up](evidence/offline-demo/runs/20260923T051849524126Z-chat.md)
-- [Explicit note retrieval](evidence/offline-demo/runs/20260923T051910680828Z-chat.md)
-- [Raw search without generation](evidence/offline-demo/runs/20260923T051910879741Z-search.md)
-- [Ask/chat-history separation](evidence/offline-demo/runs/20260923T051924078743Z-ask.md)
+- [V2 demonstration index](evidence/offline-demo-v2/README.md)
+- [V2 full command-by-command transcript](evidence/recordings/offline-full-session-v2.txt)
+- [Actual v2 Gemma drafts and comparison](evidence/ingest-drafts-v2/REVIEW.md)
+- [Q1: Agent anatomy](evidence/offline-demo-v2/runs/20260929T184251661935Z-ask.md)
+- [Q2: Context and memory](evidence/offline-demo-v2/runs/20260929T184316710872Z-ask.md)
+- [Q3: Model versus harness bottleneck](evidence/offline-demo-v2/runs/20260929T184344993439Z-ask.md)
+- [Q4: Unsupported market revenue](evidence/offline-demo-v2/runs/20260929T184348907619Z-ask.md)
+- [Model-swap automatic retrieval with recorded repair](evidence/offline-demo-v2/runs/20260929T184524517051Z-chat.md)
+- [Search without model generation](evidence/offline-demo-v2/runs/20260929T184622818458Z-search.md)
+- [V1 historical demonstration](evidence/offline-demo/README.md)
 
 ## Visual Evidence
+
+The following images are the original v1 Obsidian captures and are retained as historical evidence. The v2 terminal captures and refreshed Obsidian views are indexed in the v2 demonstration directory when available.
 
 ### Topic Index
 
