@@ -7,6 +7,28 @@ from personal_wiki.settings import Settings
 
 
 class FakeModel:
+    class FakeTokenizer:
+        @staticmethod
+        def encode(text, add_special_tokens=False):
+            del add_special_tokens
+            return list(text)
+
+        @staticmethod
+        def decode(tokens, skip_special_tokens=True):
+            del skip_special_tokens
+            return "".join(tokens)
+
+        @staticmethod
+        def apply_chat_template(messages, tokenize=False, add_generation_prompt=True):
+            del tokenize, add_generation_prompt
+            return "\n".join(message["content"] for message in messages)
+
+    def __init__(self):
+        self._tokenizer = self.FakeTokenizer()
+
+    def load(self):
+        return None
+
     def generate(self, *_args, **_kwargs):
         return SimpleNamespace(text="# Example\n\nGenerated body.")
 
@@ -35,7 +57,11 @@ def test_note_generation_writes_draft_but_protects_existing_note(tmp_path: Path)
 
     stats = harness._generate_notes([doc], [doc])
 
-    assert stats == {"drafts_written": 1, "notes_created": 0, "notes_protected": 1}
+    assert stats["drafts_written"] == 1
+    assert stats["notes_created"] == 0
+    assert stats["notes_protected"] == 1
+    assert stats["source_token_counts"] == {"Example.md": 11}
+    assert stats["truncated_sources"] == []
     assert note.read_text(encoding="utf-8") == original
     assert (settings.drafts_dir / "Example.md").read_text(encoding="utf-8") == (
         "# Example\n\nGenerated body.\n"
@@ -56,6 +82,8 @@ def test_unreviewed_generated_note_updates_in_place_without_duplicate(tmp_path: 
 
     stats = harness._generate_notes([doc], [doc])
 
-    assert stats == {"drafts_written": 1, "notes_created": 0, "notes_protected": 0}
+    assert stats["drafts_written"] == 1
+    assert stats["notes_created"] == 0
+    assert stats["notes_protected"] == 0
     assert len(list(note.parent.glob("Example*.md"))) == 1
     assert "Generated body." in note.read_text(encoding="utf-8")

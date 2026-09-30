@@ -87,7 +87,7 @@ def wiki_note_messages(
                 f"Required H1 title: {title}\n"
                 f"Required Source link: [[raw/{source_path}|Source: {title}]]\n"
                 f"Existing related note links:\n{related or '- None'}\n\n"
-                f"Source text:\n{source_text[:24_000]}"
+                f"Source text:\n{source_text}"
             ),
         },
     ]

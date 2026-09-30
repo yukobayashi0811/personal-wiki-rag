@@ -325,16 +325,16 @@ class PersonalWikiHarness:
                 documents.append(document)
             removed = store.remove_missing_documents(current_paths)
 
-        note_stats = {
+        note_stats: dict[str, Any] = {
             "drafts_written": 0,
             "notes_created": 0,
             "notes_protected": 0,
+            "note_source_token_limit": self.settings.note_source_max_tokens,
+            "note_output_token_limit": self.settings.note_max_tokens,
+            "source_token_counts": {},
+            "note_prompt_token_counts": {},
+            "truncated_sources": [],
         }
-        truncated_sources = [
-            document.relative_path
-            for document in documents
-            if len("\n\n".join(section.text for section in document.sections)) > 24_000
-        ]
         if generate_notes and changed_documents:
             note_stats = self._generate_notes(changed_documents, documents)
         self._write_index()
@@ -344,27 +344,56 @@ class PersonalWikiHarness:
             "sources_removed": removed,
             "chunks_written": chunks_written,
             **note_stats,
-            "truncated_sources": truncated_sources,
         }
 
     def _generate_notes(
         self,
         changed_documents: list[SourceDocument],
         all_documents: list[SourceDocument],
-    ) -> dict[str, int]:
+    ) -> dict[str, Any]:
         summaries_dir = self.settings.wiki_dir / "Source Summaries"
         summaries_dir.mkdir(parents=True, exist_ok=True)
         self.settings.drafts_dir.mkdir(parents=True, exist_ok=True)
         all_titles = [readable_title(document.path) for document in all_documents]
-        stats = {"drafts_written": 0, "notes_created": 0, "notes_protected": 0}
+        stats: dict[str, Any] = {
+            "drafts_written": 0,
+            "notes_created": 0,
+            "notes_protected": 0,
+            "note_source_token_limit": self.settings.note_source_max_tokens,
+            "note_output_token_limit": self.settings.note_max_tokens,
+            "source_token_counts": {},
+            "note_prompt_token_counts": {},
+            "truncated_sources": [],
+        }
+
+        self.model.load()
+        tokenizer = self.model._tokenizer
 
         for document in changed_documents:
             title = readable_title(document.path)
             source_text = "\n\n".join(section.text for section in document.sections)
+            source_tokens = tokenizer.encode(source_text, add_special_tokens=False)
+            stats["source_token_counts"][document.relative_path] = len(source_tokens)
+            if len(source_tokens) > self.settings.note_source_max_tokens:
+                source_text = tokenizer.decode(
+                    source_tokens[: self.settings.note_source_max_tokens],
+                    skip_special_tokens=True,
+                )
+                stats["truncated_sources"].append(document.relative_path)
             related = [other for other in all_titles if other != title]
+            messages = wiki_note_messages(title, document.relative_path, source_text, related)
+            prompt = tokenizer.apply_chat_template(
+                messages,
+                tokenize=False,
+                add_generation_prompt=True,
+            )
+            prompt += "<|channel>final\n"
+            stats["note_prompt_token_counts"][document.relative_path] = len(
+                tokenizer.encode(prompt, add_special_tokens=False)
+            )
             result = self.model.generate(
-                wiki_note_messages(title, document.relative_path, source_text, related),
-                max_tokens=1_400,
+                messages,
+                max_tokens=self.settings.note_max_tokens,
                 temperature=0.2,
             )
             draft_path = self.settings.drafts_dir / f"{title}.md"
