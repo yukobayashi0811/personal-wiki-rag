@@ -25,7 +25,7 @@ The required CLI modes, local retrieval index, three-source wiki, fixed evaluati
 - Model format: Apple Silicon MLX conversion, instruction-tuned, 4-bit quantization.
 - Download size: approximately 5.15 GB.
 - Downloaded snapshot revision: `475b9088d29754a3379866cf5aeb6b41acd313c2`.
-- Disk state recorded by the final v2 transcript: 13 GiB available on the 460 GiB data volume, with the volume at 97% capacity.
+- Disk state recorded by the final v2 transcript: 13 GiB available on the 460 GiB data volume, with the volume at 97% capacity. The later live Terminal rerun recorded 14 GiB available at the same 97% capacity.
 
 The E4B model was selected because the 32 GB device has enough unified memory for the 4-bit model plus prompt context, retrieval, and operating-system overhead. It offers more active model capacity than the smallest E2B option while avoiding the substantially larger storage and memory footprint of the 26B A4B model. E2B was not benchmarked in this project, so this is a capacity-versus-fit rationale rather than an empirical claim that E4B outperforms E2B on the fixed questions.
 
@@ -176,9 +176,12 @@ Final results:
 
 One macOS sandbox session denied DNS and direct TCP access to the CLI and every child process after matching probes succeeded outside. The same session completed full ingestion, repeat ingestion, all four ask tests, both required capability questions, generic drafting and follow-up, automatic and forced note retrieval, raw search, ask/chat-history separation, and changed-source re-ingestion with note protection.
 
+- [Live Terminal rerun index and screenshot-to-transcript map](evidence/offline-terminal-rerun/README.md)
+- [Live Terminal rerun transcript](evidence/recordings/offline-terminal-rerun.txt)
+- [Actual unedited Terminal.app captures](evidence/offline-terminal-rerun/README.md#screenshot-to-transcript-map)
 - [V2 demonstration index](evidence/offline-demo-v2/README.md)
 - [V2 full command-by-command transcript](evidence/recordings/offline-full-session-v2.txt)
-- [V2 unedited transcript screen captures](evidence/offline-demo-v2/README.md#screen-captures)
+- [Historical v2 transcript-view captures](evidence/offline-demo-v2/README.md#screen-captures)
 - [Actual v2 Gemma drafts and comparison](evidence/ingest-drafts-v2/REVIEW.md)
 - [Q1: Agent anatomy](evidence/offline-demo-v2/runs/20260929T184251661935Z-ask.md)
 - [Q2: Context and memory](evidence/offline-demo-v2/runs/20260929T184316710872Z-ask.md)
@@ -231,8 +234,8 @@ Additional limitations are explicit:
 - Wiki-note drafting supplies at most 24,000 source characters to Gemma. For `Evaluating AI Agents.md`, this is about 18% of the full source, so a draft cannot summarize the complete document.
 - Retrieval searches only primary originals, not the subject notes or index. This strengthens grounding but means terminology introduced only during human review is not searchable by ask mode.
 - Citation validation is structural: it verifies that at least one supplied `[S#]` marker is present and in range. It does not prove that every cited passage semantically entails every sentence; the fixed evaluation therefore includes a separate claim-by-claim human assessment. The current parser recognizes standalone markers such as `[S1]`, but in a grouped marker such as `[S1, S3]` it records only `S1`. This caused the v2 forced `/notes` card to omit `S3` from `cited_sources`, even though the generated answer visibly contains it.
-- The v2 forced `/notes context and memory` check proves that retrieval was forced, not that the answer was good. Its top passages omitted the Study Guide definitions, the output focused on evaluation experiments instead of defining context and memory, and it changed the source phrase “Reasoning Correctness” to “Reasoning Correctiveness.”
-- Of the two v2 capability answers, `What can we do?` provides a concrete starting point, while `What can you help me with?` ends with the generic question “How can I help you start today?” The latter is only a partial pass for the assignment's concrete-starting-point expectation.
+- The v2 forced `/notes context and memory` check proves that retrieval was forced, not that the answer was good. Its top passages omitted the Study Guide definitions, the output focused on evaluation experiments instead of defining context and memory, and it changed the source phrase “Reasoning Correctness” to “Reasoning Correctiveness.” The later Terminal rerun did not repeat that typo but still failed to provide the requested definitions.
+- Of the two v2 capability answers, `What can we do?` provides a concrete starting point, while `What can you help me with?` ends with the generic question “How can I help you start today?” The latter is only a partial pass for the original v2 evidence. The later Terminal rerun produced a concrete document-drafting starting point for both prompts; the difference is preserved rather than retroactively changing the v2 assessment.
 - The chat retrieval rule is corpus-specific and was tuned with the evaluation sentences themselves. New sources or unseen phrasings can change BM25 score ranges and should trigger an independently held-out reevaluation.
 
 ## Safety and Submission Notes

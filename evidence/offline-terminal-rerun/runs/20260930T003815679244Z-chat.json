@@ -1,0 +1,65 @@
+{
+  "timestamp_utc": "2026-09-30T00:38:15.679244+00:00",
+  "mode": "chat",
+  "execution": "local",
+  "model": "mlx-community/gemma-4-e4b-it-4bit",
+  "input": "According to my notes, what are tools?",
+  "retrieved_passages": [
+    {
+      "source_path": "AI Agent Fundamentals.md",
+      "locator": "What type of tasks can an Agent do?",
+      "text": "An Agent can perform any task we implement via **Tools** to complete **Actions**.\n\nFor example, if I write an Agent to act as my personal assistant (like Siri) on my computer, and I ask it to \"send an email to my Manager asking to delay today's meeting\", I can give it some code to send emails. This will be a new Tool the Agent can use whenever it needs to send an email. We can write it in Python:\n\n```python\ndef send_message_to(recipient, message):\n    \"\"\"Useful to send an e-mail message to a recipient\"\"\"\n    ...\n```\n\nThe LLM, as we'll see, will generate code to run the tool when it needs to, and thus fulfill the desired task.\n\n```python\nsend_message_to(\"Manager\", \"Can we postpone today's meeting?\")\n```\n\nThe **design of the Tools is very important and has a great impact on the quality of your Agent**. Some tasks will require very specific Tools to be crafted, while others may be solved with general-purpose tools like \"web_search\".\n\n> Note that **Actions are not the same as Tools**. An Action, for instance, can involve the use of multiple Tools to complete.\n\nAllowing an agent to interact with its environment **allows real-life usage for companies and individuals**.",
+      "score": 7.978458879243651
+    },
+    {
+      "source_path": "Evaluating AI Agents.md",
+      "locator": "Human-Computer Interaction and Tool-Calling Evaluation Environments",
+      "text": "effect depends on the current state, so on failure it should return a clear error message rather than a bare failure flag, allowing the Agent to adjust its strategy accordingly.\n\nTool-calling evaluation examines the correctness of observable state changes, while human-computer interaction evaluation examines the soundness of the communication strategy — the former verifies action, the latter verifies guidance. Figure 7-2 contrasts the structure of the two environment types.\n\n![Figure 7-2: Tool-Calling and Human-Computer Interaction Evaluation Environments](images/fig7-2.svg)",
+      "score": 5.836750523673241
+    },
+    {
+      "source_path": "Evaluating AI Agents.md",
+      "locator": "Human-Computer Interaction and Tool-Calling Evaluation Environments",
+      "text": "these four environment types, making it easy to choose based on task state, tool calling, and isolation requirements.\n\nTable 7-1 Comparison of Verifiers Environment Types\n\n| Environment Type | State Persistence | Tool Calls | Typical Use Case |\n|---|---|---|---|\n| SingleTurnEnv | None | None | Single-turn Q&A, math problems |\n| ToolEnv | None | Multi-turn | Search + information synthesis |\n| StatefulToolEnv | Yes | Multi-turn | Modifying database records |\n| SandboxEnv | Yes + isolated | Multi-turn | Code execution and testing |\n\nThe framework supports parallel sampling and trajectory caching; the complete trajectory of every evaluation (observations, actions, rewards) is saved for later analysis and replay. In addition, a tool's effect depends on the current state, so on failure it should return a clear error message rather than a bare failure flag, allowing the Agent to adjust its strategy accordingly.",
+      "score": 5.315002806447608
+    },
+    {
+      "source_path": "Evaluating AI Agents.md",
+      "locator": "LLM-as-a-Judge: The Core of Automated Evaluation",
+      "text": "deep understanding\" should be avoided, replaced by verifiable standards like \"cites at least two authoritative theories and accurately explains how they support the conclusion.\"\n\nThe key practice: define objectively verifiable scoring levels for each dimension, with concrete examples and **edge cases** to resolve ambiguous situations. Actively guard against **Reward Hacking**—the Agent finding a \"shortcut\" to high scores without actually completing the task—by explicitly penalizing hallucination, sycophancy, keyword stuffing, and dodging hard questions. A Rubric is an iterative product: trial use reveals disagreements among evaluators, and the Rubric gradually evolves through this feedback from abstract principles into a detailed casebook.\n\nHere is a complete Rubric that follows the four principles, using a user memory Agent as the example. Test question: \"Who is my daughter's pediatrician?\" (The answer requires linking information across two conversations: the first conversation mentions \"my daughter's name is Lily,\" the second mentions \"took Lily to see Dr. Chen\").",
+      "score": 4.207592900948569
+    },
+    {
+      "source_path": "Evaluating AI Agents.md",
+      "locator": "The \"Right Actions, Wrong Report\" Problem",
+      "text": "of a legal \"information unavailable\" exit. File it as a model-capability problem and the next move is to swap models or train OCR; the real fix is to add the channel and the exit.\n\n> **Experiment 7-6 ★★: Failure Attribution on AndroidWorld Traces**\n>\n> This experiment practices the attribution method of this section on real traces, with no emulator and no model API required. The material is the saved T3A run in `chapter7/android-world`: `t3a.md` holds the step-by-step `Action`/`Reason`/`Summary` for every task, and `t3a_failed.md` collects more than fifty failed traces, each ending with the validator's objective verdict.\n>\n> Step 1: Stratified sampling. Stratify the sample and draw at least ten silent failures from `t3a_failed.md` — traces with no tool error anywhere. No tool return may have failed; the Agent either declared completion or ran out of steps; and only the closing validator verdict marks the task failed.\n>\n> Step 2: Locate the first error. For each trace, record the step number of the first error and whether that step is a tool call or an assistant message. Silent failures need two techniques: fact-anchor comparison, which walks the Agent's statements against the tool return values and takes the first divergence; and trajectory-prefix bisection, which cuts the trajectory at step k and hands the truncated trajectory to a human reviewer to continue the task — if the task is still recoverable, the error lies after k. Searching for error keywords is no substitute.\n>\n> Step 3: Write structured records. Emit one JSON or YAML record per trace with the task name, first-error step, error category, responsible party, supporting quotations, and a separation of primary cause from consequence.\n>\n> Step 4: Compare with the existing notes. Check your results against `t3a_failed_analysis.md` and record every disagreement. Pay particular attention to root-cause assignment: those notes originally recorded the image-transcription failure as \"the vision model lacks OCR,\" yet T3A's observation space contains no image pixels at all, so the real root cause is a missing observation channel. An existing attribution note is not an answer key.\n>\n> Step 5: Convert to regression tasks. Take three traces whose first error is an assistant message, cut each trajectory prefix just before that error, and write the acceptable-action set and the forbidden actions to form trajectory-prefix regression tasks.\n>",
+      "score": 4.204260167682742
+    }
+  ],
+  "output": "**Tools**\n\n*   **Function and Role:**\n    *   An Agent can perform any task that is implemented via **Tools** to complete **Actions** [S1].\n    *   Tools are mechanisms that allow an Agent to interact with its environment, enabling real-life usage for companies and individuals [S1].\n    *   The LLM generates code to run the Tool when it needs to, thus fulfilling the desired task [S1].\n*   **Implementation:**\n    *   Tools are implementations of code, such as a Python function, that the Agent can use [S1]. For instance, a function like `send_message_to(recipient, message)` can be a Tool used to send an e-mail message [S1].\n*   **Significance:**\n    *   The design of the Tools is very important and has a great impact on the quality of your Agent [S1].\n    *   It is important to note that **Actions are not the same as Tools**; an Action can involve the use of multiple Tools to complete [S1].",
+  "repair_attempted": true,
+  "cited_sources": [
+    "S1"
+  ],
+  "citations_valid": true,
+  "metrics": {
+    "elapsed_seconds": 30.642195584001456,
+    "process_memory_before_gb": 4.70556672,
+    "process_memory_after_gb": 4.706697216,
+    "mlx_peak_memory_gb": 5.019788612,
+    "generations": [
+      {
+        "elapsed_seconds": 20.715067458000703,
+        "process_memory_before_gb": 4.704468992,
+        "process_memory_after_gb": 4.705550336,
+        "mlx_peak_memory_gb": 5.019788612
+      },
+      {
+        "elapsed_seconds": 30.642195584001456,
+        "process_memory_before_gb": 4.70556672,
+        "process_memory_after_gb": 4.706697216,
+        "mlx_peak_memory_gb": 5.019788612
+      }
+    ]
+  }
+}

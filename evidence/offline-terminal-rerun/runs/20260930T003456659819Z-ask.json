@@ -1,0 +1,60 @@
+{
+  "timestamp_utc": "2026-09-30T00:34:56.659819+00:00",
+  "mode": "ask",
+  "execution": "local",
+  "model": "mlx-community/gemma-4-e4b-it-4bit",
+  "input": "What are the two main parts of an AI agent?",
+  "retrieved_passages": [
+    {
+      "source_path": "AI Agent Fundamentals.md",
+      "locator": "Let's go more formal",
+      "text": "Now that you have the big picture, here’s a more precise definition:\n\n> An Agent is a system that leverages an AI model to interact with its environment in order to achieve a user-defined objective. It combines reasoning, planning, and the execution of actions (often via external tools) to fulfill tasks.\n\nThink of the Agent as having two main parts:\n\n1. **The Brain (AI Model)**\n\nThis is where all the thinking happens. The AI model **handles reasoning and planning**.\nIt decides **which Actions to take based on the situation**.\n\n2. **The Body (Capabilities and Tools)**\n\nThis part represents **everything the Agent is equipped to do**.\n\nThe **scope of possible actions** depends on what the agent **has been equipped with**. For example, because humans lack wings, they can't perform the \"fly\" **Action**, but they can execute **Actions** like \"walk\", \"run\", \"jump\", \"grab\", and so on.",
+      "score": 8.71091635620097
+    },
+    {
+      "source_path": "Evaluating AI Agents.md",
+      "locator": "The Four Components of a Task Definition",
+      "text": "constraint, the simulated user will follow the Agent's lead and confirm that the problem is fixed, and the evaluation degenerates into two models agreeing with each other.\n\n**The initial state is partitioned by which side controls it.** `env_type` takes two values, `user` and `assistant`: airplane mode and the roaming switch belong to the user's side, while the carrier-side `enable_roaming` belongs to the Agent's side. This partition determines the shape of the fault — roaming is provisioned on the carrier side but switched off on the user's handset, so an Agent querying the database sees nothing but \"configuration normal.\" The fault sits on the side the database cannot see, and only guiding the user to check will surface it.",
+      "score": 6.1138829920370075
+    },
+    {
+      "source_path": "AI Agent Fundamentals.md",
+      "locator": "What is an Agent?",
+      "text": "<img src=\"https://huggingface.co/datasets/agents-course/course-images/resolve/main/en/unit1/whiteboard-no-check.jpg\" alt=\"Unit 1 planning\"/>\n\nBy the end of this section, you'll feel comfortable with the concept of agents and their various applications in AI.\n\nTo explain what an Agent is, let's start with an analogy.",
+      "score": 5.47178665304738
+    },
+    {
+      "source_path": "AI Agent Fundamentals.md",
+      "locator": "The Big Picture: Alfred The Agent",
+      "text": "plan, **he can use tools from the list of tools he knows about**.\n\nIn this case, to make a coffee, he uses a coffee machine. He activates the coffee machine to brew the coffee.\n\n<img src=\"https://huggingface.co/datasets/agents-course/course-images/resolve/main/en/unit1/make-coffee.jpg\" alt=\"Make coffee\"/>\n\nFinally, Alfred brings the freshly brewed coffee to us.\n\n<img src=\"https://huggingface.co/datasets/agents-course/course-images/resolve/main/en/unit1/bring-coffee.jpg\" alt=\"Bring coffee\"/>\n\nAnd this is what an Agent is: an **AI model capable of reasoning, planning, and interacting with its environment**.\n\nWe call it Agent because it has _agency_, aka it has the ability to interact with the environment.\n\n<img src=\"https://huggingface.co/datasets/agents-course/course-images/resolve/main/en/unit1/process.jpg\" alt=\"Agent process\"/>",
+      "score": 5.405442099495268
+    },
+    {
+      "source_path": "Evaluating AI Agents.md",
+      "locator": "The Trajectory of a Real Run",
+      "text": "on a query of line L1001 alone. After the user insists the number is correct, the Agent goes on to query L1002 and finally matches it. The pivotal moment comes at message 30:\n\n> **User** (30) → calls `check_network_status()`, `check_status_bar()`\n>\n> **Tool returns** (31): `Airplane Mode: ON | Cellular Connection: no_service | Mobile Data Enabled: Yes | Data Roaming Enabled: No`\n>\n> **User** (33): I see my phone is currently in Airplane Mode, which is why there is no signal. Mobile data is enabled, but data roaming is off. Should I turn off Airplane Mode and try again?\n\nThe party issuing the tool call is the **user**, not the Agent. This is the **dual-control** mechanism: the simulated user owns an independent tool set of its own, including `check_status_bar`, `toggle_airplane_mode`, `reseat_sim_card`, and `run_speed_test`.",
+      "score": 5.101561808291245
+    }
+  ],
+  "output": "The two main parts of an AI agent are:\n\n1.  **The Brain (AI Model):** This component handles the thinking, including reasoning and planning, and decides which actions to take based on the situation [S1].\n2.  **The Body (Capabilities and Tools):** This represents everything the agent is equipped to do, and its scope of possible actions depends on the tools it possesses [S1].",
+  "repair_attempted": false,
+  "cited_sources": [
+    "S1"
+  ],
+  "citations_valid": true,
+  "metrics": {
+    "elapsed_seconds": 9.223655459001748,
+    "process_memory_before_gb": 4.686774272,
+    "process_memory_after_gb": 4.70147072,
+    "mlx_peak_memory_gb": 4.818116444,
+    "wall_seconds": 11.267907249999553,
+    "generations": [
+      {
+        "elapsed_seconds": 9.223655459001748,
+        "process_memory_before_gb": 4.686774272,
+        "process_memory_after_gb": 4.70147072,
+        "mlx_peak_memory_gb": 4.818116444
+      }
+    ]
+  }
+}

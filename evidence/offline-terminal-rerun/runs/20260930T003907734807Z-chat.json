@@ -1,0 +1,26 @@
+{
+  "timestamp_utc": "2026-09-30T00:39:07.734807+00:00",
+  "mode": "chat",
+  "execution": "local",
+  "model": "mlx-community/gemma-4-e4b-it-4bit",
+  "input": "What color did I just mention?",
+  "retrieved_passages": [],
+  "output": "You mentioned teal.",
+  "repair_attempted": false,
+  "cited_sources": [],
+  "citations_valid": false,
+  "metrics": {
+    "elapsed_seconds": 4.893604166998557,
+    "process_memory_before_gb": 4.694114304,
+    "process_memory_after_gb": 4.697407488,
+    "mlx_peak_memory_gb": 4.754608412,
+    "generations": [
+      {
+        "elapsed_seconds": 4.893604166998557,
+        "process_memory_before_gb": 4.694114304,
+        "process_memory_after_gb": 4.697407488,
+        "mlx_peak_memory_gb": 4.754608412
+      }
+    ]
+  }
+}

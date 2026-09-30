@@ -2,6 +2,8 @@
 
 This directory indexes the successful audit rerun performed on 2026-09-29. The CLI and all of its child processes ran under macOS `sandbox-exec` with `(deny network*)`. The wrapper first ran identical control probes outside the sandbox: DNS resolution and a direct TCP connection to `1.1.1.1:443` succeeded outside, then failed inside with `gaierror` and `PermissionError` respectively.
 
+A later execution of the same implementation was captured directly from Terminal.app. Its transcript, run cards, unedited PNGs, and differences from this v2 run are indexed in [`evidence/offline-terminal-rerun/README.md`](../offline-terminal-rerun/README.md).
+
 The demonstration used commit `df41bf599cc53a99ee653bc19ca9db0d1871f3d1`, Python 3.13.15, MLX 0.32.2, MLX-LM 0.31.3, and cached snapshot `475b9088d29754a3379866cf5aeb6b41acd313c2` of `mlx-community/gemma-4-e4b-it-4bit` on an Apple M5 Mac with 32 GB unified memory.
 
 ## Primary Evidence
