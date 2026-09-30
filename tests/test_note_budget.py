@@ -4,6 +4,7 @@ import pytest
 
 from personal_wiki.documents import SourceDocument, SourceSection
 from personal_wiki.harness import PersonalWikiHarness
+from personal_wiki.prompts import wiki_note_messages
 from personal_wiki.settings import Settings
 
 
@@ -82,6 +83,11 @@ def test_note_source_is_not_truncated_when_it_fits(tmp_path: Path) -> None:
     assert stats["source_token_counts"] == {"Example.md": 15}
     assert stats["truncated_sources"] == []
     assert model.messages[-1]["content"].endswith("Source text:\ncomplete source")
+
+
+def test_note_prompt_requires_coverage_across_the_source() -> None:
+    messages = wiki_note_messages("Example", "Example.md", "source", [])
+    assert "beginning, middle, and end" in messages[0]["content"]
 
 
 @pytest.mark.parametrize(

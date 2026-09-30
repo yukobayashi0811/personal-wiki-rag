@@ -77,6 +77,9 @@ def wiki_note_messages(
                 "Output the finished note directly; do not explain your reasoning or review process. "
                 "Start with the exact H1 title requested. Include Summary, Key Ideas, Source, and "
                 "Related Notes sections. Do not invent facts. Keep all claims traceable to the source. "
+                "Consider the entire supplied source before drafting. Make Key Ideas represent "
+                "materially distinct sections from the beginning, middle, and end instead of "
+                "overweighting the opening sections. "
                 "Use the exact vault-root Source link supplied below. Use only the supplied existing "
                 "note links in Related Notes; do not invent a note name."
             ),
