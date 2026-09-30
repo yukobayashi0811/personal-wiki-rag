@@ -25,6 +25,7 @@ The required CLI modes, local retrieval index, three-source wiki, fixed evaluati
 - Model format: Apple Silicon MLX conversion, instruction-tuned, 4-bit quantization.
 - Download size: approximately 5.15 GB.
 - Downloaded snapshot revision: `475b9088d29754a3379866cf5aeb6b41acd313c2`.
+- Memory state recorded by the final v2 transcript (`vm_stat`, 16,384-byte pages): strict free memory was `346,192 × 16,384 = 5.67 GB`, while immediately reusable memory (`free + inactive + speculative`) was `(346,192 + 710,965 + 5,210) × 16,384 = 17.4 GB`.
 - Disk state recorded by the final v2 transcript: 13 GiB available on the 460 GiB data volume, with the volume at 97% capacity. The later live Terminal rerun recorded 14 GiB available at the same 97% capacity.
 
 The E4B model was selected because the 32 GB device has enough unified memory for the 4-bit model plus prompt context, retrieval, and operating-system overhead. It offers more active model capacity than the smallest E2B option while avoiding the substantially larger storage and memory footprint of the 26B A4B model. E2B was not benchmarked in this project, so this is a capacity-versus-fit rationale rather than an empirical claim that E4B outperforms E2B on the fixed questions.
@@ -175,6 +176,8 @@ Final results:
 ## Complete Offline Evidence
 
 One macOS sandbox session denied DNS and direct TCP access to the CLI and every child process after matching probes succeeded outside. The same session completed full ingestion, repeat ingestion, all four ask tests, both required capability questions, generic drafting and follow-up, automatic and forced note retrieval, raw search, ask/chat-history separation, and changed-source re-ingestion with note protection.
+
+The first line visible in Terminal capture 01, ending `| awk (display pacing only)`, is a display-only summary label rather than literal shell input; the actual invocation used the line-buffered wrapper plus a complete `awk` program solely to pace unchanged output and create capture-timing markers, as documented in the capture index.
 
 - [Live Terminal rerun index and screenshot-to-transcript map](evidence/offline-terminal-rerun/README.md)
 - [Live Terminal rerun transcript](evidence/recordings/offline-terminal-rerun.txt)

@@ -12,7 +12,7 @@ The repository was cloned to a disposable local directory at the recorded commit
 /usr/bin/stdbuf -oL -eL ./scripts/run_offline_demo_sandboxed.sh
 ```
 
-The wrapper still executed the exact `OUTER_COMMAND` recorded on transcript line 3. A display-only `awk` pipe printed every line unchanged, paused at deterministic milestones, and created temporary local marker files so captures could be timed. The wrapper wrote its transcript before that display pipe; the copied transcript is byte-identical to the wrapper output in the disposable clone.
+The wrapper still executed the exact `OUTER_COMMAND` recorded on transcript line 3. A display-only `awk` pipe printed every line unchanged, paused at deterministic milestones, and created temporary local marker files so captures could be timed. The first line visible in capture 01, ending `| awk (display pacing only)`, is a human-readable summary label rather than the literal shell command; the actual pipe used the complete `awk` program just described. The wrapper wrote its transcript before that display pipe; the copied transcript is byte-identical to the wrapper output in the disposable clone.
 
 Display sleep was prevented with `caffeinate -dimsu`. Each PNG was captured directly from the Terminal content rectangle with the macOS command below, substituting the live window bounds and destination filename:
 
