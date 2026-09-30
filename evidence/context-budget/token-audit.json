@@ -1,0 +1,38 @@
+{
+  "generated_utc": "2026-09-30T02:05:36Z",
+  "model": "mlx-community/gemma-4-e4b-it-4bit",
+  "snapshot": "475b9088d29754a3379866cf5aeb6b41acd313c2",
+  "config_sha256": "780ccb3a514a5f1ced161d383f948fc22eca9b84b752ca19494f625bd9bad7a6",
+  "context_length": 131072,
+  "context_length_config_path": "text_config.max_position_embeddings",
+  "tokenizer_class": "TokenizerWrapper",
+  "sources": [
+    {
+      "source": "AI Agent Fundamentals.md",
+      "raw_file_characters": 8635,
+      "raw_file_tokens": 2112,
+      "draft_source_characters": 8234,
+      "draft_source_tokens": 2008,
+      "full_prompt_tokens": 2226,
+      "prompt_overhead_vs_source_tokens": 218
+    },
+    {
+      "source": "AI Agents Study Guide.md",
+      "raw_file_characters": 12716,
+      "raw_file_tokens": 3201,
+      "draft_source_characters": 12221,
+      "draft_source_tokens": 3086,
+      "full_prompt_tokens": 3305,
+      "prompt_overhead_vs_source_tokens": 219
+    },
+    {
+      "source": "Evaluating AI Agents.md",
+      "raw_file_characters": 129319,
+      "raw_file_tokens": 26763,
+      "draft_source_characters": 126890,
+      "draft_source_tokens": 26285,
+      "full_prompt_tokens": 26503,
+      "prompt_overhead_vs_source_tokens": 218
+    }
+  ]
+}

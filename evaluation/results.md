@@ -1,8 +1,25 @@
 # Evaluation Results
 
-V2 evaluation date: 2026-09-29 PDT (2026-09-29 UTC)
+Current evaluation start: 2026-09-30 01:34:04 UTC (2026-09-29 PDT)
 
-All v2 model-backed checks used `mlx-community/gemma-4-e4b-it-4bit` through MLX-LM 0.31.3. The model, index, prompts, and evidence were local. The final set ran inside one macOS process sandbox that denied DNS and direct TCP access. The fixed questions and pass conditions are in [`questions.md`](questions.md); the complete session is indexed in [`evidence/offline-demo-v2/README.md`](../evidence/offline-demo-v2/README.md).
+All current model-backed checks used `mlx-community/gemma-4-e4b-it-4bit` through MLX-LM 0.31.3. The model, index, prompts, and evidence were local. The complete set ran inside one macOS process sandbox that denied DNS and direct TCP access. The fixed questions and pass conditions are in [`questions.md`](questions.md); the complete current session is indexed in [`evidence/offline-context-budget/README.md`](../evidence/offline-context-budget/README.md).
+
+## Current Context-Budget Rerun
+
+| Question | Result | Evidence | Repair |
+| --- | --- | --- | --- |
+| Q1: Agent anatomy | Pass | [`20260930T013632899265Z-ask.md`](../evidence/offline-context-budget/runs/20260930T013632899265Z-ask.md) | None |
+| Q2: Context and memory | Pass; directly defines both terms | [`20260930T013659227500Z-ask.md`](../evidence/offline-context-budget/runs/20260930T013659227500Z-ask.md) | None |
+| Q3: Model versus harness bottleneck | Pass | [`20260930T013728919184Z-ask.md`](../evidence/offline-context-budget/runs/20260930T013728919184Z-ask.md) | None |
+| Q4: Unsupported market revenue | Pass; exact insufficient-evidence response | [`20260930T013732669004Z-ask.md`](../evidence/offline-context-budget/runs/20260930T013732669004Z-ask.md) | None |
+
+The material claims and citations are substantively the same as the claim-by-claim assessment below. Fresh full-source ingest supplied section-body payloads of 2,008, 3,086, and 26,285 tokens respectively; no source was truncated. The unchanged raw files contain 2,112, 3,201, and 26,763 tokens. `/usr/bin/time -l` measured 134.04 seconds, 5,400,821,760 bytes maximum RSS, 7,419,793,656 bytes peak memory footprint, and zero swaps.
+
+Both capability answers supplied concrete starting points. Automatic model-swap and tools questions retrieved and cited original passages. The forced `/notes context and memory` run again forced retrieval but did not directly define the terms, so it remains an answer-quality failure even though the retrieval check passed. Search used no model, chat remembered an in-session fact, and a separate ask command did not receive it. Full details and links are in the current evidence index.
+
+## Historical V2 Evaluation
+
+V2 evaluation date: 2026-09-29 PDT (2026-09-29 UTC). The following sections retain the pre-context-budget results without rewriting their model outputs or assessments.
 
 ## V2 Fixed Ask Questions
 
@@ -80,7 +97,7 @@ The original 2026-09-23 run remains intact at [`evidence/offline-demo/README.md`
 
 The local BM25 retriever can rank passages with stronger surface-term overlap above a semantically exact passage. In v2 Q2, the exact definition was S5. A fully local embedding retriever or reranker is the next concrete improvement; it should retain source/locator metadata and be tested against the same fixed questions before adoption.
 
-Additional limitations are documented in the project README: wiki-note drafting has a 24,000-character per-source input cap; retrieval intentionally searches originals rather than edited wiki pages; and citation validation is structural, so this claim-level assessment remains necessary. In particular, `cited_source_numbers` recognizes only standalone `[S#]` markers: the grouped marker `[S1, S3]` in the forced `/notes` output results in `S3` being omitted from that card's citation list. The implementation is unchanged here so the committed v2 evidence remains tied to the demonstrated code.
+Additional limitations are documented in the project README: retrieval intentionally searches originals rather than edited wiki pages, and citation validation is structural, so this claim-level assessment remains necessary. In particular, `cited_source_numbers` recognizes only standalone `[S#]` markers: the grouped marker `[S1, S3]` in the forced `/notes` output results in `S3` being omitted from that card's citation list. That implementation remains unchanged. The former 24,000-character note-drafting cap is historical; the current tokenizer-based input and output budgets, exact token counts, and measured resource impact are documented in [`evidence/context-budget/README.md`](../evidence/context-budget/README.md).
 
 ## Live Terminal Capture Rerun
 

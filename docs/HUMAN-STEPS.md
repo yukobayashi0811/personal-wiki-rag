@@ -30,3 +30,15 @@ The files were saved directly from the Obsidian window and were not edited or co
 The completed review and refreshed note capture are recorded in commit `495b22c` (`Record completed human note review`).
 
 Before committing, verify that `vault/raw/` is unchanged and that no private information or absolute personal path appears in the screenshots. This verification is repeated in the final automated checks.
+
+## 4. Post-Context-Budget Draft Decision — Pending
+
+The revised ingest produced three new verbatim drafts in `evidence/ingest-drafts-context-budget/`. They were reviewed for source coverage in `REVIEW.md`, but they were intentionally not copied into `vault/wiki/`.
+
+The repository owner has one remaining content decision:
+
+1. Compare each new evidence draft with its reviewed note and unchanged source.
+2. Either keep the current reviewed note unchanged or selectively promote source-backed improvements.
+3. If a note changes, repeat the normal human claim review before retaining `reviewed: true` and refresh the relevant Obsidian screenshot only if the submitted visual should show that revision.
+
+No code, evaluation, or offline-proof step depends on promoting these drafts.

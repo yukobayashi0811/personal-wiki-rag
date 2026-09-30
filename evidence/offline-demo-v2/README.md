@@ -1,5 +1,7 @@
 # Offline Demonstration V2
 
+> Historical status: this run predates the tokenizer-based note-draft budget. The current post-change run is indexed in [`../offline-context-budget/README.md`](../offline-context-budget/README.md).
+
 This directory indexes the successful audit rerun performed on 2026-09-29. The CLI and all of its child processes ran under macOS `sandbox-exec` with `(deny network*)`. The wrapper first ran identical control probes outside the sandbox: DNS resolution and a direct TCP connection to `1.1.1.1:443` succeeded outside, then failed inside with `gaierror` and `PermissionError` respectively.
 
 A later execution of the same implementation was captured directly from Terminal.app. Its transcript, run cards, unedited PNGs, and differences from this v2 run are indexed in [`evidence/offline-terminal-rerun/README.md`](../offline-terminal-rerun/README.md).

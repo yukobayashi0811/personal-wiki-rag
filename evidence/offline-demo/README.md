@@ -1,5 +1,7 @@
 # Complete Offline Demonstration
 
+> Historical status: this is the original v1 evidence. The current post-context-budget run is indexed in [`../offline-context-budget/README.md`](../offline-context-budget/README.md).
+
 > **Historical v1 evidence.** This demonstration was produced by the code at commit `e64bdfc`. It is preserved unchanged as audit history and is superseded by the v2 demonstration in [`../offline-demo-v2/README.md`](../offline-demo-v2/README.md).
 
 Date: 2026-09-22 PDT (2026-09-23 UTC)

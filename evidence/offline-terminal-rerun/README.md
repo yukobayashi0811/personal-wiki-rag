@@ -1,5 +1,7 @@
 # Live Terminal Offline Rerun
 
+> Historical status: this direct Terminal rerun predates the tokenizer-based note-draft budget. The current post-change run and captures are indexed in [`../offline-context-budget/README.md`](../offline-context-budget/README.md).
+
 This directory indexes the completed follow-up run captured directly from this Mac's Terminal.app on 2026-09-30 UTC. It supplements, and does not overwrite, the original v2 evidence. The run used commit `fba139c7dfd1f1e6e8b0c6723462722c941df27e`; that commit changes documentation only relative to the demonstrated v2 implementation.
 
 The complete transcript is [`offline-terminal-rerun.txt`](../recordings/offline-terminal-rerun.txt) (SHA-256 `fedaba0ebc768a4fb272689ccb7bbeb3daa815c92a9c9974aa6c227cefcec070`). The copied Markdown and JSON cards in [`runs/`](runs/) and the three files in [`ingest-drafts-terminal-rerun/`](../ingest-drafts-terminal-rerun/) are direct outputs from the same run.

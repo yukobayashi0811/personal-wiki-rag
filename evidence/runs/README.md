@@ -1,5 +1,7 @@
 # Development Run Catalog
 
+> Historical status: these runs predate the tokenizer-based note-draft budget. Current submission evidence is indexed in [`../offline-context-budget/README.md`](../offline-context-budget/README.md).
+
 These are development runs produced by the v1 code. They are not network-isolated unless the Notes column explicitly says so. Each run has a Markdown card and a machine-readable JSON file with the same stem.
 
 | Stem | Mode | Input or purpose | Outcome | Notes |

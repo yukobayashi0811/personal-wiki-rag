@@ -6,7 +6,7 @@ Public repository: [github.com/yukobayashi0811/personal-wiki-rag](https://github
 
 ## Project Status
 
-The required CLI modes, local retrieval index, three-source wiki, fixed evaluation set, and complete network-isolated v2 demonstration are complete. The final index contains 3 documents and 176 passages. All saved outputs are from actual local runs; no sample answers are presented as evaluation results. Legacy v1 evidence is retained and labeled separately.
+The required CLI modes, local retrieval index, three-source wiki, fixed evaluation set, and complete network-isolated demonstration are complete. The final index contains 3 documents and 176 passages. Wiki-draft ingestion now budgets input with the actual model tokenizer and supplies all three current sources in full. All saved outputs are from actual local runs; no sample answers are presented as evaluation results. Earlier v1 and v2 evidence is retained and labeled separately.
 
 ## Required Modes
 
@@ -25,12 +25,12 @@ The required CLI modes, local retrieval index, three-source wiki, fixed evaluati
 - Model format: Apple Silicon MLX conversion, instruction-tuned, 4-bit quantization.
 - Download size: approximately 5.15 GB.
 - Downloaded snapshot revision: `475b9088d29754a3379866cf5aeb6b41acd313c2`.
-- Memory state recorded by the final v2 transcript (`vm_stat`, 16,384-byte pages): strict free memory was `346,192 × 16,384 = 5.67 GB`, while immediately reusable memory (`free + inactive + speculative`) was `(346,192 + 710,965 + 5,210) × 16,384 = 17.4 GB`.
-- Disk state recorded by the final v2 transcript: 13 GiB available on the 460 GiB data volume, with the volume at 97% capacity. The later live Terminal rerun recorded 14 GiB available at the same 97% capacity.
+- Memory state recorded by the current context-budget transcript (`vm_stat`, 16,384-byte pages): strict free memory was `403,703 × 16,384 = 6.61 GB`, while immediately reusable memory (`free + inactive + speculative`) was `(403,703 + 646,963 + 853) × 16,384 = 17.23 GB`.
+- Disk state recorded by the same transcript: 13 GiB available on the 460 GiB data volume, with the volume at 97% capacity.
 
 The E4B model was selected because the 32 GB device has enough unified memory for the 4-bit model plus prompt context, retrieval, and operating-system overhead. It offers more active model capacity than the smallest E2B option while avoiding the substantially larger storage and memory footprint of the 26B A4B model. E2B was not benchmarked in this project, so this is a capacity-versus-fit rationale rather than an empirical claim that E4B outperforms E2B on the fixed questions.
 
-The initial local smoke test generated a short answer in 1.18 seconds with approximately 4.69 GB of process resident memory. See [`evidence/setup/model-smoke-test.md`](evidence/setup/model-smoke-test.md). In the final v2 network-isolated evaluation, full model-backed ingestion took 102.96 seconds, with 5,400,821,760 bytes maximum resident set size and 5,913,186,504 bytes peak memory footprint. Q1 took 14.000 seconds end to end, including 12.037 seconds in generation, and recorded 4.818 GB MLX peak memory.
+The initial local smoke test generated a short answer in 1.18 seconds with approximately 4.69 GB of process resident memory. See [`evidence/setup/model-smoke-test.md`](evidence/setup/model-smoke-test.md). In the current network-isolated evaluation, full-source model-backed ingestion took 134.04 seconds, with 5,400,821,760 bytes maximum resident set size, 7,419,793,656 bytes peak memory footprint, and zero swaps. Q1 took 14.09 seconds at the command level. The earlier v2 measurements remain preserved as historical comparison data.
 
 ## Architecture
 
@@ -81,7 +81,7 @@ wiki status
 wiki ingest ./vault/raw
 ```
 
-Model weights are stored in the local Hugging Face cache and must not be committed. The default model, generation budget, retrieval depth, bounded chat history, and automatic chat-retrieval threshold can be overridden with `WIKI_MODEL`, `WIKI_MAX_TOKENS`, `WIKI_TOP_K`, `WIKI_CHAT_TURNS`, and `WIKI_CHAT_RETRIEVAL_THRESHOLD`. The submitted evaluation uses the model defaults recorded in [`config/model.json`](config/model.json).
+Model weights are stored in the local Hugging Face cache and must not be committed. The default model, ask/chat generation budget, retrieval depth, bounded chat history, automatic chat-retrieval threshold, note-source budget, and note-output budget can be overridden with `WIKI_MODEL`, `WIKI_MAX_TOKENS`, `WIKI_TOP_K`, `WIKI_CHAT_TURNS`, `WIKI_CHAT_RETRIEVAL_THRESHOLD`, `WIKI_NOTE_SOURCE_MAX_TOKENS`, and `WIKI_NOTE_MAX_TOKENS`. Note budgets must be positive integers. The submitted evaluation uses a 30,000-token note-source limit and a 2,400-token note-output limit.
 
 ## Source Preparation
 
@@ -118,11 +118,11 @@ Automatic chat retrieval follows a deterministic, model-free rule. Explicit word
 
 ## Design Choices
 
-- **Passages:** Markdown headings and PDF pages provide locators. Text is grouped toward 1,200 characters with 180 characters of overlap snapped to a word boundary. The complete sources are indexed; wiki-note generation supplies Gemma with at most 24,000 source characters per document.
+- **Passages:** Markdown headings and PDF pages provide locators. Text is grouped toward 1,200 characters with 180 characters of overlap snapped to a word boundary. The complete sources are indexed. Wiki-note generation measures source input with the loaded model's tokenizer and applies `WIKI_NOTE_SOURCE_MAX_TOKENS`, default 30,000 tokens, at a token boundary.
 - **Retrieval:** SQLite FTS5 with Porter stemming performs local BM25 ranking. Queries use important terms with OR matching, and the default top five passages retain their original filename and locator.
 - **Prompts:** [`wiki-instructions.md`](config/wiki-instructions.md) restricts factual answers to retrieved evidence. [`persona.md`](config/persona.md) gives chat a recognizable but bounded assistant voice. Ask never receives the chat persona or chat history.
 - **Chat context:** Conversation history exists only inside the current `wiki chat` process. The default window is the last 12 user/assistant turns and is configurable with `WIKI_CHAT_TURNS`; no chat history persists across sessions.
-- **Model generation:** Ask uses temperature 0.1, chat uses 0.5, wiki-note drafts use 0.2, and the default generation budget is 1,400 tokens. The budget was raised from 700 after a real Q3 answer ended mid-sentence; both records are retained.
+- **Model generation:** Ask uses temperature 0.1, chat uses 0.5, and wiki-note drafts use 0.2. Ask/chat default to 1,400 output tokens; note drafts use their independent 2,400-token default. The note limit was raised because the historical `AI Agent Fundamentals.md` draft ended mid-sentence; the post-change drafts complete all required sections.
 - **Names and folders:** Original sources remain in `vault/raw/`. Subject notes use matching two-to-four-word filenames and H1 headings in `vault/wiki/Concepts/`; source-level notes live in `vault/wiki/Source Summaries/`. `vault/index.md` is generated from note frontmatter and grouped by topic. Machine chunks, IDs, and current Gemma drafts remain under ignored `data/` paths.
 - **Source mapping:** Human notes link back to unchanged source filenames. Retrieval assigns `[S1]` through `[S5]` per query and records the corresponding filename, locator, text, and score in each evidence card.
 - **Retrieval scope:** Retrieval intentionally indexes only the unchanged originals in `vault/raw/`, not the human wiki notes or `index.md`. This keeps answer grounding tied to primary local evidence and prevents an edited summary from being treated as a second independent source. `index.md` remains the human navigation layer.
@@ -132,7 +132,7 @@ Automatic chat retrieval follows a deterministic, model-free rule. Explicit word
 
 Ingestion always writes the model's verbatim note output to ignored `data/drafts/`. A missing source-summary note is created with `reviewed: false`; a generated and still-unreviewed note may be refreshed in place without creating a duplicate. A note marked `reviewed: true`, a protected legacy note, or a curated note is preserved while the new draft waits for review.
 
-The v1 source summaries were substantially rewritten during human review, beyond the original Gemma drafts. In particular, the 24,000-character draft budget exposed Gemma to only about 18% of the approximately 129,000-character `Evaluating AI Agents.md`, while the final v1 summary incorporated material from later sections. The v2 evidence therefore preserves the actual regenerated drafts and an actual diff against the committed notes. On 2026-09-29, the repository owner confirmed that the six current notes had been reviewed against the originals; their frontmatter now records `reviewed: true`.
+The v1 source summaries were substantially rewritten during human review, beyond the original Gemma drafts. In particular, the former 24,000-character draft budget exposed Gemma to only about 18% of the approximately 129,000-character `Evaluating AI Agents.md`, while the final v1 summary incorporated material from later sections. That defect is now corrected for the submitted corpus: the cached model configuration reports a 131,072-token context, the largest raw original is 26,763 tokens, its complete section-body payload is 26,285 tokens, and its rendered prompt is 26,503 tokens. With the 2,400-token output allowance, the total is 28,903 tokens. The measured token audit, before/after timings, and verbatim drafts are in [`evidence/context-budget/README.md`](evidence/context-budget/README.md). On 2026-09-29, the repository owner confirmed that the six current notes had been reviewed against the originals; the new post-change drafts remain in evidence only and have not replaced those reviewed notes.
 
 ## Measurement Definitions
 
@@ -163,7 +163,7 @@ Git history cannot prove that the fixed questions predated every first result: `
 
 The complete requirement-to-evidence mapping is in [`docs/SUBMISSION-CHECKLIST.md`](docs/SUBMISSION-CHECKLIST.md).
 
-Final results:
+Current post-change results:
 
 - Three answerable questions passed with source citations.
 - The unsupported market-revenue question returned the exact insufficient-evidence response.
@@ -172,8 +172,18 @@ Final results:
 - Search returned original passages and locations without loading the model.
 - A personal fact introduced only in chat was not available to a separate ask command.
 - Repeated ingestion detected zero changed sources and wrote zero new chunks.
+- All three note sources were supplied in full; the largest generated draft includes later-source failure attribution, cost, observability, regression, and production-iteration material.
 
 ## Complete Offline Evidence
+
+The current context-budget run is the submission run for the revised drafting code. It was invoked literally in Terminal.app and completed under the existing OS network sandbox. Its direct Terminal screenshots, transcript mapping, run cards, and output differences are indexed here:
+
+- [Context-budget offline run index](evidence/offline-context-budget/README.md)
+- [Context-budget full transcript](evidence/recordings/offline-context-budget.txt)
+- [Context-budget draft review](evidence/ingest-drafts-context-budget/REVIEW.md)
+- [Token audit and before/after ingest measurements](evidence/context-budget/README.md)
+
+The following v2 material is retained as pre-context-budget history.
 
 One macOS sandbox session denied DNS and direct TCP access to the CLI and every child process after matching probes succeeded outside. The same session completed full ingestion, repeat ingestion, all four ask tests, both required capability questions, generic drafting and follow-up, automatic and forced note retrieval, raw search, ask/chat-history separation, and changed-source re-ingestion with note protection.
 
@@ -234,10 +244,10 @@ The current retriever uses local BM25 keyword matching. It is transparent, fast,
 
 Additional limitations are explicit:
 
-- Wiki-note drafting supplies at most 24,000 source characters to Gemma. For `Evaluating AI Agents.md`, this is about 18% of the full source, so a draft cannot summarize the complete document.
+- Wiki-note drafting is now token-limited rather than character-limited. The 30,000-token default covers every current source in full, but a future source longer than that default will be truncated at a model-token boundary and reported in `truncated_sources`. The complete prompt and requested output must remain within the selected model's context when operators raise the environment override.
 - Retrieval searches only primary originals, not the subject notes or index. This strengthens grounding but means terminology introduced only during human review is not searchable by ask mode.
 - Citation validation is structural: it verifies that at least one supplied `[S#]` marker is present and in range. It does not prove that every cited passage semantically entails every sentence; the fixed evaluation therefore includes a separate claim-by-claim human assessment. The current parser recognizes standalone markers such as `[S1]`, but in a grouped marker such as `[S1, S3]` it records only `S1`. This caused the v2 forced `/notes` card to omit `S3` from `cited_sources`, even though the generated answer visibly contains it.
-- The v2 forced `/notes context and memory` check proves that retrieval was forced, not that the answer was good. Its top passages omitted the Study Guide definitions, the output focused on evaluation experiments instead of defining context and memory, and it changed the source phrase “Reasoning Correctness” to “Reasoning Correctiveness.” The later Terminal rerun did not repeat that typo but still failed to provide the requested definitions.
+- The v2 forced `/notes context and memory` check proves that retrieval was forced, not that the answer was good. Its top passages omitted the Study Guide definitions, the output focused on evaluation experiments instead of defining context and memory, and it changed the source phrase “Reasoning Correctness” to “Reasoning Correctiveness.” The current context-budget rerun did not repeat that typo but still failed to provide the requested definitions.
 - Of the two v2 capability answers, `What can we do?` provides a concrete starting point, while `What can you help me with?` ends with the generic question “How can I help you start today?” The latter is only a partial pass for the original v2 evidence. The later Terminal rerun produced a concrete document-drafting starting point for both prompts; the difference is preserved rather than retroactively changing the v2 assessment.
 - The chat retrieval rule is corpus-specific and was tuned with the evaluation sentences themselves. New sources or unseen phrasings can change BM25 score ranges and should trigger an independently held-out reevaluation.
 

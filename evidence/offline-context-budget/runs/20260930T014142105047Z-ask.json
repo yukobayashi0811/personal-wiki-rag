@@ -1,0 +1,58 @@
+{
+  "timestamp_utc": "2026-09-30T01:41:42.105047+00:00",
+  "mode": "ask",
+  "execution": "local",
+  "model": "mlx-community/gemma-4-e4b-it-4bit",
+  "input": "What is my favorite color?",
+  "retrieved_passages": [
+    {
+      "source_path": "Evaluating AI Agents.md",
+      "locator": "LLM-as-a-Judge: The Core of Automated Evaluation",
+      "text": "evaluation coverage.\n\n**Multimodal LLM-as-a-Judge.**\n\nMultimodal judging extends LLM-as-a-Judge to the domains of speech, images, and video. Four common directions are as follows.\n\n- **TTS Evaluation** (TTS stands for Text-to-Speech): Assesses accuracy, naturalness, voice consistency, and emotional expression. These dimensions can capture prosodic issues that traditional WER (Word Error Rate) struggles to detect.\n- **ASR Evaluation** (ASR stands for Automatic Speech Recognition): Performs semantic impact assessment—misrecognizing \"today's weather\" is harmless, but misrecognizing \"transfer one thousand\" as \"ten thousand\" could have serious consequences.\n- **UI Evaluation**: Uses a **Proposer-Reviewer** mechanism to check for issues like text overflow, color contrast, and button placement. Here, the proposer-reviewer is used as an **evaluation method**, differing from its use as a **generation system component** in Chapter 5, but the core mechanism is the same—one model generates, another independently reviews.\n- **Video Editing Evaluation**: Verifies the correctness of clip start/end points and effect application through keyframes.",
+      "score": 4.5715900981071
+    },
+    {
+      "source_path": "AI Agent Fundamentals.md",
+      "locator": "What type of tasks can an Agent do?",
+      "text": "An Agent can perform any task we implement via **Tools** to complete **Actions**.\n\nFor example, if I write an Agent to act as my personal assistant (like Siri) on my computer, and I ask it to \"send an email to my Manager asking to delay today's meeting\", I can give it some code to send emails. This will be a new Tool the Agent can use whenever it needs to send an email. We can write it in Python:\n\n```python\ndef send_message_to(recipient, message):\n    \"\"\"Useful to send an e-mail message to a recipient\"\"\"\n    ...\n```\n\nThe LLM, as we'll see, will generate code to run the tool when it needs to, and thus fulfill the desired task.\n\n```python\nsend_message_to(\"Manager\", \"Can we postpone today's meeting?\")\n```\n\nThe **design of the Tools is very important and has a great impact on the quality of your Agent**. Some tasks will require very specific Tools to be crafted, while others may be solved with general-purpose tools like \"web_search\".\n\n> Note that **Actions are not the same as Tools**. An Action, for instance, can involve the use of multiple Tools to complete.\n\nAllowing an agent to interact with its environment **allows real-life usage for companies and individuals**.",
+      "score": 4.4640577190124135
+    },
+    {
+      "source_path": "Evaluating AI Agents.md",
+      "locator": "LLM-as-a-Judge: The Core of Automated Evaluation",
+      "text": "deep understanding\" should be avoided, replaced by verifiable standards like \"cites at least two authoritative theories and accurately explains how they support the conclusion.\"\n\nThe key practice: define objectively verifiable scoring levels for each dimension, with concrete examples and **edge cases** to resolve ambiguous situations. Actively guard against **Reward Hacking**—the Agent finding a \"shortcut\" to high scores without actually completing the task—by explicitly penalizing hallucination, sycophancy, keyword stuffing, and dodging hard questions. A Rubric is an iterative product: trial use reveals disagreements among evaluators, and the Rubric gradually evolves through this feedback from abstract principles into a detailed casebook.\n\nHere is a complete Rubric that follows the four principles, using a user memory Agent as the example. Test question: \"Who is my daughter's pediatrician?\" (The answer requires linking information across two conversations: the first conversation mentions \"my daughter's name is Lily,\" the second mentions \"took Lily to see Dr. Chen\").",
+      "score": 4.207592900948569
+    },
+    {
+      "source_path": "AI Agents Study Guide.md",
+      "locator": "AI Agents for Beginners - Study Guide",
+      "text": "Use this guide as a practical companion while you move through the course. It is\nnot meant to replace the lessons. It helps you decide where to start, what to\nlook for in each lesson, and how to connect the ideas into a small working agent\ndemo.\n\nIf this is your first time here, start simple:\n\n1. Read the [Course Setup](./00-course-setup/README.md).\n2. Complete Lessons 01-06 in order.\n3. Keep one small demo idea in mind as you learn.\n4. After each lesson, ask: \"What can my agent do now that it could not do\n   before?\"",
+      "score": 3.5542181045851486
+    },
+    {
+      "source_path": "Evaluating AI Agents.md",
+      "locator": "Evaluation-Driven Continuous Iteration",
+      "text": "Model selection is not a one-time decision but a continuous process, adjusted as models evolve. The chapter opened with the claim that an evaluation system lets you keep pace with model evolution; a concrete model-switching case shows how that plays out in a real decision.\n\nSuppose your Agent system is currently built on Claude, excelling in tool calling and complex orchestration. One day, Gemini releases a new model, and public benchmarks show it surpasses Claude on several metrics at a lower price. At this point, your question is not \"Is Gemini better than Claude?\" but \"**On my specific tasks, is Gemini better than Claude? How much better? What is the switching cost?**\"",
+      "score": 3.410914756378256
+    }
+  ],
+  "output": "The available sources do not contain enough evidence to answer this question.",
+  "repair_attempted": false,
+  "cited_sources": [],
+  "citations_valid": true,
+  "metrics": {
+    "elapsed_seconds": 1.8272675839980366,
+    "process_memory_before_gb": 4.682088448,
+    "process_memory_after_gb": 4.696621056,
+    "mlx_peak_memory_gb": 4.887815432,
+    "wall_seconds": 3.681872791999922,
+    "generations": [
+      {
+        "elapsed_seconds": 1.8272675839980366,
+        "process_memory_before_gb": 4.682088448,
+        "process_memory_after_gb": 4.696621056,
+        "mlx_peak_memory_gb": 4.887815432
+      }
+    ]
+  }
+}

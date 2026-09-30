@@ -1,0 +1,46 @@
+UTC_START=2026-09-30T01:26:00Z
+GIT_COMMIT=b33e95d2a180142cf3b77f080dada7ab23b52f6a
+COMMAND=/usr/bin/time -l python -m personal_wiki.cli --project-root [full-root] ingest ./vault/raw
+Protected existing note: vault/wiki/Source Summaries/AI Agent Fundamentals.md; review the new draft at data/drafts/AI Agent Fundamentals.md.
+Protected existing note: vault/wiki/Source Summaries/AI Agents Study Guide.md; review the new draft at data/drafts/AI Agents Study Guide.md.
+Protected existing note: vault/wiki/Source Summaries/Evaluating AI Agents.md; review the new draft at data/drafts/Evaluating AI Agents.md.
+{
+  "sources_found": 3,
+  "sources_changed": 3,
+  "sources_removed": 0,
+  "chunks_written": 176,
+  "drafts_written": 3,
+  "notes_created": 0,
+  "notes_protected": 3,
+  "note_source_token_limit": 30000,
+  "note_output_token_limit": 2400,
+  "source_token_counts": {
+    "AI Agent Fundamentals.md": 2008,
+    "AI Agents Study Guide.md": 3086,
+    "Evaluating AI Agents.md": 26285
+  },
+  "note_prompt_token_counts": {
+    "AI Agent Fundamentals.md": 2195,
+    "AI Agents Study Guide.md": 3274,
+    "Evaluating AI Agents.md": 26472
+  },
+  "truncated_sources": []
+}
+      163.75 real        65.07 user        16.46 sys
+          5401264128  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+              344357  page reclaims
+                 148  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                 179  voluntary context switches
+              707341  involuntary context switches
+        374551451506  instructions retired
+        154515821648  cycles elapsed
+          7389597920  peak memory footprint

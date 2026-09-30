@@ -1,5 +1,7 @@
 # v2 Chat Retrieval Development Runs
 
+> Historical status: these calibration runs predate the tokenizer-based note-draft budget. Current submission evidence is indexed in [`../offline-context-budget/README.md`](../offline-context-budget/README.md).
+
 These records are development runs made on the submitted Apple M5 Mac with the real local `mlx-community/gemma-4-e4b-it-4bit` model. Network access was available, so none of these files is offline evidence. The final offline evidence is stored separately under `evidence/offline-demo-v2/`.
 
 ## Threshold Selection

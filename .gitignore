@@ -16,3 +16,4 @@ evidence/recordings/*
 !evidence/recordings/offline-full-session.txt
 !evidence/recordings/offline-full-session-v2.txt
 !evidence/recordings/offline-full-session-v2-failed-*.txt
+!evidence/recordings/offline-context-budget.txt

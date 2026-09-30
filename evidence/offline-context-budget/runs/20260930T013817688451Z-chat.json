@@ -1,0 +1,26 @@
+{
+  "timestamp_utc": "2026-09-30T01:38:17.688451+00:00",
+  "mode": "chat",
+  "execution": "local",
+  "model": "mlx-community/gemma-4-e4b-it-4bit",
+  "input": "What can you help me with?",
+  "retrieved_passages": [],
+  "output": "I am Atlas, your personal knowledge assistant. My primary function is to help you brainstorm, draft, plan, compare options, and work through complex ideas.\n\nI operate exclusively using local information. Here is a summary of how I function:\n\n*   **Local Knowledge:** I automatically search your local notes when contextually relevant. You can force a search with `/notes <query>`.\n*   **Information Modes:** We can use `wiki ask` for grounded answers, `wiki search` to locate original passages, `wiki ingest` to update our local index, or `wiki status` to check the configuration.\n*   **Limitations:** Please note that I have no internet access and I retain no memory across chat sessions.\n\nTo begin, you could ask me to outline a document, compare two concepts, or retrieve information on a specific topic using `/notes <query>`.",
+  "repair_attempted": false,
+  "cited_sources": [],
+  "citations_valid": false,
+  "metrics": {
+    "elapsed_seconds": 18.556422792000376,
+    "process_memory_before_gb": 4.702814208,
+    "process_memory_after_gb": 4.705337344,
+    "mlx_peak_memory_gb": 4.806780976,
+    "generations": [
+      {
+        "elapsed_seconds": 18.556422792000376,
+        "process_memory_before_gb": 4.702814208,
+        "process_memory_after_gb": 4.705337344,
+        "mlx_peak_memory_gb": 4.806780976
+      }
+    ]
+  }
+}

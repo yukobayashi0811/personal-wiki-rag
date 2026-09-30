@@ -27,6 +27,8 @@ Review instructions: [HUMAN-STEPS.md](HUMAN-STEPS.md).
 - [x] An unreviewed generated note updates in place without duplication.
 - [x] Removed sources and their chunks are deleted from the index.
 - [x] The ingest summary reports removed sources, drafts, created notes, protected notes, and truncated sources.
+- [x] Note-draft input is measured with the loaded model tokenizer, defaults to 30,000 source tokens, and reports exact source and rendered-prompt token counts.
+- [x] The locally cached model configuration records a 131,072-token context; all three source prompts plus the 2,400-token output allowance fit within it.
 - [x] The final sandboxed changed-source demonstration is committed and indexed.
 
 ## Modes and Evaluation
@@ -46,11 +48,13 @@ Review instructions: [HUMAN-STEPS.md](HUMAN-STEPS.md).
 - [x] The complete v2 transcript ends with OFFLINE_DEMO_V2_COMPLETE.
 - [x] Unedited screen captures of the committed transcript document the v2 control probe, sandbox isolation, core commands, and completion; they are explicitly labeled as transcript views rather than an original Terminal recording.
 - [x] A later complete run has unedited direct Terminal.app captures for the exact command and commit, outer and inner probes, ingest, Q1-Q4, chat checks, changed-source and restored-source ingestion, and completion; every image maps to lines in its same-run transcript.
+- [x] The post-context-budget run repeats the complete sandboxed suite from code commit `08e7058`, preserves direct Terminal.app captures, maps every capture to the same-run transcript, and retains all earlier evidence as history.
 - [x] Updated Obsidian screenshots show properties, expanded folders, readable graph labels, and source navigation; the final graph capture reflects removal of the weak cross-topic relationships.
 
 ## Documentation and Measurements
 
 - [x] README documents setup, model choice, E2B non-benchmark status, architecture, retrieval scope, review flow, chat rule, and limitations.
+- [x] README and context-budget evidence document the actual model context length, per-source tokenizer counts, configurable note budgets, before/after ingest time and memory, and full-source draft review.
 - [x] Measurement definitions distinguish generation time, end-to-end wall time, RSS, macOS peak footprint, and MLX peak memory.
 - [x] Evidence cards record repair status, generation metrics, wall time, cited sources, structural validation, and citation mapping.
 - [x] Development v1 runs are cataloged in [evidence/runs/README.md](../evidence/runs/README.md).
@@ -58,8 +62,9 @@ Review instructions: [HUMAN-STEPS.md](HUMAN-STEPS.md).
 
 ## Final Verification
 
-- [x] Full test suite passes after the final evidence and documentation changes: 24 passed.
+- [x] Full test suite passes after the context-budget code changes: 29 passed.
 - [x] Every scoped authored Markdown link resolves; links embedded in unchanged upstream sources and verbatim retrieved passages are outside this check.
 - [x] vault/raw/ SHA-256 values match docs/SOURCES.md.
 - [x] Demonstration scripts pass zsh -n.
+- [x] The evidence commit `08e7058` and submitted HEAD have identical `src`, `config`, `scripts`, and `tests` trees.
 - [x] The submitted branch contains every intended evidence and documentation change; the repository owner's local Obsidian workspace state is intentionally excluded.
