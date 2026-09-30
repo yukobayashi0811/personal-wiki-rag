@@ -17,6 +17,7 @@ This checklist maps assignment requirements to repository evidence. A checked it
 - [x] index.md is grouped by frontmatter topic and provides a navigation path to notes and originals.
 - [x] Automated tests require every authored wikilink to resolve to exactly one file.
 - [x] The repository owner confirmed review of every v2 note against the originals; all six notes are marked reviewed: true.
+- [x] The repository owner approved the post-context-budget drafts; source-backed improvements were selectively merged into the three reviewed source summaries without replacing the verbatim draft evidence.
 
 Review instructions: [HUMAN-STEPS.md](HUMAN-STEPS.md).
 

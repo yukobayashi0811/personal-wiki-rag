@@ -1,6 +1,8 @@
 ---
 reviewed: true
 origin: legacy-v1
+reviewed_on: 2026-09-29
+review_basis: "evidence/ingest-drafts-context-budget/Evaluating AI Agents.md"
 source: raw/Evaluating AI Agents.md
 source_sha256: 813232a986ca3c16ba47d27c7f1d29903f7f1162df6456cba13ce899acbc3944
 upstream_revision: d0daf079e7c8da56670886b48c329e9f9fc8281d
@@ -44,6 +46,23 @@ A single successful run can therefore demonstrate possibility without demonstrat
 ## Evaluation Environments and Verification
 
 Different tasks require different environments, ranging from single-turn tasks without tools to stateful, isolated environments for multi-step execution. Verification may use deterministic checks, human review, model-based judges, or combinations of these methods. Strong evaluation also examines trajectories so that the first incorrect decision can be distinguished from later consequences.
+
+For open-ended tasks, an LLM-as-a-Judge should apply a self-contained rubric covering factual accuracy, coherence, completeness, safety, and explicit pitfalls. Criteria can be weighted as essential, important, optional, or veto items; a hallucination veto, for example, can invalidate an otherwise strong response. Judge design must also account for biases such as preferring longer answers, so heterogeneous judges or pairwise comparisons are safer than treating one score as objective truth.
+
+## Failure Attribution and Regression Tasks
+
+A failed end-to-end score becomes actionable only after locating the first unacceptable step, recording the error class, identifying the responsible model output or tool call, and preserving auditable evidence. Later mistakes may be consequences rather than the root cause.
+
+Once the first error is known, it can become one of two regression forms:
+
+- **End-to-end regression:** rerun the complete task from its initial state and verify the final outcome and safety conditions.
+- **Trajectory-prefix regression:** freeze the context, conversation, tool results, and environment immediately before the first error, then evaluate only the next observable action or small set of actions.
+
+Trajectory-prefix cases are cheaper and isolate a single decision boundary, while end-to-end cases verify that the complete workflow still succeeds.
+
+## Cost Analysis
+
+Agent cost is not just the listed per-token price. Repeated model calls resend accumulated conversation and tool output, thinking-capable models may consume hidden thinking tokens, and external tools and infrastructure add direct and indirect costs. Stable-prefix cache reuse, context compression, tiered model routing, and task-level cost caps should therefore be evaluated on complete workflows. Savings from separate optimizations should be measured together rather than added arithmetically.
 
 ## Observability and Improvement
 

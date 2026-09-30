@@ -1,6 +1,6 @@
 # Context-Budget Draft Review
 
-These three Markdown files are the verbatim Gemma drafts copied from the completed network-sandboxed run at commit `08e70587ad8c6445a55485c540446e63385e740a`. They are evidence only and were not copied into `vault/wiki/`, because reviewed wiki notes require repository-owner approval.
+These three Markdown files are the verbatim Gemma drafts copied from the completed network-sandboxed run at commit `08e70587ad8c6445a55485c540446e63385e740a`. They remain immutable evidence rather than replacements for the reviewed notes. On 2026-09-29, the repository owner approved incorporating their source-backed improvements into the existing `vault/wiki/Source Summaries/` notes.
 
 ## Review Method
 
@@ -32,4 +32,4 @@ The pre-change baseline draft for `Evaluating AI Agents.md` is retained at [`../
 
 ## Human Review Status
 
-This review confirms source coverage and obvious completeness only. The repository owner must decide whether to promote any new draft into `vault/wiki/` and, if so, must review every claim before keeping `reviewed: true`. No existing reviewed note was overwritten.
+Owner approval was recorded on 2026-09-29. The reviewed wiki notes retain their stronger existing structure and provenance while incorporating the useful draft material: the observation step in the agent loop, the Study Guide's provider options, and the evaluation source's rubric, veto, judge-bias, failure-attribution, regression-task, and cost-analysis details. The generated evidence files were not edited, and no reviewed note was mechanically overwritten.

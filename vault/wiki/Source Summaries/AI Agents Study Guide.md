@@ -1,6 +1,8 @@
 ---
 reviewed: true
 origin: legacy-v1
+reviewed_on: 2026-09-29
+review_basis: "evidence/ingest-drafts-context-budget/AI Agents Study Guide.md"
 source: raw/AI Agents Study Guide.md
 source_sha256: 04e1b967117003ed9a898d073572f23d2efe89cd9f9339ddbd9910e93f43ac1f
 upstream_revision: 25b7985f3b2dc37a84f4a7387ccd3c9f0e5b1595
@@ -42,6 +44,10 @@ Planning is valuable when a request requires several dependent steps. Plans shou
 ### Evaluation, Observability, and Security
 
 Evaluation asks whether the agent did the right thing; observability makes its model calls, tool calls, context, latency, failures, and feedback inspectable. Trustworthy agents should use least-privilege tools, protect sensitive data, maintain audit trails, and require human approval for high-impact actions.
+
+### Models and Providers
+
+The course samples use Microsoft Agent Framework and target the Azure OpenAI Responses API. Microsoft Foundry or Azure OpenAI is the primary course path, while Foundry Local supports fully on-device experiments through an OpenAI-compatible API and MiniMax is presented as another compatible provider. These choices separate the agent-system concepts from a single deployment environment.
 
 ## Practical Learning Strategy
 

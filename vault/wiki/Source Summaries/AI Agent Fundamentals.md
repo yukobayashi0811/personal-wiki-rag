@@ -1,6 +1,8 @@
 ---
 reviewed: true
 origin: legacy-v1
+reviewed_on: 2026-09-29
+review_basis: "evidence/ingest-drafts-context-budget/AI Agent Fundamentals.md"
 source: raw/AI Agent Fundamentals.md
 source_sha256: 7b40365e7f037ae8dbc6d94fb570ff92a43d038a489824b91e06105d2a17e3d7
 upstream_revision: b3946b1d09d29c65736e219d48a8a736a2c52154
@@ -22,7 +24,7 @@ The source defines an agent as a system that leverages an AI model to interact w
 2. **Planning:** deciding which steps and resources are needed.
 3. **Acting:** using available tools and incorporating the resulting observations.
 
-The model is the agent's “brain.” It handles reasoning, planning, and action selection. Tools and other capabilities form the “body,” determining what actions the agent can actually perform.
+After acting, the agent observes the result and uses that information in the next iteration. The model is the agent's “brain.” It handles reasoning, planning, and action selection. Tools and other capabilities form the “body,” determining what actions the agent can actually perform.
 
 ## Agency as a Spectrum
 
