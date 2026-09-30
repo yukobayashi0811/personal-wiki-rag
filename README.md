@@ -4,6 +4,12 @@ This project implements an offline command-line personal wiki for learning and r
 
 Public repository: [github.com/yukobayashi0811/personal-wiki-rag](https://github.com/yukobayashi0811/personal-wiki-rag)
 
+## Start Here: Submission Evidence
+
+The submission evidence is the context-budget offline run in [`evidence/offline-context-budget/`](evidence/offline-context-budget/README.md). It was produced by commit `08e70587ad8c6445a55485c540446e63385e740a`, whose `src/`, `config/`, `scripts/`, and `tests/` are identical to the submitted code. It contains the full transcript, direct Terminal.app captures, all four ask-mode tests, the chat/search mode checks, and changed-source re-ingestion. The claim-by-claim citation check for that run is in [`evaluation/results.md`](evaluation/results.md#claim-by-claim-citation-assessment-current-run).
+
+Every other directory under `evidence/` (v1, v2, failed attempts, development runs, and the earlier Terminal rerun) is historical. Those records are retained intentionally, as the assignment requires, to show what failed, what changed, and what improved; they are not the submission run.
+
 ## Project Status
 
 The required CLI modes, local retrieval index, three-source wiki, fixed evaluation set, and complete network-isolated demonstration are complete. The final index contains 3 documents and 176 passages. Wiki-draft ingestion now budgets input with the actual model tokenizer and supplies all three current sources in full. All saved outputs are from actual local runs; no sample answers are presented as evaluation results. Earlier v1 and v2 evidence is retained and labeled separately.

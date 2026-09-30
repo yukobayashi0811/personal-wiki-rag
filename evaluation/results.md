@@ -13,7 +13,49 @@ All current model-backed checks used `mlx-community/gemma-4-e4b-it-4bit` through
 | Q3: Model versus harness bottleneck | Pass | [`20260930T013728919184Z-ask.md`](../evidence/offline-context-budget/runs/20260930T013728919184Z-ask.md) | None |
 | Q4: Unsupported market revenue | Pass; exact insufficient-evidence response | [`20260930T013732669004Z-ask.md`](../evidence/offline-context-budget/runs/20260930T013732669004Z-ask.md) | None |
 
-The material claims and citations are substantively the same as the claim-by-claim assessment below. Fresh full-source ingest supplied section-body payloads of 2,008, 3,086, and 26,285 tokens respectively; no source was truncated. The unchanged raw files contain 2,112, 3,201, and 26,763 tokens. `/usr/bin/time -l` measured 134.04 seconds, 5,400,821,760 bytes maximum RSS, 7,419,793,656 bytes peak memory footprint, and zero swaps.
+## Claim-by-Claim Citation Assessment (Current Run)
+
+This is the manual check for the submission run's actual answers. The structural validator only confirms that cited markers refer to supplied passages; each row below compares a material claim with the text of the cited passage in the same evidence card.
+
+### Q1: Agent anatomy
+
+| Material claim | Citation | Source and locator | Supported? |
+| --- | --- | --- | --- |
+| An AI agent has two main parts. | S1 | `AI Agent Fundamentals.md` — “Let's go more formal” | Yes; the passage introduces exactly two parts. |
+| The brain is the AI model and handles reasoning and planning. | S1 | Same passage | Yes; stated directly. |
+| The brain decides which actions to take based on the situation. | S1 | Same passage | Yes; stated directly. |
+| The body is capabilities and tools, and the scope of possible actions depends on what the agent is equipped with. | S1 | Same passage | Yes; stated directly. |
+
+### Q2: Context and memory
+
+| Material claim | Citation | Source and locator | Supported? |
+| --- | --- | --- | --- |
+| Context is the information included in the next model call. | S5 | `AI Agents Study Guide.md` — “What You Are Building Toward” | Yes; stated directly in the component table. |
+| The user's goal and tool results are examples of context. | S5 | Same passage | Yes; the table's demo column gives both as the context example. |
+| Memory is information saved for later use. | S5 | Same passage | Yes; stated directly. |
+
+### Q3: Model versus harness bottleneck
+
+| Material claim | Citation | Source and locator | Supported? |
+| --- | --- | --- | --- |
+| A sound evaluation system must distinguish insufficient model capability from harness design flaws. | S1 | `Evaluating AI Agents.md` — “Evaluating Agents” | Yes; stated directly. |
+| The model swap experiment is “the recommended method” for telling the two apart. | S1 | Same passage | Partly. The source calls it “a common way” to tell them apart, not the recommended method. The method is supported; the word “recommended” overstates the source. |
+| The procedure holds the harness constant, swaps in a stronger or weaker model, and observes how much the score moves. | S1 | Same passage | Yes; stated directly. |
+| If a stronger model does not raise the score, the bottleneck is the harness. | S1 | Same passage | Yes; stated directly. |
+| If a weaker model tanks the score and results swing sharply with model capability, the model itself is the bottleneck. | S1 | Same passage | Mostly. The source hedges this as “the most direct reading” and adds that further analysis is needed to know whether the task is inherently hard or the harness leans too heavily on the model's prior knowledge. The answer drops that hedge. |
+| Model swapping differs from ablation, which disables a harness component. | S1 | Same passage | Yes; the passage contrasts the two experiments directly. |
+
+### Q4: Unsupported market revenue
+
+None of S1–S5 (`AI Agents Study Guide.md` — “Validating Deployed Agents with Smoke Tests”; `Evaluating AI Agents.md` — “Quality Control and Long-Term Maintenance”, “The Four Components of a Task Definition”, “Scope-Sensitive Document Formatting Errors”, “The Trajectory of a Real Run”) provides 2024 global AI-agent market revenue. The answer makes no factual revenue claim and returns the exact required insufficient-evidence sentence. This is a supported refusal rather than a cited answer.
+
+### Assessment
+
+Q1, Q2, and Q4 pass without qualification. Q3 passes its pass condition: it holds the harness constant, interprets small versus large score changes, and distinguishes model swapping from ablation, with every claim cited to the correct passage. Two wording issues are recorded rather than hidden: “recommended” overstates the source's “common way”, and the model-bottleneck interpretation omits the source's hedge. Neither introduces a fact that is absent from the source, but both show that a correct citation does not guarantee faithful wording.
+
+## Current Run Measurements and Mode Checks
+
+Fresh full-source ingest supplied section-body payloads of 2,008, 3,086, and 26,285 tokens respectively; no source was truncated. The unchanged raw files contain 2,112, 3,201, and 26,763 tokens. `/usr/bin/time -l` measured 134.04 seconds, 5,400,821,760 bytes maximum RSS, 7,419,793,656 bytes peak memory footprint, and zero swaps.
 
 Both capability answers supplied concrete starting points. Automatic model-swap and tools questions retrieved and cited original passages. The forced `/notes context and memory` run again forced retrieval but did not directly define the terms, so it remains an answer-quality failure even though the retrieval check passed. Search used no model, chat remembered an in-session fact, and a separate ask command did not receive it. Full details and links are in the current evidence index.
 
@@ -30,7 +72,7 @@ V2 evaluation date: 2026-09-29 PDT (2026-09-29 UTC). The following sections reta
 | Q3: Model versus harness bottleneck | Pass | [`20260929T184344993439Z-ask.md`](../evidence/offline-demo-v2/runs/20260929T184344993439Z-ask.md) | None |
 | Q4: Unsupported market revenue | Pass | [`20260929T184348907619Z-ask.md`](../evidence/offline-demo-v2/runs/20260929T184348907619Z-ask.md) | None |
 
-## Claim-by-Claim Citation Assessment
+## Claim-by-Claim Citation Assessment (Historical V2)
 
 The structural validator records whether cited markers refer to supplied passages. The following manual assessment separately checks whether each material answer claim is supported by the cited passage.
 
