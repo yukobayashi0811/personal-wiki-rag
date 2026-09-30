@@ -46,7 +46,7 @@ Review instructions: [HUMAN-STEPS.md](HUMAN-STEPS.md).
 - [x] The complete v2 transcript ends with OFFLINE_DEMO_V2_COMPLETE.
 - [x] Unedited screen captures of the committed transcript document the v2 control probe, sandbox isolation, core commands, and completion; they are explicitly labeled as transcript views rather than an original Terminal recording.
 - [x] A later complete run has unedited direct Terminal.app captures for the exact command and commit, outer and inner probes, ingest, Q1-Q4, chat checks, changed-source and restored-source ingestion, and completion; every image maps to lines in its same-run transcript.
-- [x] Updated Obsidian screenshots show properties, expanded folders, readable graph labels, and source navigation.
+- [x] Updated Obsidian screenshots show properties, expanded folders, readable graph labels, and source navigation; the final graph capture reflects removal of the weak cross-topic relationships.
 
 ## Documentation and Measurements
 

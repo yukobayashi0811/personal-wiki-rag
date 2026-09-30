@@ -20,7 +20,6 @@ Context engineering selects information for the next model call; memory design d
 ## Related Notes
 
 - [[wiki/Source Summaries/AI Agents Study Guide|AI Agents Study Guide]] — provides the source definitions and practical guidance summarized here.
-- [[wiki/Concepts/Tools and Actions|Tools and Actions]] — shows another boundary between model-visible information and capabilities supplied by the harness.
 
 ## Sources
 

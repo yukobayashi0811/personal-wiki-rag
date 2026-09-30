@@ -20,6 +20,8 @@ The following unedited captures were completed on 2026-09-29 and are committed u
 2. `evidence/screenshots/obsidian-index-v2.png` — expanded `raw/`, `wiki/Concepts/`, and `wiki/Source Summaries/` beside the topic index.
 3. `evidence/screenshots/obsidian-graph-v2.png` — `path:wiki OR file:index`, attachments disabled, readable labels, and pointer away from labels.
 4. `evidence/screenshots/obsidian-source-navigation-v2.png` — unchanged raw source open after following the concept note's source link.
+5. `evidence/screenshots/obsidian-graph-final.jpg` — direct recapture after weak cross-topic relationships were removed; the expanded folders and all seven filtered graph labels remain readable.
+6. `evidence/screenshots/obsidian-note-final.jpg` — direct recapture of `Context and Memory` after its reciprocal weak relationship was removed, with review status and source links visible.
 
 The files were saved directly from the Obsidian window and were not edited or composited.
 

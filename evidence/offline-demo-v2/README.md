@@ -28,7 +28,7 @@ The following unedited screen captures show the committed transcript on the publ
 - [Restoration re-ingestion](../screenshots/offline-v2-10-reingest-restoration.jpg)
 - [Final `OFFLINE_DEMO_V2_COMPLETE` marker](../screenshots/offline-v2-11-complete-marker.jpg)
 
-The current Obsidian vault is also documented with unedited captures: [note properties and links](../screenshots/obsidian-note-v2.png), [expanded index](../screenshots/obsidian-index-v2.png), [filtered graph](../screenshots/obsidian-graph-v2.png), and [raw-source navigation](../screenshots/obsidian-source-navigation-v2.png).
+The current Obsidian vault is also documented with unedited captures: [final note properties and links](../screenshots/obsidian-note-final.jpg), [expanded index](../screenshots/obsidian-index-v2.png), the [final filtered graph after relationship cleanup](../screenshots/obsidian-graph-final.jpg), and [raw-source navigation](../screenshots/obsidian-source-navigation-v2.png). The earlier `obsidian-note-v2.png` and `obsidian-graph-v2.png` remain preserved as historical evidence.
 
 ## Fixed Ask Evaluation
 

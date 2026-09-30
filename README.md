@@ -193,15 +193,15 @@ One macOS sandbox session denied DNS and direct TCP access to the CLI and every 
 
 ## Visual Evidence
 
-### V2 Obsidian Evidence
+### Current Obsidian Evidence
 
-The refreshed captures show the current vault without image editing or compositing. The note capture visibly records the repository owner's completed review as `reviewed: true`.
+The captures show the reviewed vault without image editing or compositing. The note capture visibly records the repository owner's completed review as `reviewed: true`. The final graph was recaptured after removing the weak cross-topic relationships between `Model Swap Experiment` and `Context and Memory`, and between `Tools and Actions` and `Context and Memory`.
 
-![V2 note properties, related notes, and source links](evidence/screenshots/obsidian-note-v2.png)
+![Final note properties, evidence-backed related note, and source links](evidence/screenshots/obsidian-note-final.jpg)
 
 ![V2 expanded vault explorer and topic index](evidence/screenshots/obsidian-index-v2.png)
 
-![V2 filtered wiki graph with readable labels](evidence/screenshots/obsidian-graph-v2.png)
+![Final filtered wiki graph with evidence-backed relationships and readable labels](evidence/screenshots/obsidian-graph-final.jpg)
 
 ![V2 unchanged raw source reached through a note source link](evidence/screenshots/obsidian-source-navigation-v2.png)
 
@@ -223,7 +223,7 @@ The following images are the original v1 Obsidian captures and are retained as h
 
 ![Obsidian graph limited to the reviewed wiki and index](evidence/screenshots/obsidian-graph.png)
 
-The saved graph filter is `path:wiki OR file:index`; attachments are disabled. From `index.md`, a reader can open a concept note, follow either related-note link, and follow the source link back to the unchanged evidence in `vault/raw/`.
+The saved graph filter is `path:wiki OR file:index`; attachments are disabled. From `index.md`, a reader can open a concept note, follow a related-note link, and follow the source link back to the unchanged evidence in `vault/raw/`.
 
 ## Known Limitation
 

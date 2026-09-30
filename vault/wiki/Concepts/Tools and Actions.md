@@ -20,7 +20,6 @@ Tool design materially affects agent quality, and a task may require either spec
 ## Related Notes
 
 - [[wiki/Source Summaries/AI Agent Fundamentals|AI Agent Fundamentals]] — provides the underlying agent, tool, and action definitions.
-- [[wiki/Concepts/Context and Memory|Context and Memory]] — explains what information accompanies tool selection in a model call and what may persist later.
 
 ## Sources
 

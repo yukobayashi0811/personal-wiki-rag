@@ -20,7 +20,6 @@ Model swapping differs from ablation: ablation disables a harness component, whi
 ## Related Notes
 
 - [[wiki/Source Summaries/Evaluating AI Agents|Evaluating AI Agents]] — supplies the complete evaluation framework containing this experiment.
-- [[wiki/Concepts/Context and Memory|Context and Memory]] — illustrates harness components that can affect model performance without changing model weights.
 
 ## Sources
 
